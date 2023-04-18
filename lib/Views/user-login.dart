@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/user-register.dart';
 import 'package:get/get.dart';
 
@@ -36,20 +37,6 @@ class UserLoginPage extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: Icon(
-                            Icons.arrow_back_outlined,
-                            color: Color.fromRGBO(0, 9, 89, 1),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
                     padding: EdgeInsets.all(30),
                     child: Text(
                       "Login",
@@ -75,13 +62,13 @@ class UserLoginPage extends StatelessWidget {
                               borderSide: BorderSide(
                                   color: Color.fromRGBO(0, 9, 89, 1),
                                   width: 2)),
-                          labelText: "E-mail",
+                          label: Text('E-mail'),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(3))),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 10),
+                    margin: EdgeInsets.only(bottom: 20),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -102,8 +89,7 @@ class UserLoginPage extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () =>
-                        Navigator.of(context).pushNamed('/user_register'),
+                    onTap: () {},
                     child: Container(
                       margin: EdgeInsets.only(bottom: 20),
                       width: MediaQuery.of(context).size.width - 200,
@@ -119,19 +105,73 @@ class UserLoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width - 340,
+                        decoration: BoxDecoration(
+                            border: BorderDirectional(
+                                top: BorderSide(
+                                    width: 1,
+                                    color:
+                                        Color.fromARGB(255, 223, 223, 223)))),
+                      ),
+                      Container(child: Text('  ou  ')),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 340,
+                        decoration: BoxDecoration(
+                            border: BorderDirectional(
+                                top: BorderSide(
+                                    width: 1,
+                                    color:
+                                        Color.fromARGB(255, 223, 223, 223)))),
+                      ),
+                    ],
+                  ),
                   GestureDetector(
-                    onTap: () =>
-                        Get.to(UserRegisterPage(), transition: Transition.zoom),
+                    onTap: () => Get.to(HomePage()),
                     child: Container(
-                      child: Text(
-                        'Criar conta',
-                        style: TextStyle(
-                          color: Color.fromRGBO(0, 9, 89, 1),
-                          decoration: TextDecoration.underline,
-                        ),
+                      margin: EdgeInsets.only(top: 20, bottom: 20),
+                      width: MediaQuery.of(context).size.width - 200,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 221, 221, 221),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.account_circle_rounded),
+                          Text(
+                            ' Entrar como convidado',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Color.fromRGBO(0, 9, 89, 1)),
+                          ),
+                        ],
                       ),
                     ),
-                  )
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Primeira vez no How To? ',
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(UserRegisterPage());
+                        },
+                        child: Text(
+                          'Criar conta',
+                          style: TextStyle(
+                              color: Color.fromRGBO(0, 9, 89, 1),
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
