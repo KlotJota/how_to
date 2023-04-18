@@ -102,6 +102,7 @@ class _HomePageState extends State<HomePage> {
                       label: 'Home',
                     ),
                     BottomNavigationBarItem(
+                      
                       icon: Icon(Icons.search),
                       label: 'Pesquisar',
                     ),

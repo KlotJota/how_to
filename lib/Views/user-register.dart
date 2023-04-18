@@ -1,4 +1,5 @@
 import 'dart:js';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/user-login.dart';
@@ -119,13 +120,11 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
                       decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 9, 89, 1),
-                                  width: 2)),
-                          labelText: "Nome Completo",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(3))),
+                        prefixIcon: Icon(
+                          Icons.account_box_outlined,
+                        ),
+                        labelText: "Nome Completo",
+                      ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -139,13 +138,9 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
                       decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 9, 89, 1),
-                                  width: 2)),
-                          labelText: "E-mail",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(3))),
+                        prefixIcon: Icon(Icons.mail),
+                        labelText: "E-mail",
+                      ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -163,14 +158,11 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
+                      obscureText: true,
                       decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 9, 89, 1),
-                                  width: 2)),
-                          labelText: "Senha",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(3))),
+                        prefixIcon: Icon(Icons.lock),
+                        labelText: "Senha",
+                      ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -188,14 +180,11 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
+                      obscureText: true,
                       decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 9, 89, 1),
-                                  width: 2)),
-                          labelText: "Confirmar senha",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(3))),
+                        prefixIcon: Icon(Icons.check),
+                        labelText: "Confirmar senha",
+                      ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
