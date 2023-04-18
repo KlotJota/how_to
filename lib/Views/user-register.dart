@@ -117,6 +117,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     ),
                   ),
                   Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -136,11 +137,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width - 200,
-                    height: 10,
-                    // gambiarra, não mexer
-                  ),
-                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -165,11 +162,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width - 200,
-                    height: 10,
-                    // gambiarra, não mexer
-                  ),
-                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -194,11 +187,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width - 200,
-                    height: 10,
-                    // gambiarra, não mexer
-                  ),
-                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -221,11 +210,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                         return null;
                       },
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width - 200,
-                    height: 10,
-                    // gambiarra, não mexer
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -256,15 +240,11 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                       ),
                     ],
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width - 200,
-                    height: 10,
-                    // gambiarra, não mexer
-                  ),
                   GestureDetector(
                     onTap: () =>
                         Get.to(UserLoginPage(), transition: Transition.zoom),
                     child: Container(
+                      margin: EdgeInsets.only(top: 10),
                       width: MediaQuery.of(context).size.width - 200,
                       height: 40,
                       padding: EdgeInsets.only(top: 8),
@@ -277,11 +257,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width - 200,
-                    height: 40,
-                    // gambiarra, não mexer
                   ),
                 ],
               ),

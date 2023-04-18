@@ -57,6 +57,7 @@ class UserLoginPage extends StatelessWidget {
                     ),
                   ),
                   Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -80,11 +81,7 @@ class UserLoginPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width - 200,
-                    height: 10,
-                    // gambiarra, não mexer
-                  ),
-                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -104,15 +101,11 @@ class UserLoginPage extends StatelessWidget {
                           )),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width - 200,
-                    height: 50,
-                    // gambiarra, não mexer
-                  ),
                   GestureDetector(
                     onTap: () =>
                         Navigator.of(context).pushNamed('/user_register'),
                     child: Container(
+                      margin: EdgeInsets.only(bottom: 20),
                       width: MediaQuery.of(context).size.width - 200,
                       height: 40,
                       padding: EdgeInsets.only(top: 8),
@@ -125,11 +118,6 @@ class UserLoginPage extends StatelessWidget {
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width - 200,
-                    height: 40,
-                    // gambiarra, não mexer
                   ),
                   GestureDetector(
                     onTap: () =>
