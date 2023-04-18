@@ -58,19 +58,17 @@ class UserLoginPage extends StatelessWidget {
                         }
                       },
                       decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 9, 89, 1),
-                                  width: 2)),
-                          label: Text('E-mail'),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(3))),
+                        labelText: 'E-mail',
+                        prefixIcon: Icon(Icons.email),
+                        hintText: 'email@exemplo.com',
+                      ),
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 20),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
+                      obscureText: true,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -78,14 +76,9 @@ class UserLoginPage extends StatelessWidget {
                         }
                       },
                       decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(0, 9, 89, 1),
-                                  width: 2)),
-                          labelText: "Senha",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(3),
-                          )),
+                        prefixIcon: Icon(Icons.lock),
+                        labelText: 'Senha',
+                      ),
                     ),
                   ),
                   GestureDetector(
