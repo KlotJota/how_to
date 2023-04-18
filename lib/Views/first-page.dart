@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/user-login.dart';
 import 'package:how_to/Views/user-register.dart';
 
@@ -99,7 +100,7 @@ class FirstPage extends StatelessWidget {
                     child: Text('ou'),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => Get.to(HomePage()),
                     child: Container(
                       width: MediaQuery.of(context).size.width - 200,
                       child: Text(

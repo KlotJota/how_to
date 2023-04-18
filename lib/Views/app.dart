@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:how_to/Views/first-page.dart';
+import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/user-login.dart';
 import 'package:how_to/Views/user-register.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ class App extends StatelessWidget {
       routes: {
         '/user_login': (context) => UserLoginPage(),
         '/user_register': (context) => UserRegisterPage(),
+        '/home': (context) => HomePage()
       },
       home: FirstPage(),
     );
