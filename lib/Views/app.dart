@@ -4,6 +4,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/user-login.dart';
 import 'package:how_to/Views/user-register.dart';
+import 'package:how_to/Views/search-page.dart';
+import 'package:how_to/Views/profile-page.dart';
 import 'package:get/get.dart';
 
 class App extends StatelessWidget {
@@ -15,7 +17,9 @@ class App extends StatelessWidget {
       routes: {
         '/user_login': (context) => UserLoginPage(),
         '/user_register': (context) => UserRegisterPage(),
-        '/home': (context) => HomePage()
+        '/home': (context) => HomePage(),
+        '/pesquisar': (context) => SearchPage(),
+        '/profile': (context) => ProfilePage(),
       },
       home: UserLoginPage(),
     );
