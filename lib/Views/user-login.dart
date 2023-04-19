@@ -14,7 +14,7 @@ class UserLoginPage extends StatelessWidget {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: Color.fromRGBO(0, 9, 89, 1),
+            color: Color(0xFF000959),
           ),
           Positioned(
             top: 70,
@@ -37,10 +37,10 @@ class UserLoginPage extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(30),
+                    padding: EdgeInsets.fromLTRB(30, 64, 30, 30),
                     child: Text(
                       "Login",
-                      style: TextStyle(fontSize: 70),
+                      style: TextStyle(fontSize: 60),
                     ),
                   ),
                   Container(

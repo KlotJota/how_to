@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/user-login.dart';
+import 'package:how_to/Views/user-profile.dart';
 import 'package:how_to/Views/user-register.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,10 +20,10 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushNamed(context, '/');
         break;
       case 1:
-        Navigator.pushNamed(context, '/pesquisar');
+        Navigator.pushNamed(context, '/search');
         break;
       case 2:
-        Navigator.pushNamed(context, '/profile');
+        Navigator.pushNamed(context, '/user_profile');
         break;
     }
   }
@@ -51,6 +52,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ], color: Color.fromARGB(255, 240, 240, 240)),
               child: GestureDetector(
+                onTap: () => Get.to(UserProfilePage()),
                 child: Container(
                   child: Column(
                     children: [

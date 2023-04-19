@@ -95,24 +95,21 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: Icon(
-                            Icons.arrow_back_outlined,
-                            color: Color.fromRGBO(0, 9, 89, 1),
-                          ),
-                        ),
-                      ],
+                    alignment: Alignment.topLeft,
+                    padding: EdgeInsets.only(left: 10, top: 10),
+                    child: GestureDetector(
+                      onTap: () => Get.back(),
+                      child: Icon(
+                        Icons.arrow_back_outlined,
+                        color: Color.fromRGBO(0, 9, 89, 1),
+                      ),
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.all(30),
                     child: Text(
                       "Cadastro",
-                      style: TextStyle(fontSize: 70),
+                      style: TextStyle(fontSize: 60),
                     ),
                   ),
                   Container(
@@ -231,7 +228,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     onTap: () =>
                         Get.to(UserLoginPage(), transition: Transition.zoom),
                     child: Container(
-                      margin: EdgeInsets.only(top: 10),
+                      margin: EdgeInsets.only(top: 20),
                       width: MediaQuery.of(context).size.width - 200,
                       height: 40,
                       padding: EdgeInsets.only(top: 8),
