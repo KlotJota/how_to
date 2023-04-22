@@ -10,8 +10,6 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  var logo = 'howto_logo1.png';
-
   int _selectedIndex = 0;
   void _OnSelectedItem(int index) {
     setState(() {
@@ -56,17 +54,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
               child: Column(
                 children: [
                   Container(
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 10, top: 10),
-                    child: GestureDetector(
-                      onTap: () => Get.back(),
-                      child: Icon(
-                        Icons.arrow_back_outlined,
-                        color: Color.fromRGBO(0, 9, 89, 1),
-                      ),
-                    ),
-                  ),
-                  Container(
                     margin: EdgeInsets.only(top: 40),
                     child: CircleAvatar(
                       backgroundColor: Colors.amber,
@@ -81,12 +68,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 40, left: 10, right: 10),
+                    color: Color.fromARGB(255, 233, 233, 233),
+                    margin: EdgeInsets.only(top: 40),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 10),
+                          margin: EdgeInsets.only(top: 10, left: 10),
                           child: Column(
                             children: [
                               Container(child: Text('Tutoriais criados')),
@@ -116,7 +104,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 10),
+                          margin: EdgeInsets.only(top: 10, left: 10),
                           child: Column(
                             children: [
                               Container(child: Text('Mais algo aqui')),
@@ -133,44 +121,54 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       ],
                     ),
                   ),
-                  NavigationBar(destinations: [
-                    NavigationDestination(
-                      icon: Icon(Icons.create),
-                      label: 'Criados',
-                    ),
-                    NavigationDestination(
-                        icon: Icon(Icons.save), label: 'Salvos'),
-                    NavigationDestination(
-                        icon: Icon(Icons.eject), label: 'Algo a mais')
-                  ])
                 ],
               ),
             ),
           ),
-          Container(
-              alignment: Alignment.bottomCenter,
-              child: BottomNavigationBar(
-                selectedItemColor: Color.fromRGBO(0, 9, 89, 1),
-                unselectedItemColor: Color.fromARGB(255, 59, 59, 59),
-                backgroundColor: Color.fromARGB(255, 233, 233, 233),
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: 'Pesquisar',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.account_box_rounded),
-                    label: 'Perfil',
-                  ),
-                ],
-                currentIndex: _selectedIndex,
-                onTap: _OnSelectedItem,
-              ))
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF000959),
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Color(0xFF000959),
+        child: IconTheme(
+          data: IconThemeData(color: Color.fromARGB(255, 240, 240, 240)),
+          child: Padding(
+            padding: EdgeInsets.all(12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () =>
+                      Get.to(HomePage(), transition: Transition.noTransition),
+                  icon: Icon(Icons.home),
+                ),
+                IconButton(
+                  onPressed: () =>
+                      Get.to(SearchPage(), transition: Transition.noTransition),
+                  icon: Icon(Icons.search),
+                ),
+                SizedBox(
+                  width: 24,
+                ),
+                IconButton(
+                  onPressed: () => Get.to(UserProfilePage(),
+                      transition: Transition.noTransition),
+                  icon: Icon(Icons.account_box_sharp),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.list),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

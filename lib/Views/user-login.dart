@@ -123,7 +123,8 @@ class UserLoginPage extends StatelessWidget {
                     ],
                   ),
                   GestureDetector(
-                    onTap: () => Get.to(HomePage()),
+                    onTap: () =>
+                        Get.to(HomePage(), transition: Transition.size),
                     child: Container(
                       margin: EdgeInsets.only(top: 20, bottom: 20),
                       width: MediaQuery.of(context).size.width - 200,

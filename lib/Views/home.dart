@@ -111,30 +111,52 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Container(
-              alignment: Alignment.bottomCenter,
-              child: BottomNavigationBar(
-                selectedItemColor: Color.fromRGBO(0, 9, 89, 1),
-                unselectedItemColor: Color.fromARGB(255, 59, 59, 59),
-                backgroundColor: Color.fromARGB(255, 233, 233, 233),
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: 'Pesquisar',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.account_box_rounded),
-                    label: 'Perfil',
-                  ),
-                ],
-                currentIndex: _selectedIndex,
-                onTap: _OnSelectedItem,
-              ))
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF000959),
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Color(0xFF000959),
+        child: IconTheme(
+          data: IconThemeData(color: Color.fromARGB(255, 240, 240, 240)),
+          child: Padding(
+            padding: EdgeInsets.all(12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () => Get.to(
+                    HomePage(),
+                    transition: Transition.noTransition,
+                  ),
+                  icon: Icon(Icons.home),
+                ),
+                IconButton(
+                  onPressed: () =>
+                      Get.to(SearchPage(), transition: Transition.noTransition),
+                  icon: Icon(Icons.search),
+                ),
+                SizedBox(
+                  width: 24,
+                ),
+                IconButton(
+                  onPressed: () => Get.to(UserProfilePage(),
+                      transition: Transition.noTransition),
+                  icon: Icon(Icons.account_box_sharp),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.list),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
