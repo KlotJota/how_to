@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/home.dart';
+import 'package:how_to/Views/search-page.dart';
 import 'package:how_to/Views/user-register.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,24 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
   var logo = 'howto_logo1.png';
+
+  int _selectedIndex = 0;
+  void _OnSelectedItem(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    switch (index) {
+      case 0:
+        Get.to(HomePage());
+        break;
+      case 1:
+        Get.to(SearchPage());
+        break;
+      case 2:
+        Get.to(UserProfilePage());
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +147,29 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
             ),
           ),
+          Container(
+              alignment: Alignment.bottomCenter,
+              child: BottomNavigationBar(
+                selectedItemColor: Color.fromRGBO(0, 9, 89, 1),
+                unselectedItemColor: Color.fromARGB(255, 59, 59, 59),
+                backgroundColor: Color.fromARGB(255, 233, 233, 233),
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.search),
+                    label: 'Pesquisar',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.account_box_rounded),
+                    label: 'Perfil',
+                  ),
+                ],
+                currentIndex: _selectedIndex,
+                onTap: _OnSelectedItem,
+              ))
         ],
       ),
     );

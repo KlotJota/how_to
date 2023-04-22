@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/search-page.dart';
 import 'package:how_to/Views/user-login.dart';
 import 'package:how_to/Views/user-profile.dart';
 import 'package:how_to/Views/user-register.dart';
@@ -17,13 +18,13 @@ class _HomePageState extends State<HomePage> {
     });
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/');
+        Get.to(HomePage());
         break;
       case 1:
-        Navigator.pushNamed(context, '/search');
+        Get.to(SearchPage());
         break;
       case 2:
-        Navigator.pushNamed(context, '/user_profile');
+        Get.to(UserProfilePage());
         break;
     }
   }

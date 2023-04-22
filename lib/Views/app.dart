@@ -19,7 +19,7 @@ class App extends StatelessWidget {
         '/user_login': (context) => UserLoginPage(),
         '/user_register': (context) => UserRegisterPage(),
         '/home': (context) => HomePage(),
-        '/search': (context) => SearchPage(),
+        '/search_page': (context) => SearchPage(),
         '/user_profile': (context) => UserProfilePage(),
       },
       home: UserLoginPage(),
