@@ -53,7 +53,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ], color: Color.fromARGB(255, 240, 240, 240)),
               child: GestureDetector(
-                onTap: () => Get.to(UserProfilePage()),
+                onTap: () => Get.to(UserProfilePage(),
+                    transition: Transition.noTransition),
                 child: Container(
                   child: Column(
                     children: [
