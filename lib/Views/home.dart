@@ -153,16 +153,18 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(10),
                         child: Text(
-                          'Outros tutoriais',
+                          'Outros Tutoriais',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       ),
+                      Icon(Icons.add_box_outlined)
                     ],
                   ),
                   Container(
