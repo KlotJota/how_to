@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/search-page.dart';
@@ -114,21 +116,35 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Tutoriais Populares',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Icon(Icons.star)
+                    ],
+                  ),
                   Container(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 200,
+                            height: 300,
                             child: ListView.builder(
                                 itemCount: 10,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) => Container(
-                                      height: 100,
-                                      width: 100,
+                                      height: 150,
+                                      width: 150,
                                       margin: EdgeInsets.all(10),
                                       child: Center(
-                                        child: Text('Card $index'),
+                                        child: Text('Tutorial $index'),
                                       ),
                                       color: Colors.amber,
                                     )),
@@ -136,7 +152,42 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                  )
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          'Outros tutoriais',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 350,
+                            child: ListView.builder(
+                                itemCount: 10,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index) => Container(
+                                      height: 200,
+                                      width: 150,
+                                      margin: EdgeInsets.all(10),
+                                      child: Center(
+                                        child: Text('Tutorial $index'),
+                                      ),
+                                      color: Colors.yellow,
+                                    )),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
