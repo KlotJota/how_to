@@ -45,9 +45,20 @@ class _SearchPageState extends State<SearchPage> {
       body: Stack(
         children: [
           Container(
+            alignment: Alignment.topCenter,
+            child: Container(
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      scale: 19,
+                      alignment: Alignment.topCenter,
+                      image: AssetImage('images/how-to-branco.png'))),
+            ),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(0, 9, 89, 1),
+            ),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: Color(0xFF000959),
           ),
           Positioned(
             top: 70,
@@ -62,10 +73,10 @@ class _SearchPageState extends State<SearchPage> {
                   offset: Offset(0, 2), // changes position of shadow
                 ),
               ], color: Color.fromARGB(255, 240, 240, 240)),
-              child: Column(
+              child: ListView(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                     width: MediaQuery.of(context).size.width - 20,
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -108,6 +119,62 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
                   ),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          child: ListView.builder(
+                              itemCount: 10,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) => Card(
+                                    elevation: 5,
+                                    margin: EdgeInsets.all(10),
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10))),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image:
+                                                AssetImage('images/Agua.jpg'),
+                                            fit: BoxFit.cover,
+                                            alignment: Alignment.topCenter),
+                                      ),
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 220),
+                                        child: Container(
+                                            color: Color.fromRGBO(0, 9, 89, 1),
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  top: 4,
+                                                  left: 8,
+                                                  right: 8,
+                                                  bottom: 4),
+                                              child: Text(
+                                                'Como beber água',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color: Color.fromARGB(
+                                                        255, 240, 240, 240)),
+                                                maxLines: 2,
+                                              ),
+                                            )),
+                                      ),
+                                    ),
+                                  )),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 130,
+                  )
                 ],
               ),
             ),

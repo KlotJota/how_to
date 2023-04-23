@@ -12,9 +12,20 @@ class UserLoginPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
+            alignment: Alignment.topCenter,
+            child: Container(
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      scale: 19,
+                      alignment: Alignment.topCenter,
+                      image: AssetImage('images/how-to-branco.png'))),
+            ),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(0, 9, 89, 1),
+            ),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: Color(0xFF000959),
           ),
           Positioned(
             top: 70,

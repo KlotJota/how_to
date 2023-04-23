@@ -34,9 +34,20 @@ class _UserProfilePageState extends State<UserProfilePage> {
       body: Stack(
         children: [
           Container(
+            alignment: Alignment.topCenter,
+            child: Container(
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      scale: 19,
+                      alignment: Alignment.topCenter,
+                      image: AssetImage('images/how-to-branco.png'))),
+            ),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(0, 9, 89, 1),
+            ),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: Color(0xFF000959),
           ),
           Positioned(
             top: 70,
@@ -51,16 +62,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   offset: Offset(0, 2), // changes position of shadow
                 ),
               ], color: Color.fromARGB(255, 240, 240, 240)),
-              child: Column(
+              child: ListView(
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 40),
                     child: CircleAvatar(
-                      backgroundColor: Colors.amber,
+                      backgroundImage: AssetImage('images/How-to.png'),
                       radius: 40,
                     ),
                   ),
                   Container(
+                    alignment: Alignment.center,
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
                       'Matheus Soldera',
@@ -104,7 +116,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 10, left: 10),
+                          margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                           child: Column(
                             children: [
                               Container(child: Text('Mais algo aqui')),
@@ -121,6 +133,41 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        mainAxisExtent: 130,
+                      ),
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          elevation: 5,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10))),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('images/Agua.jpg'),
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.topCenter),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 130,
+                  )
                 ],
               ),
             ),

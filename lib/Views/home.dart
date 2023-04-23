@@ -37,9 +37,20 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           Container(
+            alignment: Alignment.topCenter,
+            child: Container(
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      scale: 19,
+                      alignment: Alignment.topCenter,
+                      image: AssetImage('images/how-to-branco.png'))),
+            ),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(0, 9, 89, 1),
+            ),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: Color.fromRGBO(0, 9, 89, 1),
           ),
           Positioned(
             top: 70,
@@ -54,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                   offset: Offset(0, 2), // changes position of shadow
                 ),
               ], color: Color.fromARGB(255, 240, 240, 240)),
-              child: Column(
+              child: ListView(
                 children: [
                   GestureDetector(
                     onTap: () => Get.to(UserProfilePage()),
@@ -79,7 +90,8 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       Container(
                                         child: CircleAvatar(
-                                          backgroundColor: Colors.amber,
+                                          backgroundImage:
+                                              AssetImage('images/How-to.png'),
                                         ),
                                       ),
                                       Container(
@@ -127,30 +139,61 @@ class _HomePageState extends State<HomePage> {
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Icon(Icons.star)
+                      Icon(
+                        Icons.star,
+                        color: Color.fromARGB(255, 255, 191, 0),
+                      )
                     ],
                   ),
-                  Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 300,
-                            child: ListView.builder(
-                                itemCount: 10,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => Container(
-                                      height: 150,
-                                      width: 150,
-                                      margin: EdgeInsets.all(10),
-                                      child: Center(
-                                        child: Text('Tutorial $index'),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 260,
+                          child: ListView.builder(
+                              itemCount: 10,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) => Card(
+                                    elevation: 5,
+                                    margin: EdgeInsets.only(left: 10),
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10))),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image:
+                                                AssetImage('images/lucas.jpeg'),
+                                            fit: BoxFit.cover,
+                                            alignment: Alignment.topCenter),
                                       ),
-                                      color: Colors.amber,
-                                    )),
-                          )
-                        ],
-                      ),
+                                      width: 160,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 220),
+                                        child: Container(
+                                            color: Color.fromRGBO(0, 9, 89, 1),
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  top: 4, left: 8, right: 8),
+                                              child: Text(
+                                                'Como fazer sua documentação escolar',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color: Color.fromARGB(
+                                                        255, 240, 240, 240)),
+                                                maxLines: 2,
+                                              ),
+                                            )),
+                                      ),
+                                    ),
+                                  )),
+                        )
+                      ],
                     ),
                   ),
                   Row(
@@ -167,57 +210,103 @@ class _HomePageState extends State<HomePage> {
                       Icon(Icons.add_box_outlined)
                     ],
                   ),
-                  Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 350,
-                            child: ListView.builder(
-                                itemCount: 10,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) => Container(
-                                      height: 200,
-                                      width: 150,
-                                      margin: EdgeInsets.all(10),
-                                      child: Center(
-                                        child: Text('Tutorial $index'),
-                                      ),
-                                      color: Colors.yellow,
-                                    )),
-                          )
-                        ],
-                      ),
-                    ),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        child: ListView.builder(
+                            itemCount: 10,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) => Card(
+                                  elevation: 5,
+                                  margin: EdgeInsets.all(10),
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10))),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage('images/Agua.jpg'),
+                                          fit: BoxFit.cover,
+                                          alignment: Alignment.topCenter),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 220),
+                                      child: Container(
+                                          color: Color.fromRGBO(0, 9, 89, 1),
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                top: 4, left: 8, right: 8),
+                                            child: Text(
+                                              'Como beber água',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  color: Color.fromARGB(
+                                                      255, 240, 240, 240)),
+                                              maxLines: 2,
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                )),
+                      )
+                    ],
                   ),
+                  Container(
+                    height: 130,
+                  )
                 ],
               ),
             ),
           ),
-          Container(
-              alignment: Alignment.bottomCenter,
-              child: BottomNavigationBar(
-                selectedItemColor: Color.fromRGBO(0, 9, 89, 1),
-                unselectedItemColor: Color.fromARGB(255, 59, 59, 59),
-                backgroundColor: Color.fromARGB(255, 233, 233, 233),
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: 'Pesquisar',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.account_box_rounded),
-                    label: 'Perfil',
-                  ),
-                ],
-                currentIndex: _selectedIndex,
-                onTap: _OnSelectedItem,
-              ))
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF000959),
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Color(0xFF000959),
+        child: IconTheme(
+          data: IconThemeData(color: Color.fromARGB(255, 240, 240, 240)),
+          child: Padding(
+            padding: EdgeInsets.all(12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () =>
+                      Get.to(HomePage(), transition: Transition.noTransition),
+                  icon: Icon(Icons.home),
+                ),
+                IconButton(
+                  onPressed: () =>
+                      Get.to(SearchPage(), transition: Transition.noTransition),
+                  icon: Icon(Icons.search),
+                ),
+                SizedBox(
+                  width: 24,
+                ),
+                IconButton(
+                  onPressed: () => Get.to(UserProfilePage(),
+                      transition: Transition.noTransition),
+                  icon: Icon(Icons.account_box_sharp),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.list),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
