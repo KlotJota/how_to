@@ -135,10 +135,10 @@ class UserLoginPage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () =>
-                        Get.to(HomePage(), transition: Transition.size),
+                        Get.to(HomePage(), transition: Transition.downToUp),
                     child: Container(
                       margin: EdgeInsets.only(top: 20, bottom: 20),
-                      width: MediaQuery.of(context).size.width - 200,
+                      width: MediaQuery.of(context).size.width - 120,
                       height: 40,
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 221, 221, 221),
@@ -166,7 +166,8 @@ class UserLoginPage extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.to(UserRegisterPage());
+                          Get.to(UserRegisterPage(),
+                              transition: Transition.rightToLeftWithFade);
                         },
                         child: Text(
                           'Criar conta',

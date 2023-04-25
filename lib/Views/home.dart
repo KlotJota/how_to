@@ -69,7 +69,8 @@ class _HomePageState extends State<HomePage> {
               child: ListView(
                 children: [
                   GestureDetector(
-                    onTap: () => Get.to(UserProfilePage()),
+                    onTap: () => Get.to(UserProfilePage(),
+                        transition: Transition.noTransition),
                     child: Container(
                       child: Column(
                         children: [
@@ -92,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                                       Container(
                                         child: CircleAvatar(
                                           backgroundImage:
-                                              AssetImage('images/How-to.png'),
+                                              AssetImage('images/mateus.png'),
                                         ),
                                       ),
                                       Container(
@@ -146,15 +147,16 @@ class _HomePageState extends State<HomePage> {
                       )
                     ],
                   ),
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 260,
-                          child: ListView.builder(
-                              itemCount: 10,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) => Card(
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 260,
+                        child: ListView.builder(
+                            itemCount: 10,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => GestureDetector(
+                                  onTap: () => Get.to(TutorialPage()),
+                                  child: Card(
                                     elevation: 5,
                                     margin: EdgeInsets.only(left: 10),
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -192,10 +194,10 @@ class _HomePageState extends State<HomePage> {
                                             )),
                                       ),
                                     ),
-                                  )),
-                        )
-                      ],
-                    ),
+                                  ),
+                                )),
+                      )
+                    ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -258,7 +260,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   Container(
-                    height: 130,
+                    height: 150,
                   )
                 ],
               ),

@@ -68,7 +68,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   Container(
                     margin: EdgeInsets.only(top: 40),
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('images/How-to.png'),
+                      backgroundImage: AssetImage('images/mateus.png'),
                       radius: 40,
                     ),
                   ),
