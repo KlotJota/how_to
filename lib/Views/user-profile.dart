@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/search-page.dart';
 import 'package:how_to/Views/user-register.dart';
+import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:get/get.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -177,7 +178,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF000959),
-        onPressed: () {},
+        onPressed: () {
+          Get.to(CreateTutorialPage());
+        },
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: BottomAppBar(

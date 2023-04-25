@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/user-profile.dart';
 import 'package:how_to/Views/user-register.dart';
+import 'package:how_to/Views/tutorial-page.dart';
 import 'package:get/get.dart';
 
 class SearchPage extends StatefulWidget {
@@ -184,7 +186,9 @@ class _SearchPageState extends State<SearchPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF000959),
-        onPressed: () {},
+        onPressed: () {
+          Get.to(CreateTutorialPage());
+        },
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: BottomAppBar(

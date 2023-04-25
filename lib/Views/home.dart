@@ -1,8 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:how_to/Views/search-page.dart';
+import 'package:how_to/Views/tutorial-page.dart';
 import 'package:how_to/Views/user-login.dart';
 import 'package:how_to/Views/user-profile.dart';
 import 'package:how_to/Views/user-register.dart';
@@ -268,7 +269,9 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF000959),
-        onPressed: () {},
+        onPressed: () {
+          Get.to(CreateTutorialPage());
+        },
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: BottomAppBar(
