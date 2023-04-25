@@ -112,24 +112,22 @@ class UserLoginPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width - 340,
-                        decoration: BoxDecoration(
-                            border: BorderDirectional(
-                                top: BorderSide(
-                                    width: 1,
-                                    color:
-                                        Color.fromARGB(255, 223, 223, 223)))),
-                      ),
-                      Container(child: Text('  ou  ')),
-                      Container(
-                        width: MediaQuery.of(context).size.width - 340,
-                        decoration: BoxDecoration(
-                            border: BorderDirectional(
-                                top: BorderSide(
-                                    width: 1,
-                                    color:
-                                        Color.fromARGB(255, 223, 223, 223)))),
+                      Stack(
+                        children: [
+                          Container(
+                            child: Container(
+                                margin: EdgeInsets.only(top: 10),
+                                alignment: Alignment.center,
+                                child: Text('  ou  ')),
+                            width: MediaQuery.of(context).size.width - 200,
+                            decoration: BoxDecoration(
+                                border: BorderDirectional(
+                                    top: BorderSide(
+                                        width: 1,
+                                        color: Color.fromARGB(
+                                            255, 223, 223, 223)))),
+                          ),
+                        ],
                       ),
                     ],
                   ),
