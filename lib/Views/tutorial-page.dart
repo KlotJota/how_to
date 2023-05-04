@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:how_to/Views/home.dart';
@@ -12,6 +13,8 @@ class TutorialPage extends StatefulWidget {
 }
 
 class _TutorialPageState extends State<TutorialPage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   int _selectedIndex = 0;
   void _OnSelectedItem(int index) {
     setState(() {
@@ -27,6 +30,16 @@ class _TutorialPageState extends State<TutorialPage> {
       case 2:
         Get.to(UserProfilePage());
         break;
+    }
+  }
+
+  void logOut(BuildContext context) async {
+    try {
+      await auth.signOut();
+
+      Navigator.of(context).pushNamed('/');
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -173,7 +186,7 @@ class _TutorialPageState extends State<TutorialPage> {
                   icon: Icon(Icons.account_box_sharp),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => logOut(context),
                   icon: Icon(Icons.list),
                 )
               ],

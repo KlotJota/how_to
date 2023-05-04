@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:how_to/Views/home.dart';
@@ -12,6 +13,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   List<String> categorias = <String>[
     'Todos',
     'Cozinha',
@@ -38,6 +41,16 @@ class _SearchPageState extends State<SearchPage> {
       case 2:
         Get.to(UserProfilePage());
         break;
+    }
+  }
+
+  void logOut(BuildContext context) async {
+    try {
+      await auth.signOut();
+
+      Navigator.of(context).pushNamed('/');
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -220,7 +233,7 @@ class _SearchPageState extends State<SearchPage> {
                   icon: Icon(Icons.account_box_sharp),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => logOut(context),
                   icon: Icon(Icons.list),
                 )
               ],

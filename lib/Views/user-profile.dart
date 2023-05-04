@@ -4,6 +4,7 @@ import 'package:how_to/Views/search-page.dart';
 import 'package:how_to/Views/user-register.dart';
 import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserProfilePage extends StatefulWidget {
   @override
@@ -11,6 +12,8 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   int _selectedIndex = 0;
   void _OnSelectedItem(int index) {
     setState(() {
@@ -76,7 +79,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
-                      'Matheus Soldera',
+                      auth.currentUser!.email.toString(),
                       style: TextStyle(fontSize: 20),
                     ),
                   ),

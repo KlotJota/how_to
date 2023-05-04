@@ -7,6 +7,7 @@ import 'package:how_to/Views/tutorial-page.dart';
 import 'package:how_to/Views/user-login.dart';
 import 'package:how_to/Views/user-profile.dart';
 import 'package:how_to/Views/user-register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,6 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   int _selectedIndex = 0;
   void _OnSelectedItem(int index) {
     setState(() {
@@ -29,6 +32,16 @@ class _HomePageState extends State<HomePage> {
       case 2:
         Get.to(UserProfilePage());
         break;
+    }
+  }
+
+  void logOut(BuildContext context) async {
+    try {
+      await auth.signOut();
+
+      Navigator.of(context).pushNamed('/');
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -111,7 +124,9 @@ class _HomePageState extends State<HomePage> {
                                             Container(
                                               padding:
                                                   EdgeInsets.only(left: 10),
-                                              child: Text('Matheus Soldera'),
+                                              child: Text(auth
+                                                  .currentUser!.email
+                                                  .toString()),
                                             ),
                                           ],
                                         ),
@@ -305,7 +320,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.account_box_sharp),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => logOut(context),
                   icon: Icon(Icons.list),
                 )
               ],
