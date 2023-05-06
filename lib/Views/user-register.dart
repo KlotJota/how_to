@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/home.dart';
+import 'package:how_to/Views/first_page.dart';
 import 'package:how_to/Views/user-login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -29,9 +30,47 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
         await auth.createUserWithEmailAndPassword(
             email: email, password: password);
 
-        Get.to(HomePage());
+        Get.to(FirstPage());
       } catch (e) {
-        print(e);
+        if (e is FirebaseAuthException) {
+          if (e.message ==
+              'The email address is already in use by another account.') {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    elevation: 10,
+                    titlePadding: EdgeInsets.all(5),
+                    title: Text('Erro'),
+                    backgroundColor: Color.fromARGB(255, 240, 240, 240),
+                    content: Text('O email informado para cadastro já existe'),
+                    actions: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Get.back(),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(0, 9, 89, 1),
+                                  borderRadius: BorderRadius.circular(5)),
+                              padding: EdgeInsets.only(top: 5),
+                              height: 30,
+                              width: 80,
+                              child: Text(
+                                'Ok',
+                                style: TextStyle(color: Colors.white),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  );
+                });
+          }
+        }
       }
     }
   }

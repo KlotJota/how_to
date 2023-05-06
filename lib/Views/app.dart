@@ -18,15 +18,6 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Lexend'),
-      routes: {
-        '/user_login': (context) => UserLoginPage(),
-        '/user_register': (context) => UserRegisterPage(),
-        '/home': (context) => HomePage(),
-        '/search_page': (context) => SearchPage(),
-        '/user_profile': (context) => UserProfilePage(),
-        '/tutorial_page': (context) => TutorialPage(),
-        '/create_tutorial': (context) => CreateTutorialPage(),
-      },
       home: UserLoginPage(),
     );
   }

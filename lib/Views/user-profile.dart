@@ -32,6 +32,66 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
   }
 
+  void logOut(BuildContext context) async {
+    try {
+      await auth.signOut();
+
+      Navigator.of(context).pushNamed('/');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _popUp(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 10,
+            titlePadding: EdgeInsets.all(5),
+            title: Text('Sair'),
+            backgroundColor: Color.fromARGB(255, 240, 240, 240),
+            content: Text('Você realmente deseja sair do aplicativo?'),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: Text(
+                        'Não',
+                        style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => logOut(context),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(0, 9, 89, 1),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: Text(
+                        'Sim',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,59 +229,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       },
                     ),
                   ),
-                  Container(
-                    height: 130,
-                  )
                 ],
               ),
             ),
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFF000959),
-        onPressed: () {
-          Get.to(CreateTutorialPage());
-        },
-        child: Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        color: Color(0xFF000959),
-        child: IconTheme(
-          data: IconThemeData(color: Color.fromARGB(255, 240, 240, 240)),
-          child: Padding(
-            padding: EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  onPressed: () =>
-                      Get.to(HomePage(), transition: Transition.noTransition),
-                  icon: Icon(Icons.home),
-                ),
-                IconButton(
-                  onPressed: () =>
-                      Get.to(SearchPage(), transition: Transition.noTransition),
-                  icon: Icon(Icons.search),
-                ),
-                SizedBox(
-                  width: 24,
-                ),
-                IconButton(
-                  onPressed: () => Get.to(UserProfilePage(),
-                      transition: Transition.noTransition),
-                  icon: Icon(Icons.account_box_sharp),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.list),
-                )
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

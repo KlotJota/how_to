@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/first_page.dart';
 import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/user-register.dart';
 import 'package:get/get.dart';
@@ -20,10 +21,90 @@ class UserLoginPage extends StatelessWidget {
       try {
         await auth.signInWithEmailAndPassword(email: email, password: password);
 
-        Get.to(HomePage());
+        Get.to(FirstPage());
       } catch (e) {
-        print(e);
+        if (e is FirebaseAuthException) {
+          if (e.message ==
+              'The password is invalid or the user does not have a password.') {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    elevation: 10,
+                    titlePadding: EdgeInsets.all(5),
+                    title: Text('Erro'),
+                    backgroundColor: Color.fromARGB(255, 240, 240, 240),
+                    content: Text('A senha inserida é invalida'),
+                    actions: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Get.back(),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(0, 9, 89, 1),
+                                  borderRadius: BorderRadius.circular(5)),
+                              padding: EdgeInsets.only(top: 5),
+                              height: 30,
+                              width: 80,
+                              child: Text(
+                                'Ok',
+                                style: TextStyle(color: Colors.white),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  );
+                });
+          }
+        }
       }
+    }
+  }
+
+  void anonimous(BuildContext context) async {
+    try {
+      await auth.signInAnonymously();
+      Get.to(FirstPage());
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              elevation: 10,
+              titlePadding: EdgeInsets.all(5),
+              title: Text('Erro'),
+              backgroundColor: Color.fromARGB(255, 240, 240, 240),
+              content: Text(e.message.toString()),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.back(),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(0, 9, 89, 1),
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: EdgeInsets.only(top: 5),
+                        height: 30,
+                        width: 80,
+                        child: Text(
+                          'Ok',
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            );
+          });
     }
   }
 
@@ -157,8 +238,7 @@ class UserLoginPage extends StatelessWidget {
                       ],
                     ),
                     GestureDetector(
-                      onTap: () =>
-                          Get.to(HomePage(), transition: Transition.downToUp),
+                      onTap: () => anonimous(context),
                       child: Container(
                         margin: EdgeInsets.only(top: 20, bottom: 20),
                         width: MediaQuery.of(context).size.width - 120,
