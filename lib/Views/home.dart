@@ -317,58 +317,62 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             SizedBox(
                               height: MediaQuery.of(context).size.height,
-                              child: ListView.builder(
-                                  itemCount: 10,
-                                  scrollDirection: Axis.vertical,
-                                  itemBuilder: (context, index) => Card(
-                                        elevation: 5,
-                                        margin: EdgeInsets.all(10),
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(10),
-                                                bottomLeft:
-                                                    Radius.circular(10))),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    'images/Agua.jpg'),
-                                                fit: BoxFit.cover,
-                                                alignment: Alignment.topCenter),
+                              child: ListView(
+                                scrollDirection: Axis.vertical,
+                                children: tutoriais
+                                    .map((tutorial) => Card(
+                                          elevation: 5,
+                                          margin: EdgeInsets.all(10),
+                                          clipBehavior:
+                                              Clip.antiAliasWithSaveLayer,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(10),
+                                                  bottomLeft:
+                                                      Radius.circular(10))),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      tutorial['imagem']),
+                                                  fit: BoxFit.cover,
+                                                  alignment:
+                                                      Alignment.topCenter),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 220),
+                                              child: Container(
+                                                  color: Color.fromRGBO(
+                                                      0, 9, 89, 1),
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 4,
+                                                        left: 8,
+                                                        right: 8),
+                                                    child: Text(
+                                                      tutorial['titulo'],
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              240,
+                                                              240,
+                                                              240)),
+                                                      maxLines: 2,
+                                                    ),
+                                                  )),
+                                            ),
                                           ),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 220),
-                                            child: Container(
-                                                color:
-                                                    Color.fromRGBO(0, 9, 89, 1),
-                                                child: Container(
-                                                  padding: EdgeInsets.only(
-                                                      top: 4,
-                                                      left: 8,
-                                                      right: 8),
-                                                  child: Text(
-                                                    'Como beber água',
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            240,
-                                                            240,
-                                                            240)),
-                                                    maxLines: 2,
-                                                  ),
-                                                )),
-                                          ),
-                                        ),
-                                      )),
+                                        ))
+                                    .toList(),
+                              ),
                             )
                           ],
                         ),
+                        Container(height: 150)
                       ],
                     ),
                   ),

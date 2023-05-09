@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/createTutorial-page.dart';
@@ -14,6 +15,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   List<String> categorias = <String>[
     'Todos',
@@ -107,92 +109,101 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            alignment: Alignment.topCenter,
-            child: Container(
-              margin: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      scale: 19,
-                      alignment: Alignment.topCenter,
-                      image: AssetImage('images/how-to-branco.png'))),
-            ),
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(0, 9, 89, 1),
-            ),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-          ),
-          Positioned(
-            top: 70,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  spreadRadius: 8,
-                  blurRadius: 10,
-                  offset: Offset(0, 2), // changes position of shadow
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: firestore.collection('tutoriais').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            // senao tiver dados
+            return CircularProgressIndicator(); // circulo de carregando
+          }
+          var tutoriais = snapshot.data!.docs;
+
+          return Stack(
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          scale: 19,
+                          alignment: Alignment.topCenter,
+                          image: AssetImage('images/how-to-branco.png'))),
                 ),
-              ], color: Color.fromARGB(255, 240, 240, 240)),
-              child: ListView(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                    width: MediaQuery.of(context).size.width - 20,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                        labelText: ' Pesquisar',
-                        suffixIcon: Icon(Icons.search),
-                        prefixIcon: Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  right: BorderSide(
-                                      width: 1,
-                                      color: Color.fromARGB(255, 0, 0, 0)))),
-                          width: 100,
-                          margin: EdgeInsets.only(left: 10),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                                isExpanded: true,
-                                alignment: Alignment.center,
-                                borderRadius: BorderRadius.circular(5),
-                                dropdownColor:
-                                    Color.fromARGB(255, 233, 233, 233),
-                                onChanged: (String? novoItem) {
-                                  setState(() {
-                                    item = novoItem!;
-                                  });
-                                },
-                                value: item,
-                                items: categorias.map<DropdownMenuItem<String>>(
-                                  (String valor) {
-                                    return DropdownMenuItem<String>(
-                                      value: valor,
-                                      child: Text(valor),
-                                    );
-                                  },
-                                ).toList()),
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(0, 9, 89, 1),
+                ),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+              ),
+              Positioned(
+                top: 70,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      spreadRadius: 8,
+                      blurRadius: 10,
+                      offset: Offset(0, 2), // changes position of shadow
+                    ),
+                  ], color: Color.fromARGB(255, 240, 240, 240)),
+                  child: ListView(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                        width: MediaQuery.of(context).size.width - 20,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            labelText: ' Pesquisar',
+                            suffixIcon: Icon(Icons.search),
+                            prefixIcon: Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      right: BorderSide(
+                                          width: 1,
+                                          color:
+                                              Color.fromARGB(255, 0, 0, 0)))),
+                              width: 100,
+                              margin: EdgeInsets.only(left: 10),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    alignment: Alignment.center,
+                                    borderRadius: BorderRadius.circular(5),
+                                    dropdownColor:
+                                        Color.fromARGB(255, 233, 233, 233),
+                                    onChanged: (String? novoItem) {
+                                      setState(() {
+                                        item = novoItem!;
+                                      });
+                                    },
+                                    value: item,
+                                    items: categorias
+                                        .map<DropdownMenuItem<String>>(
+                                      (String valor) {
+                                        return DropdownMenuItem<String>(
+                                          value: valor,
+                                          child: Text(valor),
+                                        );
+                                      },
+                                    ).toList()),
+                              ),
+                            ),
+                            hintText: 'Pesquise por tutoriais',
                           ),
                         ),
-                        hintText: 'Pesquise por tutoriais',
                       ),
-                    ),
-                  ),
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          child: ListView.builder(
-                              itemCount: 10,
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (context, index) => Card(
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        child: ListView(
+                            scrollDirection: Axis.vertical,
+                            children: tutoriais
+                                .map(
+                                  (tutorial) => Card(
                                     elevation: 5,
                                     margin: EdgeInsets.all(10),
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -203,8 +214,8 @@ class _SearchPageState extends State<SearchPage> {
                                     child: Container(
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
-                                            image:
-                                                AssetImage('images/Agua.jpg'),
+                                            image: NetworkImage(
+                                                tutorial['imagem']),
                                             fit: BoxFit.cover,
                                             alignment: Alignment.topCenter),
                                       ),
@@ -220,7 +231,7 @@ class _SearchPageState extends State<SearchPage> {
                                                   right: 8,
                                                   bottom: 4),
                                               child: Text(
-                                                'Como beber água',
+                                                tutorial['titulo'],
                                                 style: TextStyle(
                                                     fontSize: 12,
                                                     overflow:
@@ -232,16 +243,18 @@ class _SearchPageState extends State<SearchPage> {
                                             )),
                                       ),
                                     ),
-                                  )),
-                        )
-                      ],
-                    ),
+                                  ),
+                                )
+                                .toList()),
+                      ),
+                      Container(height: 150)
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
