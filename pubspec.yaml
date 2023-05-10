@@ -34,6 +34,8 @@ dependencies:
   firebase_core:  # conexão com o firebase
   cloud_firestore:
   firebase_auth:
+  http:
+  firebase_storage:
 
 flutter_native_splash:
   image: images/how-to-branco.png
