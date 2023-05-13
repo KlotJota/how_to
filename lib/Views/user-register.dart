@@ -1,4 +1,5 @@
 import 'dart:js';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -15,20 +16,25 @@ class UserRegisterPage extends StatefulWidget {
 class _UserRegisterPageState extends State<UserRegisterPage> {
   final formKey = GlobalKey<FormState>();
 
+  String nome = '';
   String email = '';
   String password = '';
   String _confirmPassword = '';
+  String imagem = '';
 
   bool isChecked = false;
 
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void register(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       try {
-        await auth.createUserWithEmailAndPassword(
+        var result = await auth.createUserWithEmailAndPassword(
             email: email, password: password);
+        result.user!.updateDisplayName(nome);
+        result.user!.updatePhotoURL(imagem);
 
         Get.to(FirstPage());
       } catch (e) {
@@ -193,9 +199,10 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                           labelText: "Nome Completo",
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
+                        onSaved: (value) => nome = value!,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Campo obrigatório.';
+                            return 'Por favor, informe seu nome.';
                           }
                         },
                       ),
