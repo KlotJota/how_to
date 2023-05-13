@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/search-page.dart';
 import 'package:how_to/Views/user-profile.dart';
@@ -16,6 +17,7 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
   int paginaAtual = 0;
+  bool isAdm = true;
   late PageController pc;
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -40,6 +42,7 @@ class _FirstPageState extends State<FirstPage> {
         children: [
           HomePage(),
           SearchPage(),
+          CreateTutorialPage(),
           UserProfilePage(),
         ],
         onPageChanged: setPaginaAtual,
@@ -59,6 +62,12 @@ class _FirstPageState extends State<FirstPage> {
             label: 'Pesquisar',
             backgroundColor: Color.fromARGB(255, 0, 9, 89),
           ),
+          if (isAdm)
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              label: 'Novo Tutorial',
+              backgroundColor: Color.fromARGB(255, 0, 9, 89),
+            ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
             label: 'Perfil',
@@ -68,9 +77,16 @@ class _FirstPageState extends State<FirstPage> {
             icon: Icon(Icons.logout),
             label: 'Sair',
             backgroundColor: Color.fromARGB(255, 0, 9, 89),
-          )
+          ),
         ],
         onTap: (pagina) {
+          if (pagina != 3) {
+            setState(() {
+              paginaAtual = pagina;
+            });
+          } else {
+            Get.to(CreateTutorialPage());
+          }
           pc.animateToPage(pagina,
               duration: Duration(milliseconds: 450), curve: Curves.ease);
         },

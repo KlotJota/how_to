@@ -1,4 +1,5 @@
 import 'dart:js';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,17 @@ class CreateTutorialPage extends StatefulWidget {
 }
 
 class _CreateTutorialPage extends State<CreateTutorialPage> {
+  void criarTutorial() {
+    CollectionReference collection =
+        FirebaseFirestore.instance.collection('tutoriais');
+    Map<String, dynamic> tutoriais = {
+      'titulo': 'Titulo',
+      'texto': 'Texto',
+      'imagem': 'Imagem',
+      'categoria': 'Categoria',
+    };
+  }
+
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -20,39 +32,6 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
       return Color.fromRGBO(0, 9, 89, 1);
     }
     return Color.fromRGBO(0, 9, 89, 1);
-  }
-
-  void _popUp(context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            child: ListView(
-              padding: EdgeInsets.all(20),
-              children: [
-                Text(
-                    'Termos de Uso do Aplicativo How To \n\nBem-vindo ao aplicativo How To. Ao usar nosso aplicativo, você concorda com os seguintes termos e condições de uso. Se você não concorda com estes termos, não use o aplicativo.\n\nPropriedade Intelectual\n\nO aplicativo How To é propriedade exclusiva da empresa desenvolvedora e detentora dos direitos autorais e de propriedade intelectual relacionados ao aplicativo. Você concorda em não copiar, modificar, distribuir ou criar obras derivadas do aplicativo sem autorização prévia por escrito da empresa.\n\nUso Permitido\n\nO aplicativo How To é fornecido apenas para uso pessoal e não comercial. Você pode baixar o aplicativo e usá-lo em um único dispositivo móvel. Você concorda em não usar o aplicativo para fins ilegais, incluindo, mas não se limitando a, fraudes, spam ou invasão de privacidade de outros usuários.\n\nConteúdo do Usuário\n\nO aplicativo How To permite que você compartilhe conteúdo com outros usuários, incluindo comentários, avaliações e sugestões. Você é o único responsável pelo conteúdo que compartilha e garante que esse conteúdo não infringe nenhum direito de propriedade intelectual ou privacidade de terceiros. A empresa reserva-se o direito de remover qualquer conteúdo que viole esses termos ou a legislação aplicável.\n\nResponsabilidade Limitada\n\nO aplicativo How To é fornecido "como está" e a empresa não oferece nenhuma garantia sobre sua funcionalidade ou desempenho. Em nenhuma circunstância a empresa será responsável por danos diretos, indiretos, incidentais, especiais ou consequenciais decorrentes do uso ou incapacidade de uso do aplicativo.\n\nAlterações nos Termos de Uso\n\nA empresa reserva-se o direito de modificar estes termos de uso a qualquer momento e sem aviso prévio. O uso continuado do aplicativo após a publicação de novos termos de uso constitui aceitação desses termos.\n\nLei Aplicável\n\nEstes termos de uso são regidos e interpretados de acordo com as leis do Brasil. Qualquer disputa decorrente do uso do aplicativo How To será resolvida por meio de arbitragem de acordo com as regras da Câmara de Arbitragem do Brasil.\n\nAo usar o aplicativo How To, você reconhece que leu e concorda com estes termos de uso. Se você tiver alguma dúvida ou preocupação sobre esses termos, entre em contato com a empresa desenvolvedora do aplicativo.'),
-                GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Container(
-                    margin: EdgeInsets.only(top: 20),
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(0, 9, 89, 1),
-                        borderRadius: BorderRadius.circular(5)),
-                    padding: EdgeInsets.only(top: 5),
-                    width: 10,
-                    height: 30,
-                    child: Text(
-                      'Fechar',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        });
   }
 
   @override
@@ -120,25 +99,9 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                     child: TextFormField(
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.account_box_outlined,
+                          Icons.title_sharp,
                         ),
-                        labelText: "Nome Completo",
-                      ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Campo obrigatório.';
-                        }
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    width: MediaQuery.of(context).size.width - 200,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.mail),
-                        labelText: "E-mail",
+                        labelText: "Titulo",
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
@@ -149,8 +112,19 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                     child: TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        labelText: "Senha",
+                        prefixIcon: Icon(Icons.image),
+                        labelText: "Imagem",
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 25),
+                    width: MediaQuery.of(context).size.width - 200,
+                    child: TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.category),
+                        labelText: "Categoria",
                       ),
                     ),
                   ),
@@ -158,11 +132,13 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                     margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
-                      obscureText: true,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.check),
-                        labelText: "Confirmar senha",
-                      ),
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.text_fields_rounded),
+                          labelText: "Texto",
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 50.0, horizontal: 50.0)),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                   ),
                   GestureDetector(
