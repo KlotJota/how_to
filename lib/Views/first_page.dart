@@ -19,6 +19,66 @@ class _FirstPageState extends State<FirstPage> {
   late PageController pc;
   FirebaseAuth auth = FirebaseAuth.instance;
 
+  void logOut(BuildContext context) async {
+    try {
+      await auth.signOut();
+
+      Navigator.of(context).pushNamed('/');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _popUp(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 10,
+            titlePadding: EdgeInsets.all(5),
+            title: Text('Sair'),
+            backgroundColor: Color.fromARGB(255, 240, 240, 240),
+            content: Text('Você realmente deseja sair do aplicativo?'),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: Text(
+                        'Não',
+                        style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => logOut(context),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(0, 9, 89, 1),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: Text(
+                        'Sim',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -65,7 +125,10 @@ class _FirstPageState extends State<FirstPage> {
             backgroundColor: Color.fromARGB(255, 0, 9, 89),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
+            icon: GestureDetector(
+              child: Icon(Icons.logout),
+              onTap: () => _popUp(context),
+            ),
             label: 'Sair',
             backgroundColor: Color.fromARGB(255, 0, 9, 89),
           )

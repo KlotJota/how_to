@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:how_to/Views/search-page.dart';
 import 'package:how_to/Views/tutorial-page.dart';
-import 'package:how_to/Views/tutorial_content.dart';
 import 'package:how_to/Views/user-login.dart';
 import 'package:how_to/Views/user-profile.dart';
 import 'package:how_to/Views/user-register.dart';
@@ -21,11 +20,6 @@ class _HomePageState extends State<HomePage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void _OnSelectedItem(int index) {
     setState(() {
@@ -44,66 +38,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void logOut(BuildContext context) async {
-    try {
-      await auth.signOut();
-
-      Navigator.of(context).pushNamed('/');
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void _popUp(context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Sair'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
-            content: Text('Você realmente deseja sair do aplicativo?'),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Container(
-                      padding: EdgeInsets.only(top: 5),
-                      height: 30,
-                      width: 80,
-                      child: Text(
-                        'Não',
-                        style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => logOut(context),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 9, 89, 1),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.only(top: 5),
-                      height: 30,
-                      width: 80,
-                      child: Text(
-                        'Sim',
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          );
-        });
-  }
-
   @override
   // ignore: dead_code
   Widget build(BuildContext context) {
@@ -117,6 +51,7 @@ class _HomePageState extends State<HomePage> {
             }
 
             var tutoriais = snapshot.data!.docs;
+
             return Stack(
               children: [
                 Container(
@@ -181,8 +116,8 @@ class _HomePageState extends State<HomePage> {
                                             child: Column(
                                               children: [
                                                 Container(
-                                                  padding:
-                                                      EdgeInsets.only(left: 10),
+                                                  padding: EdgeInsets.only(
+                                                      left: 10, bottom: 2),
                                                   child: Text(
                                                     'Bom dia!',
                                                     style:
@@ -193,11 +128,11 @@ class _HomePageState extends State<HomePage> {
                                                     padding: EdgeInsets.only(
                                                         left: 10),
                                                     child: auth.currentUser!
-                                                                .email ==
+                                                                .displayName ==
                                                             null
                                                         ? Text('Usuário')
-                                                        : Text(auth
-                                                            .currentUser!.email
+                                                        : Text(auth.currentUser!
+                                                            .displayName
                                                             .toString())),
                                               ],
                                             ),
@@ -236,8 +171,8 @@ class _HomePageState extends State<HomePage> {
                                   scrollDirection: Axis.horizontal,
                                   children: tutoriais
                                       .map((tutorial) => GestureDetector(
-                                            onTap: () =>
-                                                Get.to(TutorialContentPage()),
+                                            onTap: () => Get.to(
+                                                TutorialPage()), // colocar tutorial.id como parametro
                                             child: Card(
                                               elevation: 5,
                                               margin: EdgeInsets.only(left: 10),

@@ -147,13 +147,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             ),
                           ),
                           Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              auth.currentUser!.email.toString(),
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ),
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(top: 10),
+                              child: auth.currentUser!.displayName == null
+                                  ? Text('Usuário')
+                                  : Text(auth.currentUser!.displayName
+                                      .toString())),
                           Container(
                             color: Color.fromARGB(255, 233, 233, 233),
                             margin: EdgeInsets.only(top: 40),
