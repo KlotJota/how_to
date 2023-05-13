@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/search-page.dart';
 import 'package:how_to/Views/user-profile.dart';
@@ -9,12 +10,12 @@ import 'package:get/get.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
-
   @override
   State<FirstPage> createState() => _FirstPageState();
 }
 
 class _FirstPageState extends State<FirstPage> {
+  bool isAdmin = true;
   int paginaAtual = 0;
   late PageController pc;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -100,6 +101,7 @@ class _FirstPageState extends State<FirstPage> {
         children: [
           HomePage(),
           SearchPage(),
+          CreateTutorialPage(),
           UserProfilePage(),
         ],
         onPageChanged: setPaginaAtual,
@@ -119,6 +121,12 @@ class _FirstPageState extends State<FirstPage> {
             label: 'Pesquisar',
             backgroundColor: Color.fromARGB(255, 0, 9, 89),
           ),
+          if (isAdmin) // Verifica a condição para mostrar o botão
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              label: 'Novo tutorial',
+              backgroundColor: Color.fromARGB(255, 0, 9, 89),
+            ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
             label: 'Perfil',

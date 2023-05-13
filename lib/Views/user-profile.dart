@@ -157,59 +157,22 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             color: Color.fromARGB(255, 233, 233, 233),
                             margin: EdgeInsets.only(top: 40),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 10, left: 10),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                          child: Text('Tutoriais criados')),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(top: 5, bottom: 5),
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
                                 Container(
                                   margin: EdgeInsets.only(top: 10),
                                   child: Column(
                                     children: [
                                       Container(
                                           child: Text('Tutoriais Salvos')),
+                                          
                                       Container(
                                         margin:
                                             EdgeInsets.only(top: 5, bottom: 5),
-                                        child: Text(
-                                          '10',
-                                          style: TextStyle(fontSize: 20),
-                                        ),
                                       )
                                     ],
                                   ),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 10, left: 10, right: 10),
-                                  child: Column(
-                                    children: [
-                                      Container(child: Text('Mais algo aqui')),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(top: 5, bottom: 5),
-                                        child: Text(
-                                          '8',
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
                               ],
                             ),
                           ),
