@@ -171,8 +171,9 @@ class _HomePageState extends State<HomePage> {
                                   scrollDirection: Axis.horizontal,
                                   children: tutoriais
                                       .map((tutorial) => GestureDetector(
-                                            onTap: () => Get.to(
-                                                TutorialPage()), // colocar tutorial.id como parametro
+                                            onTap: () => Get.to(TutorialPage(
+                                                tutorial
+                                                    .id)), // colocar tutorial.id como parametro
                                             child: Card(
                                               elevation: 5,
                                               margin: EdgeInsets.only(left: 10),

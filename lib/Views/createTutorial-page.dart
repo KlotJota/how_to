@@ -11,15 +11,37 @@ class CreateTutorialPage extends StatefulWidget {
 }
 
 class _CreateTutorialPage extends State<CreateTutorialPage> {
-  void criarTutorial() {
-    CollectionReference collection =
-        FirebaseFirestore.instance.collection('tutoriais');
-    Map<String, dynamic> tutoriais = {
-      'titulo': 'Titulo',
-      'texto': 'Texto',
-      'imagem': 'Imagem',
-      'categoria': 'Categoria',
-    };
+  TextEditingController _tituloController = TextEditingController();
+  TextEditingController _textoController = TextEditingController();
+  TextEditingController _imagemController = TextEditingController();
+  TextEditingController _categoriaController = TextEditingController();
+
+  void criarTutorial() async {
+    String titulo = _tituloController.text;
+    String texto = _textoController.text;
+    String imagem = _imagemController.text;
+    String categoria = _categoriaController.text;
+    try {
+      CollectionReference collection =
+          FirebaseFirestore.instance.collection('tutoriais');
+      Map<String, dynamic> tutoriais = {
+        'titulo': titulo,
+        'texto': texto,
+        'imagem': imagem,
+        'categoria': categoria,
+      };
+      await collection.add(tutoriais);
+      print('Tutorial criado com sucesso');
+    } catch (e) {
+      print('Erro ao adicionar tutorial $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _tituloController.dispose();
+    _textoController.dispose();
+    super.dispose();
   }
 
   Color getColor(Set<MaterialState> states) {
@@ -97,6 +119,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                     margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
+                      controller: _tituloController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.title_sharp,
@@ -110,7 +133,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                     margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
-                      obscureText: true,
+                      controller: _imagemController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.image),
                         labelText: "Imagem",
@@ -121,7 +144,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                     margin: EdgeInsets.only(bottom: 25),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
-                      obscureText: true,
+                      controller: _categoriaController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.category),
                         labelText: "Categoria",
@@ -132,6 +155,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                     margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 200,
                     child: TextFormField(
+                      controller: _textoController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.text_fields_rounded),
@@ -142,8 +166,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () =>
-                        Get.to(UserLoginPage(), transition: Transition.zoom),
+                    onTap: () => criarTutorial(),
                     child: Container(
                       margin: EdgeInsets.only(top: 20),
                       width: MediaQuery.of(context).size.width - 200,
