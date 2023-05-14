@@ -20,6 +20,10 @@ class _FirstPageState extends State<FirstPage> {
   late PageController pc;
   FirebaseAuth auth = FirebaseAuth.instance;
 
+  bool isUsuarioLogado() {
+    return auth.currentUser != null;
+  }
+
   void logOut(BuildContext context) async {
     try {
       await auth.signOut();
@@ -127,11 +131,12 @@ class _FirstPageState extends State<FirstPage> {
               label: 'Novo tutorial',
               backgroundColor: Color.fromARGB(255, 0, 9, 89),
             ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Perfil',
-            backgroundColor: Color.fromARGB(255, 0, 9, 89),
-          ),
+          if (isUsuarioLogado())
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle_outlined),
+              label: 'Perfil',
+              backgroundColor: Color.fromARGB(255, 0, 9, 89),
+            ),
           BottomNavigationBarItem(
             icon: GestureDetector(
               child: Icon(Icons.logout),

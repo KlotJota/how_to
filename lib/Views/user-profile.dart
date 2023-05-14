@@ -163,13 +163,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   margin: EdgeInsets.only(top: 10),
                                   child: Column(
                                     children: [
+                                      Icon(Icons.save),
                                       Container(
-                                          child: Text('Tutoriais Salvos')),
-                                          
+                                          child: Text(
+                                        'Tutoriais Salvos',
+                                        style: TextStyle(fontSize: 25),
+                                      )),
                                       Container(
                                         margin:
                                             EdgeInsets.only(top: 5, bottom: 5),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
