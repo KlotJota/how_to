@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                                                   padding: EdgeInsets.only(
                                                       left: 10, bottom: 2),
                                                   child: Text(
-                                                    'Bom dia!',
+                                                    'Bem vindo!',
                                                     style:
                                                         TextStyle(fontSize: 12),
                                                   ),
