@@ -98,7 +98,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: firestore.collection('tutoriais').snapshots(),
+            stream: firestore
+                .collection('favoritos')
+                .where('uid', isEqualTo: auth.currentUser!.uid)
+                .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 // senao tiver dados
@@ -212,7 +215,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   .toList(),
                             ),
                           ),
-                          Container(height: 150)
+                          Container(height: 120)
                         ],
                       ),
                     ),

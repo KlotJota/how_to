@@ -26,10 +26,10 @@ class _TutorialPageState extends State<TutorialPage> {
   @override
   void initState() {
     super.initState();
-    fetchTutorial();
+    buscarTutorial();
   }
 
-  void fetchTutorial() async {
+  void buscarTutorial() async {
     final tutorialDoc = await FirebaseFirestore.instance
         .collection('tutoriais')
         .doc(widget.id)
@@ -74,67 +74,72 @@ class _TutorialPageState extends State<TutorialPage> {
                             offset: Offset(0, 2), // changes position of shadow
                           ),
                         ], color: Color.fromARGB(255, 240, 240, 240)),
-                        child: ListView(children: [
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            alignment: Alignment.topLeft,
-                            padding: EdgeInsets.only(left: 10, top: 10),
-                            child: GestureDetector(
-                              onTap: () => Get.back(),
-                              child: Icon(
-                                Icons.arrow_back_outlined,
-                                color: Color.fromRGBO(0, 9, 89, 1),
+                        child: ListView(
+                            physics: BouncingScrollPhysics(),
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(bottom: 10),
+                                alignment: Alignment.topLeft,
+                                padding: EdgeInsets.only(left: 10, top: 10),
+                                child: GestureDetector(
+                                  onTap: () => Get.back(),
+                                  child: Icon(
+                                    Icons.arrow_back_outlined,
+                                    color: Color.fromRGBO(0, 9, 89, 1),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            alignment: Alignment.topCenter,
-                            child: Text(
-                              tutorial!['titulo'],
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            height: 200,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                    child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black, width: 2.0),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0)),
-                                      child: Image.network(
-                                        tutorial!['imagem'],
-                                        fit: BoxFit.cover,
-                                        alignment: Alignment.center,
-                                      ),
-                                    )
-                                  ],
-                                )),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            height: 200,
-                            child: Container(
-                              child: Text(tutorial!['texto'],
+                              Container(
+                                margin: EdgeInsets.all(10),
+                                alignment: Alignment.topCenter,
+                                child: Text(
+                                  tutorial!['titulo'],
                                   style: TextStyle(
-                                    fontSize: 15,
-                                  )),
-                            ),
-                          )
-                        ])))
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.all(10),
+                                height: 200,
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                        child: Stack(
+                                      fit: StackFit.expand,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 2.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0)),
+                                          child: Image.network(
+                                            tutorial!['imagem'],
+                                            fit: BoxFit.cover,
+                                            alignment: Alignment.center,
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.all(10),
+                                child: Container(
+                                  child: Text(tutorial!['texto'],
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      )),
+                                ),
+                              ),
+                              Container(
+                                height: 70,
+                              )
+                            ])))
               ]));
   }
 }
