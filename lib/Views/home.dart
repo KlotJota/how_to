@@ -174,22 +174,28 @@ class _HomePageState extends State<HomePage> {
                                                 children: [
                                                   GestureDetector(
                                                       onTap: () {
-                                                        FirebaseFirestore
-                                                            .instance
-                                                            .collection(
-                                                                'favoritos')
-                                                            .add({
-                                                          'titulo': tutorial[
-                                                              'titulo'],
-                                                          'texto':
-                                                              tutorial['texto'],
-                                                          'imagem': tutorial[
-                                                              'imagem'],
-                                                          'categoria': tutorial[
-                                                              'categoria'],
-                                                          'uid': auth
-                                                              .currentUser!.uid
-                                                        });
+                                                        if (auth.currentUser!
+                                                                .displayName !=
+                                                            null) {
+                                                          FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'favoritos')
+                                                              .add({
+                                                            'titulo': tutorial[
+                                                                'titulo'],
+                                                            'texto': tutorial[
+                                                                'texto'],
+                                                            'imagem': tutorial[
+                                                                'imagem'],
+                                                            'categoria':
+                                                                tutorial[
+                                                                    'categoria'],
+                                                            'uid': auth
+                                                                .currentUser!
+                                                                .uid
+                                                          });
+                                                        }
                                                       },
                                                       child: Container(
                                                           height: 30,
@@ -300,31 +306,40 @@ class _HomePageState extends State<HomePage> {
                                         children: [
                                           GestureDetector(
                                               onTap: () {
-                                                DocumentReference favoritosRef =
-                                                    FirebaseFirestore.instance
-                                                        .collection('favoritos')
-                                                        .doc();
-                                                favoritosRef.get().then((doc) {
-                                                  if (doc.id == tutorial.id) {
-                                                    print(
-                                                        'O documento já existe!');
-                                                  } else {
-                                                    FirebaseFirestore.instance
-                                                        .collection('favoritos')
-                                                        .add({
-                                                      'titulo':
-                                                          tutorial['titulo'],
-                                                      'texto':
-                                                          tutorial['texto'],
-                                                      'imagem':
-                                                          tutorial['imagem'],
-                                                      'categoria':
-                                                          tutorial['categoria'],
-                                                      'uid':
-                                                          auth.currentUser!.uid
-                                                    });
-                                                  }
-                                                });
+                                                if (auth.currentUser!
+                                                        .displayName !=
+                                                    null) {
+                                                  DocumentReference
+                                                      favoritosRef =
+                                                      FirebaseFirestore.instance
+                                                          .collection(
+                                                              'favoritos')
+                                                          .doc();
+                                                  favoritosRef
+                                                      .get()
+                                                      .then((doc) {
+                                                    if (doc.id == tutorial.id) {
+                                                      print(
+                                                          'O documento já existe!');
+                                                    } else {
+                                                      FirebaseFirestore.instance
+                                                          .collection(
+                                                              'favoritos')
+                                                          .add({
+                                                        'titulo':
+                                                            tutorial['titulo'],
+                                                        'texto':
+                                                            tutorial['texto'],
+                                                        'imagem':
+                                                            tutorial['imagem'],
+                                                        'categoria': tutorial[
+                                                            'categoria'],
+                                                        'uid': auth
+                                                            .currentUser!.uid
+                                                      });
+                                                    }
+                                                  });
+                                                }
                                               },
                                               child: Container(
                                                   width: MediaQuery.of(context)
