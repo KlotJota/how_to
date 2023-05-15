@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> {
             }
 
             var tutoriais = snapshot.data!.docs;
-
             return Stack(
               children: [
                 Container(
@@ -168,6 +167,7 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(
                               height: 260,
                               child: ListView(
+                                  physics: BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   children: tutoriais
                                       .map((tutorial) => GestureDetector(
@@ -249,66 +249,53 @@ class _HomePageState extends State<HomePage> {
                             Icon(Icons.add_box_outlined)
                           ],
                         ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height,
-                              child: ListView(
-                                scrollDirection: Axis.vertical,
-                                children: tutoriais
-                                    .map((tutorial) => Card(
-                                          elevation: 5,
-                                          margin: EdgeInsets.all(10),
-                                          clipBehavior:
-                                              Clip.antiAliasWithSaveLayer,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(10),
-                                                  bottomLeft:
-                                                      Radius.circular(10))),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height - 500,
+                          child: ListView(
+                            physics: BouncingScrollPhysics(),
+                            children: tutoriais
+                                .map((tutorial) => Card(
+                                      elevation: 5,
+                                      margin: EdgeInsets.all(10),
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(10),
+                                              bottomLeft: Radius.circular(10))),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  tutorial['imagem']),
+                                              fit: BoxFit.cover,
+                                              alignment: Alignment.topCenter),
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 220),
                                           child: Container(
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      tutorial['imagem']),
-                                                  fit: BoxFit.cover,
-                                                  alignment:
-                                                      Alignment.topCenter),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 220),
+                                              color:
+                                                  Color.fromRGBO(0, 9, 89, 1),
                                               child: Container(
-                                                  color: Color.fromRGBO(
-                                                      0, 9, 89, 1),
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(
-                                                        top: 4,
-                                                        left: 8,
-                                                        right: 8),
-                                                    child: Text(
-                                                      tutorial['titulo'],
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              240,
-                                                              240,
-                                                              240)),
-                                                      maxLines: 2,
-                                                    ),
-                                                  )),
-                                            ),
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
-                            )
-                          ],
+                                                padding: EdgeInsets.only(
+                                                    top: 4, left: 8, right: 8),
+                                                child: Text(
+                                                  tutorial['titulo'],
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      color: Color.fromARGB(
+                                                          255, 240, 240, 240)),
+                                                  maxLines: 2,
+                                                ),
+                                              )),
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
                         ),
-                        Container(height: 150)
                       ],
                     ),
                   ),

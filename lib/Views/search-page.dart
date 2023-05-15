@@ -149,7 +149,7 @@ class _SearchPageState extends State<SearchPage> {
                       offset: Offset(0, 2), // changes position of shadow
                     ),
                   ], color: Color.fromARGB(255, 240, 240, 240)),
-                  child: ListView(
+                  child: Column(
                     children: [
                       Container(
                         margin: EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -198,9 +198,9 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height,
+                        height: MediaQuery.of(context).size.height - 180,
                         child: ListView(
-                            scrollDirection: Axis.vertical,
+                            physics: BouncingScrollPhysics(),
                             children: tutoriais
                                 .map(
                                   (tutorial) => Card(
@@ -247,7 +247,6 @@ class _SearchPageState extends State<SearchPage> {
                                 )
                                 .toList()),
                       ),
-                      Container(height: 150)
                     ],
                   ),
                 ),
