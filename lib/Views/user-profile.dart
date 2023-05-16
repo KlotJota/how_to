@@ -141,40 +141,63 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                       ], color: Color.fromARGB(255, 240, 240, 240)),
                       child: ListView(
+                        physics: BouncingScrollPhysics(),
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 40),
-                            child: CircleAvatar(
-                              backgroundImage: AssetImage('images/mateus.png'),
-                              radius: 40,
-                            ),
-                          ),
-                          Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(top: 10),
-                              child: auth.currentUser!.displayName == null
-                                  ? Text('Usuário')
-                                  : Text(auth.currentUser!.displayName
-                                      .toString())),
-                          Container(
-                            color: Color.fromARGB(255, 233, 233, 233),
-                            margin: EdgeInsets.only(top: 40),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          Card(
+                            shadowColor: Colors.black,
+                            margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                            color: Color.fromARGB(255, 248, 246, 246),
+                            elevation: 5,
+                            child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  child: Column(
+                                  margin: EdgeInsets.only(top: 40),
+                                  child: CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage('images/mateus.png'),
+                                    radius: 40,
+                                  ),
+                                ),
+                                Container(
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: auth.currentUser!.displayName == null
+                                        ? Text(
+                                            'Usuário',
+                                            style: TextStyle(fontSize: 20),
+                                          )
+                                        : Text(
+                                            auth.currentUser!.displayName
+                                                .toString(),
+                                            style: TextStyle(fontSize: 20),
+                                          )),
+                                Container(
+                                  margin: EdgeInsets.only(top: 40),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.save),
                                       Container(
-                                          child: Text(
-                                        'Tutoriais Salvos',
-                                        style: TextStyle(fontSize: 25),
-                                      )),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(top: 5, bottom: 5),
+                                        margin: EdgeInsets.only(top: 10),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                                margin:
+                                                    EdgeInsets.only(bottom: 10),
+                                                child: Text(
+                                                  'Tutoriais Salvos',
+                                                  style:
+                                                      TextStyle(fontSize: 25),
+                                                )),
+                                            Container(
+                                                margin:
+                                                    EdgeInsets.only(bottom: 10),
+                                                child: Text(
+                                                  tutoriais.length.toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 23),
+                                                ))
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -201,7 +224,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                             Clip.antiAliasWithSaveLayer,
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
+                                                Radius.circular(5))),
                                         child: Container(
                                           decoration: BoxDecoration(
                                             image: DecorationImage(

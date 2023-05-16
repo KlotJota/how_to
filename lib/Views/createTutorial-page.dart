@@ -102,7 +102,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
             elevation: 10,
             titlePadding: EdgeInsets.all(5),
             title: Text('Sucesso'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
+            backgroundColor: Color.fromARGB(255, 248, 246, 246),
             content: Text(
                 'Novo tutorial criado com sucesso! Você já poderá vê-lo no app.'),
             actions: [
@@ -137,7 +137,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
             elevation: 10,
             titlePadding: EdgeInsets.all(5),
             title: Text('Erro'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
+            backgroundColor: Color.fromARGB(255, 248, 246, 246),
             content: Text(
                 'Você precisa preencher todos os campos para adicionar um novo tutorial'),
             actions: [
@@ -168,6 +168,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: [
           Stack(
             children: [
@@ -204,7 +205,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(15),
                           topRight: Radius.circular(15)),
-                      color: Color.fromARGB(255, 240, 240, 240)),
+                      color: Color.fromARGB(255, 248, 246, 246)),
                   child: Form(
                     key: formKey,
                     child: Column(
@@ -213,7 +214,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                           padding: EdgeInsets.all(30),
                           child: Text(
                             "Novo Tutorial",
-                            style: TextStyle(fontSize: 60),
+                            style: TextStyle(fontSize: 50),
                           ),
                         ),
                         Container(
@@ -279,13 +280,14 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                           margin: EdgeInsets.only(bottom: 10),
                           width: MediaQuery.of(context).size.width - 200,
                           child: TextFormField(
+                            maxLines: 4,
                             controller: _textoController,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 prefixIcon: Icon(Icons.text_fields_rounded),
                                 labelText: "Texto",
                                 contentPadding: EdgeInsets.symmetric(
-                                    vertical: 50.0, horizontal: 50.0)),
+                                    vertical: 15, horizontal: 15)),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (value) {
@@ -301,10 +303,10 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                             criarTutorial(context);
                           },
                           child: Container(
-                            margin: EdgeInsets.only(top: 20),
+                            margin: EdgeInsets.only(top: 5),
                             width: MediaQuery.of(context).size.width - 190,
                             height: 40,
-                            padding: EdgeInsets.only(top: 8),
+                            padding: EdgeInsets.only(top: 6),
                             decoration: BoxDecoration(
                                 color: Color.fromRGBO(0, 9, 89, 1),
                                 borderRadius: BorderRadius.circular(5)),

@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                         blurRadius: 10,
                         offset: Offset(0, 2), // changes position of shadow
                       ),
-                    ], color: Color.fromARGB(255, 240, 240, 240)),
+                    ], color: Color.fromARGB(255, 248, 246, 246)),
                     child: ListView(
                       children: [
                         Container(
@@ -296,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                             children: tutoriais
                                 .map((tutorial) => Card(
                                       elevation: 5,
-                                      margin: EdgeInsets.all(10),
+                                      margin: EdgeInsets.all(5),
                                       clipBehavior: Clip.antiAliasWithSaveLayer,
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.only(

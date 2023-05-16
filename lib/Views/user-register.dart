@@ -48,7 +48,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     elevation: 10,
                     titlePadding: EdgeInsets.all(5),
                     title: Text('Erro'),
-                    backgroundColor: Color.fromARGB(255, 240, 240, 240),
+                    backgroundColor: Color.fromARGB(255, 248, 246, 246),
                     content: Text('O email informado para cadastro já existe'),
                     actions: [
                       Row(
@@ -98,7 +98,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
         context: context,
         builder: (context) {
           return Dialog(
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
+            backgroundColor: Color.fromARGB(255, 248, 246, 246),
             child: ListView(
               padding: EdgeInsets.all(20),
               children: [
@@ -167,7 +167,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15)),
-                    color: Color.fromARGB(255, 240, 240, 240)),
+                    color: Color.fromARGB(255, 248, 246, 246)),
                 child: Column(
                   children: [
                     Container(
