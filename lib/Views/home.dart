@@ -289,112 +289,141 @@ class _HomePageState extends State<HomePage> {
                             Icon(Icons.add_box_outlined)
                           ],
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          child: ListView(
-                            physics: BouncingScrollPhysics(),
-                            children: tutoriais
-                                .map((tutorial) => Card(
-                                      elevation: 5,
-                                      margin: EdgeInsets.all(10),
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10))),
-                                      child: Column(
-                                        children: [
-                                          GestureDetector(
-                                              onTap: () {
-                                                if (auth.currentUser!
-                                                        .displayName !=
-                                                    null) {
-                                                  DocumentReference
-                                                      favoritosRef =
-                                                      FirebaseFirestore.instance
-                                                          .collection(
-                                                              'favoritos')
-                                                          .doc();
-                                                  favoritosRef
-                                                      .get()
-                                                      .then((doc) {
-                                                    if (doc.id == tutorial.id) {
-                                                      print(
-                                                          'O documento já existe!');
-                                                    } else {
-                                                      FirebaseFirestore.instance
-                                                          .collection(
-                                                              'favoritos')
-                                                          .add({
-                                                        'titulo':
-                                                            tutorial['titulo'],
-                                                        'texto':
-                                                            tutorial['texto'],
-                                                        'imagem':
-                                                            tutorial['imagem'],
-                                                        'categoria': tutorial[
-                                                            'categoria'],
-                                                        'uid': auth
-                                                            .currentUser!.uid
-                                                      });
-                                                    }
-                                                  });
-                                                }
-                                              },
-                                              child: Container(
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  decoration: BoxDecoration(
-                                                    color: Color.fromARGB(
-                                                        255, 255, 191, 0),
-                                                  ),
-                                                  child: Icon(Icons.star,
-                                                      color: Colors.white))),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      tutorial['imagem']),
-                                                  fit: BoxFit.cover,
-                                                  alignment:
-                                                      Alignment.topCenter),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 220),
-                                              child: Container(
-                                                  color: Color.fromRGBO(
-                                                      0, 9, 89, 1),
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(
-                                                        top: 4,
-                                                        left: 8,
-                                                        right: 8),
-                                                    child: Text(
-                                                      tutorial['titulo'],
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              240,
-                                                              240,
-                                                              240)),
-                                                      maxLines: 2,
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height,
+                              child: ListView(
+                                  physics: BouncingScrollPhysics(),
+                                  children: tutoriais
+                                      .map((tutorial) => GestureDetector(
+                                            onTap: () => Get.to(TutorialPage(
+                                                tutorial
+                                                    .id)), // colocar tutorial.id como parametro
+                                            child: Card(
+                                              elevation: 5,
+                                              margin: EdgeInsets.all(10),
+                                              clipBehavior:
+                                                  Clip.antiAliasWithSaveLayer,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  10),
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  10))),
+                                              child: Column(
+                                                children: [
+                                                  GestureDetector(
+                                                      onTap: () {
+                                                        if (auth.currentUser!
+                                                                .displayName !=
+                                                            null) {
+                                                          FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'favoritos')
+                                                              .add({
+                                                            'titulo': tutorial[
+                                                                'titulo'],
+                                                            'texto': tutorial[
+                                                                'texto'],
+                                                            'imagem': tutorial[
+                                                                'imagem'],
+                                                            'categoria':
+                                                                tutorial[
+                                                                    'categoria'],
+                                                            'uid': auth
+                                                                .currentUser!
+                                                                .uid
+                                                          });
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                          height: 30,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    255,
+                                                                    191,
+                                                                    0),
+                                                          ),
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .height,
+                                                          child: Icon(
+                                                              Icons.star,
+                                                              color: Colors
+                                                                  .white))),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black
+                                                              .withOpacity(0.3),
+                                                          spreadRadius: 5,
+                                                          blurRadius: 10,
+                                                          offset: Offset(0,
+                                                              2), // changes position of shadow
+                                                        ),
+                                                      ],
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              tutorial[
+                                                                  'imagem']),
+                                                          fit: BoxFit.cover,
+                                                          alignment: Alignment
+                                                              .bottomCenter),
                                                     ),
-                                                  )),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .height,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 194),
+                                                      child: Container(
+                                                          height: 36,
+                                                          color: Color.fromRGBO(
+                                                              0, 9, 89, 1),
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 4,
+                                                                    left: 8,
+                                                                    right: 8),
+                                                            child: Text(
+                                                              tutorial[
+                                                                  'titulo'],
+                                                              style: TextStyle(
+                                                                  fontSize: 12,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          240,
+                                                                          240,
+                                                                          240)),
+                                                              maxLines: 2,
+                                                            ),
+                                                          )),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ))
-                                .toList(),
-                          ),
+                                          ))
+                                      .toList()),
+                            )
+                          ],
                         ),
                         Container(
                           height: 120,
