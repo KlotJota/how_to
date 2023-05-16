@@ -102,7 +102,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
             elevation: 10,
             titlePadding: EdgeInsets.all(5),
             title: Text('Sucesso'),
-            backgroundColor: Color.fromARGB(255, 248, 246, 246),
+            backgroundColor: Color.fromARGB(255, 250, 247, 247),
             content: Text(
                 'Novo tutorial criado com sucesso! Você já poderá vê-lo no app.'),
             actions: [
@@ -137,7 +137,7 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
             elevation: 10,
             titlePadding: EdgeInsets.all(5),
             title: Text('Erro'),
-            backgroundColor: Color.fromARGB(255, 248, 246, 246),
+            backgroundColor: Color.fromARGB(255, 250, 247, 247),
             content: Text(
                 'Você precisa preencher todos os campos para adicionar um novo tutorial'),
             actions: [
@@ -193,19 +193,14 @@ class _CreateTutorialPage extends State<CreateTutorialPage> {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
-                          spreadRadius: 8,
-                          blurRadius: 10,
-                          offset: Offset(0, 2), // changes position of shadow
-                        ),
-                      ],
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15)),
-                      color: Color.fromARGB(255, 248, 246, 246)),
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      spreadRadius: 8,
+                      blurRadius: 10,
+                      offset: Offset(0, 2), // changes position of shadow
+                    ),
+                  ], color: Color.fromARGB(255, 250, 247, 247)),
                   child: Form(
                     key: formKey,
                     child: Column(

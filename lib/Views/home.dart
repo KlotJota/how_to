@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/createTutorial-page.dart';
+import 'package:how_to/Views/first_page.dart';
 import 'package:how_to/Views/search-page.dart';
 import 'package:how_to/Views/tutorial-page.dart';
 import 'package:how_to/Views/user-login.dart';
@@ -63,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                         blurRadius: 10,
                         offset: Offset(0, 2), // changes position of shadow
                       ),
-                    ], color: Color.fromARGB(255, 240, 240, 240)),
+                    ], color: Color.fromARGB(255, 250, 247, 247)),
                     child: ListView(
                       children: [
                         Container(
@@ -74,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                                 decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
-                                  color: Color.fromARGB(255, 233, 233, 233),
+                                  color: Color.fromARGB(255, 243, 243, 243),
                                 ),
                                 height: 60,
                                 width: MediaQuery.of(context).size.width - 20,
@@ -302,7 +303,7 @@ class _HomePageState extends State<HomePage> {
                                                     .id)), // colocar tutorial.id como parametro
                                             child: Card(
                                               elevation: 5,
-                                              margin: EdgeInsets.all(10),
+                                              margin: EdgeInsets.all(5),
                                               clipBehavior:
                                                   Clip.antiAliasWithSaveLayer,
                                               shape: RoundedRectangleBorder(

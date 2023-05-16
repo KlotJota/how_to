@@ -9,7 +9,6 @@ import 'package:how_to/Views/user-profile.dart';
 import 'package:get/get.dart';
 
 class FirstPage extends StatefulWidget {
-  const FirstPage({super.key});
   @override
   State<FirstPage> createState() => _FirstPageState();
 }

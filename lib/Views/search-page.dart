@@ -28,84 +28,6 @@ class _SearchPageState extends State<SearchPage> {
 
   String? item = 'Todos';
 
-  int _selectedIndex = 0;
-  void _OnSelectedItem(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    switch (index) {
-      case 0:
-        Get.to(HomePage());
-        break;
-      case 1:
-        Get.to(SearchPage());
-        break;
-      case 2:
-        Get.to(UserProfilePage());
-        break;
-    }
-  }
-
-  void logOut(BuildContext context) async {
-    try {
-      await auth.signOut();
-
-      Navigator.of(context).pushNamed('/');
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void _popUp(context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Sair'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
-            content: Text('Você realmente deseja sair do aplicativo?'),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Container(
-                      padding: EdgeInsets.only(top: 5),
-                      height: 30,
-                      width: 80,
-                      child: Text(
-                        'Não',
-                        style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => logOut(context),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 9, 89, 1),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.only(top: 5),
-                      height: 30,
-                      width: 80,
-                      child: Text(
-                        'Sim',
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,7 +70,7 @@ class _SearchPageState extends State<SearchPage> {
                       blurRadius: 10,
                       offset: Offset(0, 2), // changes position of shadow
                     ),
-                  ], color: Color.fromARGB(255, 248, 246, 246)),
+                  ], color: Color.fromARGB(255, 250, 247, 247)),
                   child: Column(
                     children: [
                       Container(
@@ -203,97 +125,108 @@ class _SearchPageState extends State<SearchPage> {
                             physics: BouncingScrollPhysics(),
                             children: tutoriais
                                 .map(
-                                  (tutorial) => Card(
-                                    elevation: 5,
-                                    margin: EdgeInsets.all(10),
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10))),
-                                    child: Column(
-                                      children: [
-                                        GestureDetector(
-                                            onTap: () {
-                                              if (auth.currentUser!
-                                                      .displayName !=
-                                                  null) {
-                                                DocumentReference favoritosRef =
-                                                    FirebaseFirestore.instance
-                                                        .collection('favoritos')
-                                                        .doc();
-                                                favoritosRef.get().then((doc) {
-                                                  if (doc.id == tutorial.id) {
-                                                    print(
-                                                        'O documento já existe!');
-                                                  } else {
-                                                    FirebaseFirestore.instance
-                                                        .collection('favoritos')
-                                                        .add({
-                                                      'titulo':
-                                                          tutorial['titulo'],
-                                                      'texto':
-                                                          tutorial['texto'],
-                                                      'imagem':
-                                                          tutorial['imagem'],
-                                                      'categoria':
-                                                          tutorial['categoria'],
-                                                      'uid':
-                                                          auth.currentUser!.uid
-                                                    });
-                                                  }
-                                                });
-                                              }
-                                            },
-                                            child: Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                decoration: BoxDecoration(
-                                                  color: Color.fromARGB(
-                                                      255, 255, 191, 0),
-                                                ),
-                                                child: Icon(Icons.star,
-                                                    color: Colors.white))),
-                                        Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    tutorial['imagem']),
-                                                fit: BoxFit.cover,
-                                                alignment: Alignment.topCenter),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 220),
-                                            child: Container(
-                                                color:
-                                                    Color.fromRGBO(0, 9, 89, 1),
-                                                child: Container(
-                                                  padding: EdgeInsets.only(
-                                                      top: 4,
-                                                      left: 8,
-                                                      right: 8,
-                                                      bottom: 4),
-                                                  child: Text(
-                                                    tutorial['titulo'],
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            240,
-                                                            240,
-                                                            240)),
-                                                    maxLines: 2,
+                                  (tutorial) => GestureDetector(
+                                    onTap: () =>
+                                        Get.to(TutorialPage(tutorial.id)),
+                                    child: Card(
+                                      elevation: 5,
+                                      margin: EdgeInsets.all(5),
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(10),
+                                              bottomLeft: Radius.circular(10))),
+                                      child: Column(
+                                        children: [
+                                          GestureDetector(
+                                              onTap: () {
+                                                if (auth.currentUser!
+                                                        .displayName !=
+                                                    null) {
+                                                  DocumentReference
+                                                      favoritosRef =
+                                                      FirebaseFirestore.instance
+                                                          .collection(
+                                                              'favoritos')
+                                                          .doc();
+                                                  favoritosRef
+                                                      .get()
+                                                      .then((doc) {
+                                                    if (doc.id == tutorial.id) {
+                                                      print(
+                                                          'O documento já existe!');
+                                                    } else {
+                                                      FirebaseFirestore.instance
+                                                          .collection(
+                                                              'favoritos')
+                                                          .add({
+                                                        'titulo':
+                                                            tutorial['titulo'],
+                                                        'texto':
+                                                            tutorial['texto'],
+                                                        'imagem':
+                                                            tutorial['imagem'],
+                                                        'categoria': tutorial[
+                                                            'categoria'],
+                                                        'uid': auth
+                                                            .currentUser!.uid
+                                                      });
+                                                    }
+                                                  });
+                                                }
+                                              },
+                                              child: Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromARGB(
+                                                        255, 255, 191, 0),
                                                   ),
-                                                )),
+                                                  child: Icon(Icons.star,
+                                                      color: Colors.white))),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      tutorial['imagem']),
+                                                  fit: BoxFit.cover,
+                                                  alignment:
+                                                      Alignment.topCenter),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 220),
+                                              child: Container(
+                                                  color: Color.fromRGBO(
+                                                      0, 9, 89, 1),
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 4,
+                                                        left: 8,
+                                                        right: 8,
+                                                        bottom: 4),
+                                                    child: Text(
+                                                      tutorial['titulo'],
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              240,
+                                                              240,
+                                                              240)),
+                                                      maxLines: 2,
+                                                    ),
+                                                  )),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 )
