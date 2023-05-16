@@ -33,7 +33,7 @@ class UserLoginPage extends StatelessWidget {
                     elevation: 10,
                     titlePadding: EdgeInsets.all(5),
                     title: Text('Erro'),
-                    backgroundColor: Color.fromARGB(255, 240, 240, 240),
+                    backgroundColor: Color.fromARGB(255, 248, 246, 246),
                     content: Text('A senha inserida é invalida'),
                     actions: [
                       Row(
@@ -78,7 +78,7 @@ class UserLoginPage extends StatelessWidget {
               elevation: 10,
               titlePadding: EdgeInsets.all(5),
               title: Text('Erro'),
-              backgroundColor: Color.fromARGB(255, 240, 240, 240),
+              backgroundColor: Color.fromARGB(255, 248, 246, 246),
               content: Text(e.message.toString()),
               actions: [
                 Row(
@@ -148,7 +148,7 @@ class UserLoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15)),
-                    color: Color.fromARGB(255, 240, 240, 240)),
+                    color: Color.fromARGB(255, 248, 246, 246)),
                 child: Column(
                   children: [
                     Container(

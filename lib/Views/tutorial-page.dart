@@ -73,7 +73,7 @@ class _TutorialPageState extends State<TutorialPage> {
                             blurRadius: 10,
                             offset: Offset(0, 2), // changes position of shadow
                           ),
-                        ], color: Color.fromARGB(255, 240, 240, 240)),
+                        ], color: Color.fromARGB(255, 248, 246, 246)),
                         child: ListView(
                             physics: BouncingScrollPhysics(),
                             children: [
