@@ -39,6 +39,10 @@ class _TutorialPageState extends State<TutorialPage> {
     });
   }
 
+  void deletar(String id) {
+    firestore.collection('tutoriais').doc(id).delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,20 +125,166 @@ class _TutorialPageState extends State<TutorialPage> {
                                             fit: BoxFit.cover,
                                             alignment: Alignment.center,
                                           ),
-                                        )
+                                        ),
                                       ],
                                     )),
                                   ],
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                child: Container(
-                                  child: Text(tutorial!['texto'],
+                              Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          if (auth.currentUser!.displayName !=
+                                              null) {
+                                            FirebaseFirestore.instance
+                                                .collection('favoritos')
+                                                .add({
+                                              'titulo': tutorial!['titulo'],
+                                              'texto': tutorial!['texto'],
+                                              'imagem': tutorial!['imagem'],
+                                              'categoria':
+                                                  tutorial!['categoria'],
+                                              'uid': auth.currentUser!.uid
+                                            });
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.star,
+                                          color: const Color.fromARGB(
+                                              255, 185, 185, 185),
+                                        ),
+                                        iconSize: 35,
+                                        color: const Color.fromARGB(
+                                            255, 179, 179, 179),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          if (auth.currentUser!.displayName !=
+                                              null) {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    elevation: 10,
+                                                    titlePadding:
+                                                        EdgeInsets.all(5),
+                                                    title: Text('Excluir'),
+                                                    backgroundColor:
+                                                        Color.fromARGB(
+                                                            255, 250, 247, 247),
+                                                    content: Text(
+                                                        'Deseja realmente EXCLUIR esse tutorial da base de dados?'),
+                                                    actions: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () =>
+                                                                Get.back(),
+                                                            child: Container(
+                                                              padding: EdgeInsets
+                                                                  .only(top: 5),
+                                                              height: 30,
+                                                              width: 80,
+                                                              child: Text(
+                                                                'Não',
+                                                                style: TextStyle(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            0,
+                                                                            9,
+                                                                            89,
+                                                                            1)),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              deletar(
+                                                                  tutorial!.id);
+                                                              Get.back();
+                                                            },
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          0,
+                                                                          9,
+                                                                          89,
+                                                                          1),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5)),
+                                                              padding: EdgeInsets
+                                                                  .only(top: 5),
+                                                              height: 30,
+                                                              width: 80,
+                                                              child: Text(
+                                                                'Sim',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  );
+                                                });
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Color.fromARGB(255, 175, 0, 0),
+                                        ),
+                                        iconSize: 35,
+                                        color: const Color.fromARGB(
+                                            255, 179, 179, 179),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10),
+                                    color: Colors.black,
+                                    height: 1,
+                                    width:
+                                        MediaQuery.of(context).size.width - 20,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.all(10),
+                                    alignment: Alignment.topCenter,
+                                    child: Text(
+                                      'How To?',
                                       style: TextStyle(
-                                        fontSize: 15,
-                                      )),
-                                ),
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: Container(
+                                      child: Text(tutorial!['texto'],
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                          )),
+                                    ),
+                                  ),
+                                ],
                               ),
                               Container(
                                 height: 70,
