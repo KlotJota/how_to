@@ -58,6 +58,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   google_nav_bar: ^5.0.6
   get:
+  image_picker:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

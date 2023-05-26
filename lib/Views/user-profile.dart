@@ -1,14 +1,11 @@
-import 'dart:js_util';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/home.dart';
-import 'package:how_to/Views/search-page.dart';
-import 'package:how_to/Views/user-register.dart';
-import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:how_to/Views/tutorial-page.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserProfilePage extends StatefulWidget {
   @override
@@ -19,12 +16,25 @@ class _UserProfilePageState extends State<UserProfilePage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  XFile? perfil;
+
   void deletar(String id) {
     firestore.collection('favoritos').doc(id).delete();
   }
 
-  void popUptrocaImagem() {
-    Column();
+  Future<XFile?> pegaImagem() async {
+    final ImagePicker picker = ImagePicker();
+    perfil = await picker.pickImage(source: ImageSource.gallery);
+
+    String imagemRef =
+        "perfis/personalizado/${auth.currentUser?.uid}/img-${DateTime.now().toString()}.jpg";
+    Reference storageRef = FirebaseStorage.instance.ref().child(imagemRef);
+    await storageRef.putFile(File(perfil!.path));
+
+    // Obter URL da imagem
+    String imagemUrl = await storageRef.getDownloadURL();
+
+    auth.currentUser!.updatePhotoURL(imagemUrl);
   }
 
   void popUpImagem() {
@@ -56,6 +66,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      pegaImagem();
                       Get.back();
                     },
                     child: Container(
@@ -144,9 +155,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                             radius: 40,
                                           )
                                         : GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              popUpImagem();
+                                            },
                                             child: CircleAvatar(
-                                              backgroundImage: NetworkImage(''),
+                                              backgroundImage: NetworkImage(auth
+                                                  .currentUser!.photoURL
+                                                  .toString()),
                                               radius: 40,
                                             ),
                                           )),
