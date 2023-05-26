@@ -23,6 +23,62 @@ class _UserProfilePageState extends State<UserProfilePage> {
     firestore.collection('favoritos').doc(id).delete();
   }
 
+  void popUptrocaImagem() {
+    Column();
+  }
+
+  void popUpImagem() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 10,
+            titlePadding: EdgeInsets.all(5),
+            title: Text('Imagem de perfil'),
+            backgroundColor: Color.fromARGB(255, 250, 247, 247),
+            content: Text('Deseja Adicionar/alterar sua imagem de perfil?'),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: Text(
+                        'Não',
+                        style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(0, 9, 89, 1),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: Text(
+                        'Sim',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,13 +136,20 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 40),
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        AssetImage('images/mateus.png'),
-                                    radius: 40,
-                                  ),
-                                ),
+                                    margin: EdgeInsets.only(top: 40),
+                                    child: auth.currentUser!.displayName == null
+                                        ? CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                'https://firebasestorage.googleapis.com/v0/b/howto-60459.appspot.com/o/perfis%2Fpadrão%2Fuser.png?alt=media&token=bb4a0f5c-8839-400d-8fb3-dbaaf07b3117'),
+                                            radius: 40,
+                                          )
+                                        : GestureDetector(
+                                            onTap: () {},
+                                            child: CircleAvatar(
+                                              backgroundImage: NetworkImage(''),
+                                              radius: 40,
+                                            ),
+                                          )),
                                 Container(
                                     alignment: Alignment.center,
                                     margin: EdgeInsets.only(top: 10),

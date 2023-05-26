@@ -19,6 +19,9 @@ class HomePage extends StatefulWidget {
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+bool _estrela = false;
+bool _fundo = false;
+
 class _HomePageState extends State<HomePage> {
   @override
   // ignore: dead_code
@@ -88,11 +91,17 @@ class _HomePageState extends State<HomePage> {
                                       child: Row(
                                         children: [
                                           Container(
-                                            child: CircleAvatar(
-                                              backgroundImage: AssetImage(
-                                                  'images/mateus.png'),
-                                            ),
-                                          ),
+                                              child: auth.currentUser!
+                                                          .displayName ==
+                                                      null
+                                                  ? CircleAvatar(
+                                                      backgroundImage: NetworkImage(
+                                                          'https://firebasestorage.googleapis.com/v0/b/howto-60459.appspot.com/o/perfis%2Fpadrão%2Fuser.png?alt=media&token=bb4a0f5c-8839-400d-8fb3-dbaaf07b3117'),
+                                                    )
+                                                  : CircleAvatar(
+                                                      backgroundImage:
+                                                          NetworkImage(''),
+                                                    )),
                                           Container(
                                             padding: EdgeInsets.only(top: 10),
                                             child: Column(
@@ -196,24 +205,40 @@ class _HomePageState extends State<HomePage> {
                                                                 .currentUser!
                                                                 .uid
                                                           });
+                                                          setState(() {
+                                                            _estrela =
+                                                                !_estrela;
+                                                            _fundo = !_fundo;
+                                                          });
                                                         }
                                                       },
                                                       child: Container(
                                                           height: 30,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    255,
-                                                                    191,
-                                                                    0),
-                                                          ),
+                                                          decoration: BoxDecoration(
+                                                              color: _fundo
+                                                                  ? Color.fromARGB(
+                                                                      255,
+                                                                      255,
+                                                                      191,
+                                                                      0)
+                                                                  : Color.fromARGB(
+                                                                      255,
+                                                                      243,
+                                                                      243,
+                                                                      243)),
                                                           width: 160,
-                                                          child: Icon(
-                                                              Icons.star,
-                                                              color: Colors
-                                                                  .white))),
+                                                          child: Icon(Icons.star,
+                                                              color: _estrela
+                                                                  ? Color.fromARGB(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      255)
+                                                                  : Color.fromRGBO(
+                                                                      0,
+                                                                      9,
+                                                                      89,
+                                                                      1)))),
                                                   Container(
                                                     decoration: BoxDecoration(
                                                       boxShadow: [
@@ -302,6 +327,8 @@ class _HomePageState extends State<HomePage> {
                                                 tutorial
                                                     .id)), // colocar tutorial.id como parametro
                                             child: Card(
+                                              color: Color.fromARGB(
+                                                  255, 250, 247, 247),
                                               elevation: 5,
                                               margin: EdgeInsets.all(5),
                                               clipBehavior:
@@ -340,27 +367,36 @@ class _HomePageState extends State<HomePage> {
                                                                 .currentUser!
                                                                 .uid
                                                           });
+                                                          setState(() {
+                                                            _estrela =
+                                                                !_estrela;
+                                                            _fundo = !_fundo;
+                                                          });
                                                         }
                                                       },
                                                       child: Container(
                                                           height: 30,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    255,
-                                                                    191,
-                                                                    0),
-                                                          ),
-                                                          width: MediaQuery.of(
-                                                                  context)
+                                                          decoration: BoxDecoration(
+                                                              color: _fundo
+                                                                  ? Color.fromARGB(
+                                                                      255, 255, 191, 0)
+                                                                  : Color.fromARGB(
+                                                                      255,
+                                                                      243,
+                                                                      243,
+                                                                      243)),
+                                                          width: MediaQuery.of(context)
                                                               .size
                                                               .height,
-                                                          child: Icon(
-                                                              Icons.star,
-                                                              color: Colors
-                                                                  .white))),
+                                                          child: Icon(Icons.star,
+                                                              color: _estrela
+                                                                  ? Color.fromARGB(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      255)
+                                                                  : Color.fromRGBO(
+                                                                      0, 9, 89, 1)))),
                                                   Container(
                                                     decoration: BoxDecoration(
                                                       boxShadow: [

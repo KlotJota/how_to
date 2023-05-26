@@ -34,7 +34,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
         var result = await auth.createUserWithEmailAndPassword(
             email: email, password: password);
         result.user!.updateDisplayName(nome);
-        result.user!.updatePhotoURL(imagem);
 
         Get.to(UserLoginPage());
       } catch (e) {

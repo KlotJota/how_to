@@ -43,6 +43,8 @@ class _TutorialPageState extends State<TutorialPage> {
     firestore.collection('tutoriais').doc(id).delete();
   }
 
+  bool _foiPressionado = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,30 +139,33 @@ class _TutorialPageState extends State<TutorialPage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       IconButton(
-                                        onPressed: () {
-                                          if (auth.currentUser!.displayName !=
-                                              null) {
-                                            FirebaseFirestore.instance
-                                                .collection('favoritos')
-                                                .add({
-                                              'titulo': tutorial!['titulo'],
-                                              'texto': tutorial!['texto'],
-                                              'imagem': tutorial!['imagem'],
-                                              'categoria':
-                                                  tutorial!['categoria'],
-                                              'uid': auth.currentUser!.uid
-                                            });
-                                          }
-                                        },
-                                        icon: Icon(
-                                          Icons.star,
-                                          color: const Color.fromARGB(
-                                              255, 185, 185, 185),
-                                        ),
-                                        iconSize: 35,
-                                        color: const Color.fromARGB(
-                                            255, 179, 179, 179),
-                                      ),
+                                          onPressed: () {
+                                            if (auth.currentUser!.displayName !=
+                                                null) {
+                                              FirebaseFirestore.instance
+                                                  .collection('favoritos')
+                                                  .add({
+                                                'titulo': tutorial!['titulo'],
+                                                'texto': tutorial!['texto'],
+                                                'imagem': tutorial!['imagem'],
+                                                'categoria':
+                                                    tutorial!['categoria'],
+                                                'uid': auth.currentUser!.uid
+                                              });
+                                              setState(() {
+                                                _foiPressionado =
+                                                    !_foiPressionado;
+                                              });
+                                            }
+                                          },
+                                          icon: Icon(
+                                            Icons.star,
+                                          ),
+                                          iconSize: 35,
+                                          color: _foiPressionado
+                                              ? Color.fromARGB(255, 194, 149, 4)
+                                              : const Color.fromARGB(
+                                                  255, 179, 179, 179)),
                                       IconButton(
                                         onPressed: () {
                                           if (auth.currentUser!.displayName !=
