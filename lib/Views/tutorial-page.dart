@@ -41,6 +41,7 @@ class _TutorialPageState extends State<TutorialPage> {
 
   void deletar(String id) {
     firestore.collection('tutoriais').doc(id).delete();
+    Get.to(HomePage());
   }
 
   bool _foiPressionado = false;
@@ -216,7 +217,6 @@ class _TutorialPageState extends State<TutorialPage> {
                                                             onTap: () {
                                                               deletar(
                                                                   tutorial!.id);
-                                                              Get.back();
                                                             },
                                                             child: Container(
                                                               decoration: BoxDecoration(
