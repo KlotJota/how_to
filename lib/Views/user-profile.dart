@@ -148,7 +148,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               children: [
                                 Container(
                                     margin: EdgeInsets.only(top: 40),
-                                    child: auth.currentUser!.displayName == null
+                                    child: auth.currentUser!.photoURL == null
                                         ? CircleAvatar(
                                             backgroundImage: NetworkImage(
                                                 'https://firebasestorage.googleapis.com/v0/b/howto-60459.appspot.com/o/perfis%2Fpadrão%2Fuser.png?alt=media&token=bb4a0f5c-8839-400d-8fb3-dbaaf07b3117'),

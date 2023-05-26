@@ -19,8 +19,7 @@ class HomePage extends StatefulWidget {
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-bool _estrela = false;
-bool _fundo = false;
+bool _favorito = false;
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -92,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                                         children: [
                                           Container(
                                               child: auth.currentUser!
-                                                          .displayName ==
+                                                          .photoURL ==
                                                       null
                                                   ? CircleAvatar(
                                                       backgroundImage: NetworkImage(
@@ -184,38 +183,41 @@ class _HomePageState extends State<HomePage> {
                                                 children: [
                                                   GestureDetector(
                                                       onTap: () {
-                                                        if (auth.currentUser!
-                                                                .displayName !=
-                                                            null) {
-                                                          FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'favoritos')
-                                                              .add({
-                                                            'titulo': tutorial[
-                                                                'titulo'],
-                                                            'texto': tutorial[
-                                                                'texto'],
-                                                            'imagem': tutorial[
-                                                                'imagem'],
-                                                            'categoria':
-                                                                tutorial[
-                                                                    'categoria'],
-                                                            'uid': auth
-                                                                .currentUser!
-                                                                .uid
-                                                          });
-                                                          setState(() {
-                                                            _estrela =
-                                                                !_estrela;
-                                                            _fundo = !_fundo;
-                                                          });
-                                                        }
+                                                        setState(() {
+                                                          if (auth.currentUser!
+                                                                  .displayName !=
+                                                              null) {
+                                                            _favorito =
+                                                                !_favorito;
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'favoritos')
+                                                                .add({
+                                                              'titulo':
+                                                                  tutorial[
+                                                                      'titulo'],
+                                                              'texto': tutorial[
+                                                                  'texto'],
+                                                              'imagem':
+                                                                  tutorial[
+                                                                      'imagem'],
+                                                              'categoria':
+                                                                  tutorial[
+                                                                      'categoria'],
+                                                              'favorito':
+                                                                  _favorito,
+                                                              'uid': auth
+                                                                  .currentUser!
+                                                                  .uid
+                                                            });
+                                                          }
+                                                        });
                                                       },
                                                       child: Container(
                                                           height: 30,
                                                           decoration: BoxDecoration(
-                                                              color: _fundo
+                                                              color: _favorito
                                                                   ? Color.fromARGB(
                                                                       255,
                                                                       255,
@@ -228,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                                                                       243)),
                                                           width: 160,
                                                           child: Icon(Icons.star,
-                                                              color: _estrela
+                                                              color: _favorito
                                                                   ? Color.fromARGB(
                                                                       255,
                                                                       255,
@@ -346,38 +348,41 @@ class _HomePageState extends State<HomePage> {
                                                 children: [
                                                   GestureDetector(
                                                       onTap: () {
-                                                        if (auth.currentUser!
-                                                                .displayName !=
-                                                            null) {
-                                                          FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'favoritos')
-                                                              .add({
-                                                            'titulo': tutorial[
-                                                                'titulo'],
-                                                            'texto': tutorial[
-                                                                'texto'],
-                                                            'imagem': tutorial[
-                                                                'imagem'],
-                                                            'categoria':
-                                                                tutorial[
-                                                                    'categoria'],
-                                                            'uid': auth
-                                                                .currentUser!
-                                                                .uid
-                                                          });
-                                                          setState(() {
-                                                            _estrela =
-                                                                !_estrela;
-                                                            _fundo = !_fundo;
-                                                          });
-                                                        }
+                                                        setState(() {
+                                                          if (auth.currentUser!
+                                                                  .displayName !=
+                                                              null) {
+                                                            _favorito =
+                                                                !_favorito;
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'favoritos')
+                                                                .add({
+                                                              'titulo':
+                                                                  tutorial[
+                                                                      'titulo'],
+                                                              'texto': tutorial[
+                                                                  'texto'],
+                                                              'imagem':
+                                                                  tutorial[
+                                                                      'imagem'],
+                                                              'categoria':
+                                                                  tutorial[
+                                                                      'categoria'],
+                                                              'favorito':
+                                                                  _favorito,
+                                                              'uid': auth
+                                                                  .currentUser!
+                                                                  .uid
+                                                            });
+                                                          }
+                                                        });
                                                       },
                                                       child: Container(
                                                           height: 30,
                                                           decoration: BoxDecoration(
-                                                              color: _fundo
+                                                              color: _favorito
                                                                   ? Color.fromARGB(
                                                                       255, 255, 191, 0)
                                                                   : Color.fromARGB(
@@ -389,7 +394,7 @@ class _HomePageState extends State<HomePage> {
                                                               .size
                                                               .height,
                                                           child: Icon(Icons.star,
-                                                              color: _estrela
+                                                              color: _favorito
                                                                   ? Color.fromARGB(
                                                                       255,
                                                                       255,
