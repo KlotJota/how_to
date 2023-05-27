@@ -10,6 +10,7 @@ import 'package:how_to/Views/home.dart';
 import 'package:how_to/Views/search-page.dart';
 import 'package:how_to/Views/user-profile.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -18,6 +19,10 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
+  void _desabilitarAnimacao() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  }
+
   bool isAdmin = true;
   int paginaAtual = 0;
   late PageController pc;
@@ -89,6 +94,7 @@ class _FirstPageState extends State<FirstPage> {
     // TODO: implement initState
     super.initState();
     pc = PageController(initialPage: paginaAtual);
+    _desabilitarAnimacao();
   }
 
   setPaginaAtual(pagina) {
@@ -152,6 +158,12 @@ class _FirstPageState extends State<FirstPage> {
         onTap: (pagina) {
           pc.animateToPage(pagina,
               duration: Duration(milliseconds: 450), curve: Curves.ease);
+          if (pagina == pc.page!.round()) {
+            _desabilitarAnimacao();
+          } else {
+            SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
+                overlays: []);
+          }
         },
       ),
     );
