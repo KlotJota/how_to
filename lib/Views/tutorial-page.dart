@@ -1,13 +1,7 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/createTutorial-page.dart';
 import 'package:how_to/Views/home.dart';
-import 'package:how_to/Views/search-page.dart';
-import 'package:how_to/Views/user-profile.dart';
-import 'package:how_to/Views/user-register.dart';
 import 'package:get/get.dart';
 
 class TutorialPage extends StatefulWidget {
@@ -44,7 +38,7 @@ class _TutorialPageState extends State<TutorialPage> {
     Get.to(HomePage());
   }
 
-  bool _foiPressionado = false;
+  bool _favorito = false;
 
   @override
   Widget build(BuildContext context) {
@@ -118,11 +112,8 @@ class _TutorialPageState extends State<TutorialPage> {
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 2.0),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
                                           child: Image.network(
                                             tutorial!['imagem'],
                                             fit: BoxFit.cover,
@@ -141,29 +132,27 @@ class _TutorialPageState extends State<TutorialPage> {
                                     children: [
                                       IconButton(
                                           onPressed: () {
-                                            if (auth.currentUser!.displayName !=
-                                                null) {
-                                              FirebaseFirestore.instance
-                                                  .collection('favoritos')
-                                                  .add({
-                                                'titulo': tutorial!['titulo'],
-                                                'texto': tutorial!['texto'],
-                                                'imagem': tutorial!['imagem'],
-                                                'categoria':
-                                                    tutorial!['categoria'],
-                                                'uid': auth.currentUser!.uid
-                                              });
-                                              setState(() {
-                                                _foiPressionado =
-                                                    !_foiPressionado;
-                                              });
-                                            }
+                                            setState(() {
+                                              if (auth.currentUser!
+                                                      .displayName !=
+                                                  null) {
+                                                _favorito = !_favorito;
+                                                print(tutorial!.id);
+                                                print(auth.currentUser!.uid);
+                                                FirebaseFirestore.instance
+                                                    .collection('favoritos')
+                                                    .doc(auth.currentUser!.uid)
+                                                    .set({
+                                                  tutorial!.id: true
+                                                }, SetOptions(merge: true));
+                                              }
+                                            });
                                           },
                                           icon: Icon(
                                             Icons.star,
                                           ),
                                           iconSize: 35,
-                                          color: _foiPressionado
+                                          color: _favorito
                                               ? Color.fromARGB(255, 194, 149, 4)
                                               : const Color.fromARGB(
                                                   255, 179, 179, 179)),

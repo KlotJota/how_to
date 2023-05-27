@@ -105,6 +105,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
               }
 
               var favoritos = snapshot.data!.docs;
+              //favoritos[0].get(). fazer um map no firebase para q cada usuario tenha uma lista de favoritados
+
               return Stack(
                 children: [
                   Container(
@@ -151,7 +153,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                     child: auth.currentUser!.photoURL == null
                                         ? CircleAvatar(
                                             backgroundImage: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/howto-60459.appspot.com/o/perfis%2Fpadrão%2Fuser.png?alt=media&token=bb4a0f5c-8839-400d-8fb3-dbaaf07b3117'),
+                                                'https://firebasestorage.googleapis.com/v0/b/howto-60459.appspot.com/o/perfis%2Fpadr%C3%A3o%2Fuser.png?alt=media&token=bb4a0f5c-8839-400d-8fb3-dbaaf07b3117'),
                                             radius: 40,
                                           )
                                         : GestureDetector(

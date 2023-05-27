@@ -1,9 +1,7 @@
-import 'dart:js';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/user-login.dart';
 
 class CreateTutorialPage extends StatefulWidget {
   @override

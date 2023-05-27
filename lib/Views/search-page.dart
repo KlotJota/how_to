@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/createTutorial-page.dart';
-import 'package:how_to/Views/home.dart';
-import 'package:how_to/Views/user-profile.dart';
-import 'package:how_to/Views/user-register.dart';
 import 'package:how_to/Views/tutorial-page.dart';
 import 'package:get/get.dart';
 
@@ -136,96 +132,40 @@ class _SearchPageState extends State<SearchPage> {
                                           borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(10),
                                               bottomLeft: Radius.circular(10))),
-                                      child: Column(
-                                        children: [
-                                          GestureDetector(
-                                              onTap: () {
-                                                if (auth.currentUser!
-                                                        .displayName !=
-                                                    null) {
-                                                  DocumentReference
-                                                      favoritosRef =
-                                                      FirebaseFirestore.instance
-                                                          .collection(
-                                                              'favoritos')
-                                                          .doc();
-                                                  favoritosRef
-                                                      .get()
-                                                      .then((doc) {
-                                                    if (doc.id == tutorial.id) {
-                                                      print(
-                                                          'O documento já existe!');
-                                                    } else {
-                                                      FirebaseFirestore.instance
-                                                          .collection(
-                                                              'favoritos')
-                                                          .add({
-                                                        'titulo':
-                                                            tutorial['titulo'],
-                                                        'texto':
-                                                            tutorial['texto'],
-                                                        'imagem':
-                                                            tutorial['imagem'],
-                                                        'categoria': tutorial[
-                                                            'categoria'],
-                                                        'uid': auth
-                                                            .currentUser!.uid
-                                                      });
-                                                    }
-                                                  });
-                                                }
-                                              },
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  tutorial['imagem']),
+                                              fit: BoxFit.cover,
+                                              alignment: Alignment.topCenter),
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 220),
+                                          child: Container(
+                                              color:
+                                                  Color.fromRGBO(0, 9, 89, 1),
                                               child: Container(
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  decoration: BoxDecoration(
-                                                    color: Color.fromARGB(
-                                                        255, 255, 191, 0),
-                                                  ),
-                                                  child: Icon(Icons.star,
-                                                      color: Colors.white))),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      tutorial['imagem']),
-                                                  fit: BoxFit.cover,
-                                                  alignment:
-                                                      Alignment.topCenter),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 220),
-                                              child: Container(
-                                                  color: Color.fromRGBO(
-                                                      0, 9, 89, 1),
-                                                  child: Container(
-                                                    padding: EdgeInsets.only(
-                                                        top: 4,
-                                                        left: 8,
-                                                        right: 8,
-                                                        bottom: 4),
-                                                    child: Text(
-                                                      tutorial['titulo'],
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              240,
-                                                              240,
-                                                              240)),
-                                                      maxLines: 2,
-                                                    ),
-                                                  )),
-                                            ),
-                                          ),
-                                        ],
+                                                padding: EdgeInsets.only(
+                                                    top: 4,
+                                                    left: 8,
+                                                    right: 8,
+                                                    bottom: 4),
+                                                child: Text(
+                                                  tutorial['titulo'],
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      color: Color.fromARGB(
+                                                          255, 240, 240, 240)),
+                                                  maxLines: 2,
+                                                ),
+                                              )),
+                                        ),
                                       ),
                                     ),
                                   ),

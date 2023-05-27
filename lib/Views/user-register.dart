@@ -1,10 +1,7 @@
-import 'dart:js';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/home.dart';
-import 'package:how_to/Views/first_page.dart';
 import 'package:how_to/Views/user-login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
