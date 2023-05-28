@@ -24,17 +24,18 @@ class _SearchPageState extends State<SearchPage> {
 
   String? item = 'Todos';
 
+  String pesquisa = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: firestore.collection('tutoriais').snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+        builder: (context, snapshots) {
+          if (!snapshots.hasData) {
             // senao tiver dados
             return CircularProgressIndicator(); // circulo de carregando
           }
-          var tutoriais = snapshot.data!.docs;
 
           return Stack(
             children: [
@@ -72,7 +73,12 @@ class _SearchPageState extends State<SearchPage> {
                       Container(
                         margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                         width: MediaQuery.of(context).size.width - 20,
-                        child: TextFormField(
+                        child: TextField(
+                          onChanged: (value) {
+                            setState(() {
+                              pesquisa = value;
+                            });
+                          },
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5)),
@@ -117,61 +123,171 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height - 180,
-                        child: ListView(
-                            physics: BouncingScrollPhysics(),
-                            children: tutoriais
-                                .map(
-                                  (tutorial) => GestureDetector(
-                                    onTap: () =>
-                                        Get.to(TutorialPage(tutorial.id)),
-                                    child: Card(
-                                      elevation: 5,
-                                      margin: EdgeInsets.all(5),
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10))),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  tutorial['imagem']),
-                                              fit: BoxFit.cover,
-                                              alignment: Alignment.topCenter),
-                                        ),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 220),
-                                          child: Container(
-                                              color:
-                                                  Color.fromRGBO(0, 9, 89, 1),
-                                              child: Container(
-                                                padding: EdgeInsets.only(
-                                                    top: 4,
-                                                    left: 8,
-                                                    right: 8,
-                                                    bottom: 4),
-                                                child: Text(
-                                                  tutorial['titulo'],
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      color: Color.fromARGB(
-                                                          255, 240, 240, 240)),
-                                                  maxLines: 2,
-                                                ),
-                                              )),
-                                        ),
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            var tutorial = snapshots.data!.docs[index]
+                                as QueryDocumentSnapshot<Map<String, dynamic>>;
+
+                            if (pesquisa.isEmpty) {
+                              return GestureDetector(
+                                  onTap: () =>
+                                      Get.to(TutorialPage(tutorial.id)),
+                                  child: Card(
+                                    elevation: 5,
+                                    margin: EdgeInsets.all(5),
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10))),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                tutorial['imagem']),
+                                            fit: BoxFit.cover,
+                                            alignment: Alignment.topCenter),
+                                      ),
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 220),
+                                        child: Container(
+                                            color: Color.fromRGBO(0, 9, 89, 1),
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  top: 4,
+                                                  left: 8,
+                                                  right: 8,
+                                                  bottom: 4),
+                                              child: Text(
+                                                tutorial['titulo'],
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color: Color.fromARGB(
+                                                        255, 240, 240, 240)),
+                                                maxLines: 2,
+                                              ),
+                                            )),
                                       ),
                                     ),
-                                  ),
-                                )
-                                .toList()),
-                      ),
+                                  ));
+                            }
+                            if (tutorial['titulo']
+                                .toString()
+                                .toLowerCase()
+                                .contains(pesquisa.toLowerCase())) {
+                              return GestureDetector(
+                                onTap: () => Get.to(TutorialPage(tutorial.id)),
+                                child: tutorial['titulo']
+                                        .toString()
+                                        .toLowerCase()
+                                        .contains(pesquisa.toLowerCase())
+                                    ? Card(
+                                        elevation: 5,
+                                        margin: EdgeInsets.all(5),
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(10),
+                                                bottomLeft:
+                                                    Radius.circular(10))),
+                                        child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                    tutorial['imagem']),
+                                                fit: BoxFit.cover,
+                                                alignment: Alignment.topCenter),
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 220),
+                                            child: Container(
+                                                color:
+                                                    Color.fromRGBO(0, 9, 89, 1),
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      top: 4,
+                                                      left: 8,
+                                                      right: 8,
+                                                      bottom: 4),
+                                                  child: Text(
+                                                    tutorial['titulo'],
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            240,
+                                                            240,
+                                                            240)),
+                                                    maxLines: 2,
+                                                  ),
+                                                )),
+                                          ),
+                                        ),
+                                      )
+                                    : Card(
+                                        elevation: 5,
+                                        margin: EdgeInsets.all(5),
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(10),
+                                                bottomLeft:
+                                                    Radius.circular(10))),
+                                        child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                    tutorial['imagem']),
+                                                fit: BoxFit.cover,
+                                                alignment: Alignment.topCenter),
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 220),
+                                            child: Container(
+                                                color:
+                                                    Color.fromRGBO(0, 9, 89, 1),
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      top: 4,
+                                                      left: 8,
+                                                      right: 8,
+                                                      bottom: 4),
+                                                  child: Text(
+                                                    tutorial['titulo'],
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            240,
+                                                            240,
+                                                            240)),
+                                                    maxLines: 2,
+                                                  ),
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                              );
+                            }
+                          },
+                        ),
+                      )
                     ],
                   ),
                 ),

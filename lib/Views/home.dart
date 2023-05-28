@@ -16,7 +16,6 @@ bool _favorito = false;
 
 class _HomePageState extends State<HomePage> {
   @override
-  // ignore: dead_code
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/home.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/user-register.dart';
 
 class TutorialPage extends StatefulWidget {
   final String id;
@@ -23,6 +24,60 @@ class _TutorialPageState extends State<TutorialPage> {
     buscarTutorial();
   }
 
+  void popUpRegister() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 10,
+            titlePadding: EdgeInsets.all(5),
+            title: Text('Criar conta'),
+            backgroundColor: Color.fromARGB(255, 250, 247, 247),
+            content: Text(
+              'Você deve criar uma conta para poder adicionar tutoriais aos favoritos e consultar sua Área de usuário',
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: Text(
+                        'Fechar',
+                        style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(UserRegisterPage());
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(0, 9, 89, 1),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 85,
+                      child: Text(
+                        'Criar conta',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
   void buscarTutorial() async {
     final tutorialDoc = await FirebaseFirestore.instance
         .collection('tutoriais')
@@ -39,6 +94,17 @@ class _TutorialPageState extends State<TutorialPage> {
   }
 
   bool _favorito = false;
+
+  final user = FirebaseAuth.instance.currentUser;
+
+  bool isLogado() {
+    if (user!.uid == "vapEyTsxGoWsOcUObGDywxz4WpC2" ||
+        user!.uid == "bP234QxmIsPth7PqwzosZyfNMvk2" ||
+        user!.uid == "YTzsr7KMKzezqsCbNxdsHHhSvGc2") {
+      return true;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,8 +209,12 @@ class _TutorialPageState extends State<TutorialPage> {
                                                     .collection('favoritos')
                                                     .doc(auth.currentUser!.uid)
                                                     .set({
-                                                  tutorial!.id: true
+                                                  "Favoritos":
+                                                      FieldValue.arrayUnion(
+                                                          [tutorial!.id])
                                                 }, SetOptions(merge: true));
+                                              } else {
+                                                popUpRegister();
                                               }
                                             });
                                           },
@@ -156,99 +226,110 @@ class _TutorialPageState extends State<TutorialPage> {
                                               ? Color.fromARGB(255, 194, 149, 4)
                                               : const Color.fromARGB(
                                                   255, 179, 179, 179)),
-                                      IconButton(
-                                        onPressed: () {
-                                          if (auth.currentUser!.displayName !=
-                                              null) {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    elevation: 10,
-                                                    titlePadding:
-                                                        EdgeInsets.all(5),
-                                                    title: Text('Excluir'),
-                                                    backgroundColor:
-                                                        Color.fromARGB(
-                                                            255, 250, 247, 247),
-                                                    content: Text(
-                                                        'Deseja realmente EXCLUIR esse tutorial da base de dados?'),
-                                                    actions: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        children: [
-                                                          GestureDetector(
-                                                            onTap: () =>
-                                                                Get.back(),
-                                                            child: Container(
-                                                              padding: EdgeInsets
-                                                                  .only(top: 5),
-                                                              height: 30,
-                                                              width: 80,
-                                                              child: Text(
-                                                                'Não',
-                                                                style: TextStyle(
-                                                                    color: Color
-                                                                        .fromRGBO(
+                                      isLogado()
+                                          ? IconButton(
+                                              onPressed: () {
+                                                if (auth.currentUser!
+                                                        .displayName !=
+                                                    null) {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          elevation: 10,
+                                                          titlePadding:
+                                                              EdgeInsets.all(5),
+                                                          title:
+                                                              Text('Excluir'),
+                                                          backgroundColor:
+                                                              Color.fromARGB(
+                                                                  255,
+                                                                  250,
+                                                                  247,
+                                                                  247),
+                                                          content: Text(
+                                                              'Deseja realmente EXCLUIR esse tutorial da base de dados?'),
+                                                          actions: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                GestureDetector(
+                                                                  onTap: () =>
+                                                                      Get.back(),
+                                                                  child:
+                                                                      Container(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                5),
+                                                                    height: 30,
+                                                                    width: 80,
+                                                                    child: Text(
+                                                                      'Não',
+                                                                      style: TextStyle(
+                                                                          color: Color.fromRGBO(
+                                                                              0,
+                                                                              9,
+                                                                              89,
+                                                                              1)),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                GestureDetector(
+                                                                  onTap: () {
+                                                                    deletar(
+                                                                        tutorial!
+                                                                            .id);
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    decoration: BoxDecoration(
+                                                                        color: Color.fromRGBO(
                                                                             0,
                                                                             9,
                                                                             89,
-                                                                            1)),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              deletar(
-                                                                  tutorial!.id);
-                                                            },
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          0,
-                                                                          9,
-                                                                          89,
-                                                                          1),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5)),
-                                                              padding: EdgeInsets
-                                                                  .only(top: 5),
-                                                              height: 30,
-                                                              width: 80,
-                                                              child: Text(
-                                                                'Sim',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  );
-                                                });
-                                          }
-                                        },
-                                        icon: Icon(
-                                          Icons.delete,
-                                          color: Color.fromARGB(255, 175, 0, 0),
-                                        ),
-                                        iconSize: 35,
-                                        color: const Color.fromARGB(
-                                            255, 179, 179, 179),
-                                      ),
+                                                                            1),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(5)),
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                5),
+                                                                    height: 30,
+                                                                    width: 80,
+                                                                    child: Text(
+                                                                      'Sim',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.white),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        );
+                                                      });
+                                                }
+                                              },
+                                              icon: Icon(
+                                                Icons.delete,
+                                                color: Color.fromARGB(
+                                                    255, 175, 0, 0),
+                                              ),
+                                              iconSize: 35,
+                                              color: const Color.fromARGB(
+                                                  255, 179, 179, 179),
+                                            )
+                                          : Container(),
                                     ],
                                   ),
                                   Container(
