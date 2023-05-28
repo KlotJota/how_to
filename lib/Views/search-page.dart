@@ -13,6 +13,17 @@ class _SearchPageState extends State<SearchPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  List<String> categorias = <String>[
+    'Todos',
+    'Cozinha',
+    'Tecnologia',
+    'Construção',
+    'Relacionamentos',
+    'Beleza'
+  ];
+
+  String? item = 'Todos';
+
   String pesquisa = '';
 
   @override
@@ -60,7 +71,7 @@ class _SearchPageState extends State<SearchPage> {
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                        margin: EdgeInsets.all(10),
                         width: MediaQuery.of(context).size.width - 20,
                         child: TextField(
                           onChanged: (value) {
@@ -73,7 +84,7 @@ class _SearchPageState extends State<SearchPage> {
                                 borderRadius: BorderRadius.circular(5)),
                             labelText: 'Pesquisar',
                             suffixIcon: Icon(Icons.search),
-                            hintText: 'ex: tecnologia, cotidiano...',
+                            hintText: 'Pesquise por tutoriais',
                           ),
                         ),
                       ),
@@ -83,170 +94,67 @@ class _SearchPageState extends State<SearchPage> {
                           physics: BouncingScrollPhysics(),
                           itemCount: snapshots.data!.docs.length,
                           itemBuilder: (context, index) {
-                            var tutorial = snapshots.data!.docs[index]
-                                as QueryDocumentSnapshot<Map<String, dynamic>>;
+                            var tutorial = snapshots.data!.docs[index];
 
-                            if (pesquisa.isEmpty) {
-                              return GestureDetector(
-                                  onTap: () =>
-                                      Get.to(TutorialPage(tutorial.id)),
-                                  child: Card(
-                                    elevation: 5,
-                                    margin: EdgeInsets.all(5),
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10))),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                tutorial['imagem']),
-                                            fit: BoxFit.cover,
-                                            alignment: Alignment.topCenter),
-                                      ),
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 220),
-                                        child: Container(
-                                            color: Color.fromRGBO(0, 9, 89, 1),
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                  top: 4,
-                                                  left: 8,
-                                                  right: 8,
-                                                  bottom: 4),
-                                              child: Text(
-                                                tutorial['titulo'],
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    color: Color.fromARGB(
-                                                        255, 240, 240, 240)),
-                                                maxLines: 2,
-                                              ),
-                                            )),
-                                      ),
-                                    ),
-                                  ));
-                            }
-                            if (tutorial['titulo']
+                            if (pesquisa.isNotEmpty &&
+                                !tutorial['titulo']
                                     .toString()
                                     .toLowerCase()
-                                    .contains(pesquisa.toLowerCase()) ||
-                                tutorial['categoria']
+                                    .contains(pesquisa.toLowerCase()) &&
+                                !tutorial['categoria']
                                     .toString()
                                     .toLowerCase()
                                     .contains(pesquisa.toLowerCase())) {
-                              return GestureDetector(
-                                onTap: () => Get.to(TutorialPage(tutorial.id)),
-                                child: tutorial['titulo']
-                                        .toString()
-                                        .toLowerCase()
-                                        .contains(pesquisa.toLowerCase())
-                                    ? Card(
-                                        elevation: 5,
-                                        margin: EdgeInsets.all(5),
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(10),
-                                                bottomLeft:
-                                                    Radius.circular(10))),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    tutorial['imagem']),
-                                                fit: BoxFit.cover,
-                                                alignment: Alignment.topCenter),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 220),
-                                            child: Container(
-                                                color:
-                                                    Color.fromRGBO(0, 9, 89, 1),
-                                                child: Container(
-                                                  padding: EdgeInsets.only(
-                                                      top: 4,
-                                                      left: 8,
-                                                      right: 8,
-                                                      bottom: 4),
-                                                  child: Text(
-                                                    tutorial['titulo'],
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            240,
-                                                            240,
-                                                            240)),
-                                                    maxLines: 2,
-                                                  ),
-                                                )),
-                                          ),
+                              return SizedBox.shrink();
+                            }
+
+                            return GestureDetector(
+                              onTap: () => Get.to(TutorialPage(tutorial.id)),
+                              child: Card(
+                                elevation: 5,
+                                margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                  ),
+                                ),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(tutorial['imagem']),
+                                      fit: BoxFit.cover,
+                                      alignment: Alignment.topCenter,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 220),
+                                    child: Container(
+                                      color: Color.fromRGBO(0, 9, 89, 1),
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                          top: 4,
+                                          left: 8,
+                                          right: 8,
+                                          bottom: 4,
                                         ),
-                                      )
-                                    : Card(
-                                        elevation: 5,
-                                        margin: EdgeInsets.all(5),
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(10),
-                                                bottomLeft:
-                                                    Radius.circular(10))),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    tutorial['imagem']),
-                                                fit: BoxFit.cover,
-                                                alignment: Alignment.topCenter),
+                                        child: Text(
+                                          tutorial['titulo'],
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            overflow: TextOverflow.ellipsis,
+                                            color: Color.fromARGB(
+                                                255, 240, 240, 240),
                                           ),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 220),
-                                            child: Container(
-                                                color:
-                                                    Color.fromRGBO(0, 9, 89, 1),
-                                                child: Container(
-                                                  padding: EdgeInsets.only(
-                                                      top: 4,
-                                                      left: 8,
-                                                      right: 8,
-                                                      bottom: 4),
-                                                  child: Text(
-                                                    tutorial['titulo'],
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            240,
-                                                            240,
-                                                            240)),
-                                                    maxLines: 2,
-                                                  ),
-                                                )),
-                                          ),
+                                          maxLines: 2,
                                         ),
                                       ),
-                              );
-                            }
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
                           },
                         ),
                       )

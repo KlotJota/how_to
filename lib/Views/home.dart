@@ -159,7 +159,8 @@ class _HomePageState extends State<HomePage> {
                                                     .id)), // colocar tutorial.id como parametro
                                             child: Card(
                                               elevation: 5,
-                                              margin: EdgeInsets.only(left: 10),
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
                                               clipBehavior:
                                                   Clip.antiAliasWithSaveLayer,
                                               shape: RoundedRectangleBorder(
@@ -257,7 +258,8 @@ class _HomePageState extends State<HomePage> {
                                               color: Color.fromARGB(
                                                   255, 250, 247, 247),
                                               elevation: 5,
-                                              margin: EdgeInsets.all(5),
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 5, 10, 5),
                                               clipBehavior:
                                                   Clip.antiAliasWithSaveLayer,
                                               shape: RoundedRectangleBorder(
