@@ -13,17 +13,6 @@ class _SearchPageState extends State<SearchPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  List<String> categorias = <String>[
-    'Todos',
-    'Cozinha',
-    'Tecnologia',
-    'Construção',
-    'Relacionamentos',
-    'Beleza'
-  ];
-
-  String? item = 'Todos';
-
   String pesquisa = '';
 
   @override
@@ -82,48 +71,17 @@ class _SearchPageState extends State<SearchPage> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5)),
-                            labelText: ' Pesquisar',
+                            labelText: 'Pesquisar',
                             suffixIcon: Icon(Icons.search),
-                            prefixIcon: Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      right: BorderSide(
-                                          width: 1,
-                                          color:
-                                              Color.fromARGB(255, 0, 0, 0)))),
-                              width: 100,
-                              margin: EdgeInsets.only(left: 10),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    alignment: Alignment.center,
-                                    borderRadius: BorderRadius.circular(5),
-                                    dropdownColor:
-                                        Color.fromARGB(255, 233, 233, 233),
-                                    onChanged: (String? novoItem) {
-                                      setState(() {
-                                        item = novoItem!;
-                                      });
-                                    },
-                                    value: item,
-                                    items: categorias
-                                        .map<DropdownMenuItem<String>>(
-                                      (String valor) {
-                                        return DropdownMenuItem<String>(
-                                          value: valor,
-                                          child: Text(valor),
-                                        );
-                                      },
-                                    ).toList()),
-                              ),
-                            ),
-                            hintText: 'Pesquise por tutoriais',
+                            hintText: 'ex: tecnologia, cotidiano...',
                           ),
                         ),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height - 180,
                         child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemCount: snapshots.data!.docs.length,
                           itemBuilder: (context, index) {
                             var tutorial = snapshots.data!.docs[index]
                                 as QueryDocumentSnapshot<Map<String, dynamic>>;
@@ -176,9 +134,13 @@ class _SearchPageState extends State<SearchPage> {
                                   ));
                             }
                             if (tutorial['titulo']
-                                .toString()
-                                .toLowerCase()
-                                .contains(pesquisa.toLowerCase())) {
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(pesquisa.toLowerCase()) ||
+                                tutorial['categoria']
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(pesquisa.toLowerCase())) {
                               return GestureDetector(
                                 onTap: () => Get.to(TutorialPage(tutorial.id)),
                                 child: tutorial['titulo']
