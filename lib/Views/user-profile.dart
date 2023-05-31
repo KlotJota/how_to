@@ -22,19 +22,24 @@ class _UserProfilePageState extends State<UserProfilePage> {
     firestore.collection('favoritos').doc(id).delete();
   }
 
-  Future<XFile?> pegaImagem() async {
+  Future<void> pegaImagem() async {
     final ImagePicker picker = ImagePicker();
-    perfil = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
 
-    String imagemRef =
-        "perfis/personalizado/${auth.currentUser?.uid}/img-${DateTime.now().toString()}.jpg";
-    Reference storageRef = FirebaseStorage.instance.ref().child(imagemRef);
-    await storageRef.putFile(File(perfil!.path));
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
 
-    // Obter URL da imagem
-    String imagemUrl = await storageRef.getDownloadURL();
+      String imagemRef =
+          "perfis/personalizado/${auth.currentUser?.uid}/img-${DateTime.now().toString()}.jpg";
+      Reference storageRef = FirebaseStorage.instance.ref().child(imagemRef);
+      await storageRef.putFile(imageFile);
 
-    auth.currentUser!.updatePhotoURL(imagemUrl);
+      // Obter URL da imagem
+      String imageUrl = await storageRef.getDownloadURL();
+
+      await auth.currentUser!.updatePhotoURL(imageUrl);
+    }
   }
 
   void popUpImagem() {
@@ -106,6 +111,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
               var favoritos = snapshot.data!.docs;
               //favoritos[0].get(). fazer um map no firebase para q cada usuario tenha uma lista de favoritados
+
+              String imagemUrl = '';
 
               return Stack(
                 children: [

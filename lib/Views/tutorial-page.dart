@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:how_to/Views/home.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/user-register.dart';
+import 'package:how_to/Views/tutorialEdit-page.dart';
 
 class TutorialPage extends StatefulWidget {
   final String id;
@@ -15,6 +16,7 @@ class TutorialPage extends StatefulWidget {
 
 class _TutorialPageState extends State<TutorialPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   DocumentSnapshot<Object?>? tutorial;
 
@@ -226,6 +228,23 @@ class _TutorialPageState extends State<TutorialPage> {
                                               ? Color.fromARGB(255, 194, 149, 4)
                                               : const Color.fromARGB(
                                                   255, 179, 179, 179)),
+                                      isLogado()
+                                          ? IconButton(
+                                              onPressed: () {
+                                                if (auth.currentUser!
+                                                        .displayName !=
+                                                    null) {
+                                                  Get.to(TutorialEditPage(
+                                                      tutorial!.id));
+                                                }
+                                              },
+                                              icon: Icon(
+                                                Icons.edit,
+                                                color: Color.fromARGB(
+                                                    255, 0, 0, 0),
+                                              ),
+                                            )
+                                          : Container(),
                                       isLogado()
                                           ? IconButton(
                                               onPressed: () {

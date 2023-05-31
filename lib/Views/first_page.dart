@@ -13,7 +13,8 @@ import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 
 class FirstPage extends StatefulWidget {
-  const FirstPage({super.key});
+  const FirstPage({Key? key}) : super(key: key);
+
   @override
   State<FirstPage> createState() => _FirstPageState();
 }
@@ -23,7 +24,7 @@ class _FirstPageState extends State<FirstPage> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   }
 
-  bool isAdmin = true;
+  bool isAdmin = false;
   int paginaAtual = 0;
   late PageController pc;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -32,7 +33,6 @@ class _FirstPageState extends State<FirstPage> {
   void logOut(BuildContext context) async {
     try {
       await auth.signOut();
-
       Navigator.of(context).pushNamed('/');
     } catch (e) {
       print(e);
@@ -41,60 +41,65 @@ class _FirstPageState extends State<FirstPage> {
 
   void _popUp(context) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Sair'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
-            content: Text('Você realmente deseja sair do aplicativo?'),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Container(
-                      padding: EdgeInsets.only(top: 5),
-                      height: 30,
-                      width: 80,
-                      child: Text(
-                        'Não',
-                        style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
-                        textAlign: TextAlign.center,
-                      ),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          elevation: 10,
+          titlePadding: EdgeInsets.all(5),
+          title: Text('Sair'),
+          backgroundColor: Color.fromARGB(255, 240, 240, 240),
+          content: Text('Você realmente deseja sair do aplicativo?'),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Container(
+                    padding: EdgeInsets.only(top: 5),
+                    height: 30,
+                    width: 80,
+                    child: Text(
+                      'Não',
+                      style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => logOut(context),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 9, 89, 1),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.only(top: 5),
-                      height: 30,
-                      width: 80,
-                      child: Text(
-                        'Sim',
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
+                ),
+                GestureDetector(
+                  onTap: () => logOut(context),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(0, 9, 89, 1),
+                        borderRadius: BorderRadius.circular(5)),
+                    padding: EdgeInsets.only(top: 5),
+                    height: 30,
+                    width: 80,
+                    child: Text(
+                      'Sim',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                ],
-              )
-            ],
-          );
-        });
+                ),
+              ],
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    pc = PageController(initialPage: paginaAtual);
+    pc = PageController(initialPage: paginaAtual, keepPage: true);
     _desabilitarAnimacao();
+    if (user!.uid == "vapEyTsxGoWsOcUObGDywxz4WpC2" ||
+        user!.uid == "bP234QxmIsPth7PqwzosZyfNMvk2" ||
+        user!.uid == "YTzsr7KMKzezqsCbNxdsHHhSvGc2") {
+      isAdmin = true;
+    }
   }
 
   setPaginaAtual(pagina) {
@@ -106,15 +111,40 @@ class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: pc,
-        children: [
-          HomePage(),
-          SearchPage(),
-          CreateTutorialPage(),
-          UserProfilePage(),
-        ],
-        onPageChanged: setPaginaAtual,
+      body: GestureDetector(
+        onHorizontalDragUpdate: (details) {
+          if (!isAdmin && paginaAtual == 2) {
+            // Bloqueia o deslizamento para a CreateTutorialPage para usuários comuns
+            if (details.delta.dx < 0) {
+              pc.jumpToPage(3);
+            }
+          } else if (paginaAtual == 3) {
+            if (details.delta.dx > 0) {
+              pc.jumpToPage(1);
+            }
+          }
+        },
+        child: PageView(
+          controller: pc,
+          onPageChanged: (pagina) {
+            setPaginaAtual(pagina);
+            if (!isAdmin && pagina == 2) {
+              if (paginaAtual == 1) {
+                pc.jumpToPage(
+                    3); // Redireciona para UserProfilePage se o usuário estiver no SearchPage
+              } else if (paginaAtual == 3) {
+                pc.jumpToPage(
+                    1); // Redireciona para SearchPage se o usuário estiver no UserProfilePage
+              }
+            }
+          },
+          children: [
+            HomePage(),
+            SearchPage(),
+            if (isAdmin) CreateTutorialPage(),
+            UserProfilePage(),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
@@ -131,10 +161,7 @@ class _FirstPageState extends State<FirstPage> {
             label: 'Pesquisar',
             backgroundColor: Color.fromARGB(255, 0, 9, 89),
           ),
-          if (user!.uid == "vapEyTsxGoWsOcUObGDywxz4WpC2" ||
-              user!.uid == "bP234QxmIsPth7PqwzosZyfNMvk2" ||
-              user!.uid ==
-                  "YTzsr7KMKzezqsCbNxdsHHhSvGc2") // Verifica a condição para mostrar o botão
+          if (isAdmin) // Verifica a condição para mostrar o botão
             BottomNavigationBarItem(
               icon: Icon(Icons.add),
               label: 'Novo tutorial',
