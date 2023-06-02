@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/first_page.dart';
 import 'package:how_to/Views/home.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/user-register.dart';
@@ -92,7 +93,7 @@ class _TutorialPageState extends State<TutorialPage> {
 
   void deletar(String id) {
     firestore.collection('tutoriais').doc(id).delete();
-    Get.to(HomePage());
+    Get.to(FirstPage());
   }
 
   bool _favorito = false;

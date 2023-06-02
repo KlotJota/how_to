@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/first_page.dart';
 import 'package:how_to/Views/first_page_anonymous.dart';
+import 'package:how_to/Views/reset-pass.dart';
 import 'package:how_to/Views/user-register.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -181,7 +182,7 @@ class UserLoginPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                      margin: EdgeInsets.only(bottom: 10),
                       width: MediaQuery.of(context).size.width - 200,
                       child: TextFormField(
                         obscureText: true,
@@ -197,6 +198,20 @@ class UserLoginPage extends StatelessWidget {
                           labelText: 'Senha',
                         ),
                       ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20, top: 15),
+                      child: GestureDetector(
+                          child: Text(
+                            "Esqueceu sua senha?",
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(0, 9, 89, 1)),
+                          ),
+                          onTap: () {
+                            Get.to(resetPassPage());
+                          }),
                     ),
                     GestureDetector(
                       onTap: () => login(context),
