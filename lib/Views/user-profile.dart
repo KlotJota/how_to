@@ -177,23 +177,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               children: [
                                 Container(
                                     margin: EdgeInsets.only(top: 40),
-                                    child: auth.currentUser!.photoURL == null
-                                        ? CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/howto-60459.appspot.com/o/perfis%2Fpadr%C3%A3o%2Fuser.png?alt=media&token=bb4a0f5c-8839-400d-8fb3-dbaaf07b3117'),
-                                            radius: 40,
-                                          )
-                                        : GestureDetector(
-                                            onTap: () {
-                                              popUpImagem();
-                                            },
-                                            child: CircleAvatar(
-                                              backgroundImage: NetworkImage(auth
-                                                  .currentUser!.photoURL
-                                                  .toString()),
-                                              radius: 40,
-                                            ),
-                                          )),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        popUpImagem();
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundImage: NetworkImage(auth
+                                            .currentUser!.photoURL
+                                            .toString()),
+                                        radius: 40,
+                                      ),
+                                    )),
                                 Container(
                                     alignment: Alignment.center,
                                     margin: EdgeInsets.only(top: 10),
@@ -252,7 +246,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     .collection('tutoriais')
                     .where(FieldPath.documentId, whereIn: favoritos)
                     .snapshots(),
-                builder: (context, snapshot) {
+                builder: (c0ontext, snapshot) {
                   if (!snapshot.hasData) {
                     // senao tiver dados
                     return CircularProgressIndicator(); // circulo de carregando
@@ -260,8 +254,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
                   var favoritos = snapshot.data!.docs;
                   //favoritos[0].get(). fazer um map no firebase para q cada usuario tenha uma lista de favoritados
-
-                  String imagemUrl = '';
 
                   return Stack(
                     children: [
@@ -308,24 +300,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   children: [
                                     Container(
                                         margin: EdgeInsets.only(top: 40),
-                                        child: auth.currentUser!.photoURL ==
-                                                null
-                                            ? CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                    'https://firebasestorage.googleapis.com/v0/b/howto-60459.appspot.com/o/perfis%2Fpadr%C3%A3o%2Fuser.png?alt=media&token=bb4a0f5c-8839-400d-8fb3-dbaaf07b3117'),
-                                                radius: 40,
-                                              )
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  popUpImagem();
-                                                },
-                                                child: CircleAvatar(
-                                                  backgroundImage: NetworkImage(
-                                                      auth.currentUser!.photoURL
-                                                          .toString()),
-                                                  radius: 40,
-                                                ),
-                                              )),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            popUpImagem();
+                                          },
+                                          child: CircleAvatar(
+                                            backgroundImage: NetworkImage(auth
+                                                .currentUser!.photoURL
+                                                .toString()),
+                                            radius: 40,
+                                          ),
+                                        )),
                                     Container(
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(top: 10),

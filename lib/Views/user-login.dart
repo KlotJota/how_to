@@ -14,11 +14,11 @@ class UserLoginPage extends StatelessWidget {
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  var formKey = GlobalKey<FormState>();
+  var formKeyLogin = GlobalKey<FormState>();
 
   void login(BuildContext context) async {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+    if (formKeyLogin.currentState!.validate()) {
+      formKeyLogin.currentState!.save();
       try {
         await auth.signInWithEmailAndPassword(email: email, password: password);
 
@@ -113,7 +113,7 @@ class UserLoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-        key: formKey,
+        key: formKeyLogin,
         child: Stack(
           children: [
             Container(

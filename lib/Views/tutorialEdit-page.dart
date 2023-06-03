@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/first_page.dart';
-import 'package:how_to/Views/home.dart';
+
+import 'package:image_picker/image_picker.dart';
 
 class TutorialEditPage extends StatefulWidget {
   final String id;
@@ -16,12 +20,12 @@ class TutorialEditPage extends StatefulWidget {
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class _TutorialEditPage extends State<TutorialEditPage> {
-  var formKey = GlobalKey<FormState>();
+  var formKeyEdit = GlobalKey<FormState>();
   DocumentSnapshot<Object?>? tutorial;
+  String? imagem;
 
   TextEditingController _tituloController = TextEditingController();
   TextEditingController _textoController = TextEditingController();
-  TextEditingController _imagemController = TextEditingController();
   TextEditingController _categoriaController = TextEditingController();
 
   @override
@@ -41,7 +45,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
       if (tutorial != null) {
         final tutorialData = tutorial!.data() as Map<String, dynamic>;
         _tituloController.text = tutorialData['titulo'];
-        _imagemController.text = tutorialData['imagem'];
+        imagem = tutorialData['imagem'];
         _categoriaController.text = tutorialData['categoria'];
         _textoController.text = tutorialData['texto'];
       }
@@ -60,15 +64,13 @@ class _TutorialEditPage extends State<TutorialEditPage> {
         updateData['texto'] = _textoController.text;
       }
 
-      if (_imagemController.text.isNotEmpty) {
-        updateData['imagem'] = _imagemController.text;
+      if (imagem!.isNotEmpty) {
+        updateData['imagem'] = imagem;
       }
 
       if (_categoriaController.text.isNotEmpty) {
         updateData['categoria'] = _categoriaController.text;
       }
-
-      // Adicione os demais campos que deseja atualizar
 
       if (updateData.isNotEmpty) {
         await FirebaseFirestore.instance
@@ -79,6 +81,27 @@ class _TutorialEditPage extends State<TutorialEditPage> {
       _popUpSucesso(context);
     } catch (e) {
       print('Erro ao atualizar tutorial $e');
+    }
+  }
+
+  Future<void> pegaImagem() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+
+      String imagemRef = "imagens/img-${DateTime.now().toString()}.jpg";
+      Reference storageRef = FirebaseStorage.instance.ref().child(imagemRef);
+      await storageRef.putFile(imageFile);
+
+      // Obter URL da imagem
+      String imageUrl = await storageRef.getDownloadURL();
+
+      setState(() {
+        imagem = imageUrl;
+      });
     }
   }
 
@@ -177,7 +200,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                     ),
                   ], color: Color.fromARGB(255, 250, 247, 247)),
                   child: Form(
-                    key: formKey,
+                    key: formKeyEdit,
                     child: Column(
                       children: [
                         Container(
@@ -199,9 +222,35 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                             style: TextStyle(fontSize: 50),
                           ),
                         ),
+                        GestureDetector(
+                            onTap: pegaImagem,
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              width: MediaQuery.of(context).size.width - 150,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 243, 243, 243),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  border: Border.all(
+                                      width: 1, color: Colors.black)),
+                              child: Row(
+                                children: [
+                                  Container(
+                                      margin:
+                                          EdgeInsets.only(left: 10, right: 5),
+                                      child: Icon(Icons.image_search)),
+                                  Text(
+                                    'Adicionar imagem',
+                                    style: TextStyle(fontSize: 16),
+                                  )
+                                ],
+                              ),
+                              alignment: Alignment.centerLeft,
+                            )),
                         Container(
                           margin: EdgeInsets.only(bottom: 10),
-                          width: MediaQuery.of(context).size.width - 200,
+                          width: MediaQuery.of(context).size.width - 150,
                           child: TextFormField(
                             controller: _tituloController,
                             decoration: InputDecoration(
@@ -213,19 +262,8 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          width: MediaQuery.of(context).size.width - 200,
-                          child: TextFormField(
-                            controller: _imagemController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.image),
-                              labelText: "Imagem",
-                            ),
-                          ),
-                        ),
-                        Container(
                           margin: EdgeInsets.only(bottom: 25),
-                          width: MediaQuery.of(context).size.width - 200,
+                          width: MediaQuery.of(context).size.width - 150,
                           child: TextFormField(
                             controller: _categoriaController,
                             decoration: InputDecoration(
@@ -236,7 +274,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                         ),
                         Container(
                           margin: EdgeInsets.only(bottom: 10),
-                          width: MediaQuery.of(context).size.width - 200,
+                          width: MediaQuery.of(context).size.width - 150,
                           child: TextFormField(
                             maxLines: 4,
                             controller: _textoController,
@@ -254,7 +292,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: 5),
-                            width: MediaQuery.of(context).size.width - 190,
+                            width: MediaQuery.of(context).size.width - 150,
                             height: 40,
                             padding: EdgeInsets.only(top: 6),
                             decoration: BoxDecoration(

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/first_page.dart';
-import 'package:how_to/Views/first_page_anonymous.dart';
-import 'package:how_to/Views/user-register.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -10,7 +7,7 @@ class resetPassPage extends StatelessWidget {
 
   final TextEditingController emailController = TextEditingController();
 
-  var formKey = GlobalKey<FormState>();
+  var formKeyReset = GlobalKey<FormState>();
 
   void redenirSenha(BuildContext context) async {
     try {
@@ -49,7 +46,7 @@ class resetPassPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-        key: formKey,
+        key: formKeyReset,
         child: Stack(
           children: [
             Container(

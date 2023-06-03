@@ -91,7 +91,10 @@ class _HomePageState extends State<HomePage> {
                                                     )
                                                   : CircleAvatar(
                                                       backgroundImage:
-                                                          NetworkImage(''),
+                                                          NetworkImage(auth
+                                                              .currentUser!
+                                                              .photoURL
+                                                              .toString()),
                                                     )),
                                           Container(
                                             padding: EdgeInsets.only(top: 10),

@@ -11,7 +11,7 @@ class UserRegisterPage extends StatefulWidget {
 }
 
 class _UserRegisterPageState extends State<UserRegisterPage> {
-  final formKey = GlobalKey<FormState>();
+  final formKeyRegister = GlobalKey<FormState>();
 
   String nome = '';
   String email = '';
@@ -25,8 +25,8 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void register(BuildContext context) async {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+    if (formKeyRegister.currentState!.validate()) {
+      formKeyRegister.currentState!.save();
       try {
         var result = await auth.createUserWithEmailAndPassword(
             email: email, password: password);
@@ -127,7 +127,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-        key: formKey,
+        key: formKeyRegister,
         child: Stack(
           children: [
             Container(
