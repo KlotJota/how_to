@@ -5,9 +5,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/first_page.dart';
+import 'package:how_to/Views/create_tutorial/components/controllers.singleton.dart';
+import 'package:how_to/Views/edit_tutorial/components/edit_category.dart';
+import 'package:how_to/Views/edit_tutorial/components/edit_image.dart';
+import 'package:how_to/Views/edit_tutorial/components/edit_text.dart';
+import 'package:how_to/Views/edit_tutorial/components/edit_title.dart';
+import 'package:how_to/Views/edit_tutorial/components/update_button.dart';
 
 import 'package:image_picker/image_picker.dart';
+
+import '../first_pages/first_page.dart';
 
 class TutorialEditPage extends StatefulWidget {
   final String id;
@@ -22,11 +29,10 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 class _TutorialEditPage extends State<TutorialEditPage> {
   var formKeyEdit = GlobalKey<FormState>();
   DocumentSnapshot<Object?>? tutorial;
-  String? imagem;
 
-  TextEditingController _tituloController = TextEditingController();
-  TextEditingController _textoController = TextEditingController();
-  TextEditingController _categoriaController = TextEditingController();
+  String titulo = ControllersSingleton.controllers.tituloController.text;
+  String texto = ControllersSingleton.controllers.textoController.text;
+  String categoria = ControllersSingleton.controllers.categoriaController.text;
 
   @override
   void initState() {
@@ -44,10 +50,10 @@ class _TutorialEditPage extends State<TutorialEditPage> {
 
       if (tutorial != null) {
         final tutorialData = tutorial!.data() as Map<String, dynamic>;
-        _tituloController.text = tutorialData['titulo'];
-        imagem = tutorialData['imagem'];
-        _categoriaController.text = tutorialData['categoria'];
-        _textoController.text = tutorialData['texto'];
+        titulo = tutorialData['titulo'];
+        ControllersSingleton.controllers.imagem = tutorialData['imagem'];
+        categoria = tutorialData['categoria'];
+        texto = tutorialData['texto'];
       }
     });
   }
@@ -56,20 +62,24 @@ class _TutorialEditPage extends State<TutorialEditPage> {
     try {
       var updateData = <String, dynamic>{};
 
-      if (_tituloController.text.isNotEmpty) {
-        updateData['titulo'] = _tituloController.text;
+      if (ControllersSingleton.controllers.tituloController.text.isNotEmpty) {
+        updateData['titulo'] =
+            ControllersSingleton.controllers.tituloController.text;
       }
 
-      if (_textoController.text.isNotEmpty) {
-        updateData['texto'] = _textoController.text;
+      if (ControllersSingleton.controllers.textoController.text.isNotEmpty) {
+        updateData['texto'] =
+            ControllersSingleton.controllers.textoController.text;
       }
 
-      if (imagem!.isNotEmpty) {
-        updateData['imagem'] = imagem;
+      if (ControllersSingleton.controllers.imagem!.isNotEmpty) {
+        updateData['imagem'] = ControllersSingleton.controllers.imagem;
       }
 
-      if (_categoriaController.text.isNotEmpty) {
-        updateData['categoria'] = _categoriaController.text;
+      if (ControllersSingleton
+          .controllers.categoriaController.text.isNotEmpty) {
+        updateData['categoria'] =
+            ControllersSingleton.controllers.categoriaController.text;
       }
 
       if (updateData.isNotEmpty) {
@@ -100,16 +110,9 @@ class _TutorialEditPage extends State<TutorialEditPage> {
       String imageUrl = await storageRef.getDownloadURL();
 
       setState(() {
-        imagem = imageUrl;
+        ControllersSingleton.controllers.imagem = imageUrl;
       });
     }
-  }
-
-  @override
-  void dispose() {
-    _tituloController.dispose();
-    _textoController.dispose();
-    super.dispose();
   }
 
   Color getColor(Set<MaterialState> states) {
@@ -223,88 +226,15 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                           ),
                         ),
                         GestureDetector(
-                            onTap: pegaImagem,
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 10),
-                              width: MediaQuery.of(context).size.width - 150,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 243, 243, 243),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  border: Border.all(
-                                      width: 1, color: Colors.black)),
-                              child: Row(
-                                children: [
-                                  Container(
-                                      margin:
-                                          EdgeInsets.only(left: 10, right: 5),
-                                      child: Icon(Icons.image_search)),
-                                  Text(
-                                    'Adicionar imagem',
-                                    style: TextStyle(fontSize: 16),
-                                  )
-                                ],
-                              ),
-                              alignment: Alignment.centerLeft,
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          width: MediaQuery.of(context).size.width - 150,
-                          child: TextFormField(
-                            controller: _tituloController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.title_sharp,
-                              ),
-                              labelText: "Titulo",
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 25),
-                          width: MediaQuery.of(context).size.width - 150,
-                          child: TextFormField(
-                            controller: _categoriaController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.category),
-                              labelText: "Categoria",
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          width: MediaQuery.of(context).size.width - 150,
-                          child: TextFormField(
-                            maxLines: 4,
-                            controller: _textoController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.text_fields_rounded),
-                                labelText: "Texto",
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 15)),
-                          ),
-                        ),
+                            onTap: pegaImagem, child: EditImage(widget.id)),
+                        EditTitle(widget.id),
+                        EditCategory(widget.id),
+                        EditText(widget.id),
                         GestureDetector(
                           onTap: () {
                             editarTutorial(context);
                           },
-                          child: Container(
-                            margin: EdgeInsets.only(top: 5),
-                            width: MediaQuery.of(context).size.width - 150,
-                            height: 40,
-                            padding: EdgeInsets.only(top: 6),
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(0, 9, 89, 1),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Text(
-                              'Atualizar tutorial',
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                            ),
-                          ),
+                          child: UpdateButton(),
                         ),
                       ],
                     ),

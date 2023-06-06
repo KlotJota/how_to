@@ -1,30 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/tutorial-page.dart';
+import 'package:how_to/Views/search_page/components/search_form.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 
-class SearchPage extends StatefulWidget {
+class Body extends StatefulWidget {
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<Body> createState() => _BodyState();
 }
 
-class _SearchPageState extends State<SearchPage> {
-  FirebaseAuth auth = FirebaseAuth.instance;
+class _BodyState extends State<Body> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  List<String> categorias = <String>[
-    'Todos',
-    'Cozinha',
-    'Tecnologia',
-    'Construção',
-    'Relacionamentos',
-    'Beleza'
-  ];
-
-  String? item = 'Todos';
-
-  String pesquisa = '';
+  PesquisaSingleton pesquisa = PesquisaSingleton();
 
   @override
   Widget build(BuildContext context) {
@@ -70,24 +57,7 @@ class _SearchPageState extends State<SearchPage> {
                   ], color: Color.fromARGB(255, 250, 247, 247)),
                   child: Column(
                     children: [
-                      Container(
-                        margin: EdgeInsets.all(10),
-                        width: MediaQuery.of(context).size.width - 20,
-                        child: TextField(
-                          onChanged: (value) {
-                            setState(() {
-                              pesquisa = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            labelText: 'Pesquisar',
-                            suffixIcon: Icon(Icons.search),
-                            hintText: 'Pesquise por tutoriais',
-                          ),
-                        ),
-                      ),
+                      SearchForm(),
                       SizedBox(
                         height: MediaQuery.of(context).size.height - 180,
                         child: ListView.builder(
@@ -96,15 +66,17 @@ class _SearchPageState extends State<SearchPage> {
                           itemBuilder: (context, index) {
                             var tutorial = snapshots.data!.docs[index];
 
-                            if (pesquisa.isNotEmpty &&
+                            if (pesquisa.toString().isNotEmpty &&
                                 !tutorial['titulo']
                                     .toString()
                                     .toLowerCase()
-                                    .contains(pesquisa.toLowerCase()) &&
+                                    .contains(
+                                        pesquisa.toString().toLowerCase()) &&
                                 !tutorial['categoria']
                                     .toString()
                                     .toLowerCase()
-                                    .contains(pesquisa.toLowerCase())) {
+                                    .contains(
+                                        pesquisa.toString().toLowerCase())) {
                               return SizedBox.shrink();
                             }
 

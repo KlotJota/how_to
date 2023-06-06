@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/first_page.dart';
-import 'package:how_to/Views/home.dart';
+
 import 'package:get/get.dart';
-import 'package:how_to/Views/user-register.dart';
-import 'package:how_to/Views/tutorialEdit-page.dart';
+import 'package:how_to/Views/edit_tutorial/tutorialEdit-page.dart';
+import 'package:how_to/Views/tutorial_page/components/tutorial_image.dart';
+import 'package:how_to/Views/tutorial_page/components/tutorial_text.dart';
+import 'package:how_to/Views/tutorial_page/components/tutorial_title.dart';
+
+import '../first_pages/first_page.dart';
+import '../register/user-register.dart';
 
 class TutorialPage extends StatefulWidget {
   final String id;
@@ -24,7 +28,7 @@ class _TutorialPageState extends State<TutorialPage> {
   @override
   void initState() {
     super.initState();
-    buscarTutorial();
+    buscarTutorial(widget.id);
   }
 
   void popUpRegister() {
@@ -81,7 +85,7 @@ class _TutorialPageState extends State<TutorialPage> {
         });
   }
 
-  void buscarTutorial() async {
+  void buscarTutorial(String id) async {
     final tutorialDoc = await FirebaseFirestore.instance
         .collection('tutoriais')
         .doc(widget.id)
@@ -159,41 +163,8 @@ class _TutorialPageState extends State<TutorialPage> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                alignment: Alignment.topCenter,
-                                child: Text(
-                                  tutorial!['titulo'],
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                height: 200,
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                        child: Stack(
-                                      fit: StackFit.expand,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          child: Image.network(
-                                            tutorial!['imagem'],
-                                            fit: BoxFit.cover,
-                                            alignment: Alignment.center,
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                                  ],
-                                ),
-                              ),
+                              TutorialTitle(widget.id),
+                              TutorialImage(widget.id),
                               Column(
                                 children: [
                                   Row(
@@ -352,33 +323,7 @@ class _TutorialPageState extends State<TutorialPage> {
                                           : Container(),
                                     ],
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    color: Colors.black,
-                                    height: 1,
-                                    width:
-                                        MediaQuery.of(context).size.width - 20,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.all(10),
-                                    alignment: Alignment.topCenter,
-                                    child: Text(
-                                      'How To?',
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.all(10),
-                                    child: Container(
-                                      child: Text(tutorial!['texto'],
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                          )),
-                                    ),
-                                  ),
+                                  TutorialText(widget.id)
                                 ],
                               ),
                               Container(

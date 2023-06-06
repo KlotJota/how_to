@@ -1,0 +1,270 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../login/user_login.dart';
+
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({super.key});
+
+  @override
+  State<RegisterForm> createState() => _RegisterFormState();
+}
+
+final formKeyRegister = GlobalKey<FormState>();
+
+String nome = '';
+String email = '';
+String password = '';
+String _confirmPassword = '';
+String imagem = '';
+
+bool isChecked = false;
+
+FirebaseAuth auth = FirebaseAuth.instance;
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+void register(BuildContext context) async {
+  if (formKeyRegister.currentState!.validate()) {
+    formKeyRegister.currentState!.save();
+    try {
+      var result = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      result.user!.updateDisplayName(nome);
+
+      Get.to(UserLoginPage());
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        if (e.message ==
+            'The email address is already in use by another account.') {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  elevation: 10,
+                  titlePadding: EdgeInsets.all(5),
+                  title: Text('Erro'),
+                  backgroundColor: Color.fromARGB(255, 250, 247, 247),
+                  content: Text('O email informado para cadastro já existe'),
+                  actions: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Get.back(),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(0, 9, 89, 1),
+                                borderRadius: BorderRadius.circular(5)),
+                            padding: EdgeInsets.only(top: 5),
+                            height: 30,
+                            width: 80,
+                            child: Text(
+                              'Ok',
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                );
+              });
+        }
+      }
+    }
+  }
+}
+
+Color getColor(Set<MaterialState> states) {
+  const Set<MaterialState> interactiveStates = <MaterialState>{
+    MaterialState.pressed,
+    MaterialState.hovered,
+    MaterialState.focused,
+  };
+  if (states.any(interactiveStates.contains)) {
+    return Color.fromRGBO(0, 9, 89, 1);
+  }
+  return Color.fromRGBO(0, 9, 89, 1);
+}
+
+void _popUp(context) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Color.fromARGB(255, 250, 247, 247),
+          child: ListView(
+            padding: EdgeInsets.all(20),
+            children: [
+              Text(
+                  'Termos de Uso do Aplicativo How To \n\nBem-vindo ao aplicativo How To. Ao usar nosso aplicativo, você concorda com os seguintes termos e condições de uso. Se você não concorda com estes termos, não use o aplicativo.\n\nPropriedade Intelectual\n\nO aplicativo How To é propriedade exclusiva da empresa desenvolvedora e detentora dos direitos autorais e de propriedade intelectual relacionados ao aplicativo. Você concorda em não copiar, modificar, distribuir ou criar obras derivadas do aplicativo sem autorização prévia por escrito da empresa.\n\nUso Permitido\n\nO aplicativo How To é fornecido apenas para uso pessoal e não comercial. Você pode baixar o aplicativo e usá-lo em um único dispositivo móvel. Você concorda em não usar o aplicativo para fins ilegais, incluindo, mas não se limitando a, fraudes, spam ou invasão de privacidade de outros usuários.\n\nConteúdo do Usuário\n\nO aplicativo How To permite que você compartilhe conteúdo com outros usuários, incluindo comentários, avaliações e sugestões. Você é o único responsável pelo conteúdo que compartilha e garante que esse conteúdo não infringe nenhum direito de propriedade intelectual ou privacidade de terceiros. A empresa reserva-se o direito de remover qualquer conteúdo que viole esses termos ou a legislação aplicável.\n\nResponsabilidade Limitada\n\nO aplicativo How To é fornecido "como está" e a empresa não oferece nenhuma garantia sobre sua funcionalidade ou desempenho. Em nenhuma circunstância a empresa será responsável por danos diretos, indiretos, incidentais, especiais ou consequenciais decorrentes do uso ou incapacidade de uso do aplicativo.\n\nAlterações nos Termos de Uso\n\nA empresa reserva-se o direito de modificar estes termos de uso a qualquer momento e sem aviso prévio. O uso continuado do aplicativo após a publicação de novos termos de uso constitui aceitação desses termos.\n\nLei Aplicável\n\nEstes termos de uso são regidos e interpretados de acordo com as leis do Brasil. Qualquer disputa decorrente do uso do aplicativo How To será resolvida por meio de arbitragem de acordo com as regras da Câmara de Arbitragem do Brasil.\n\nAo usar o aplicativo How To, você reconhece que leu e concorda com estes termos de uso. Se você tiver alguma dúvida ou preocupação sobre esses termos, entre em contato com a empresa desenvolvedora do aplicativo.'),
+              GestureDetector(
+                onTap: () => Get.back(),
+                child: Container(
+                  margin: EdgeInsets.only(top: 20),
+                  decoration: BoxDecoration(
+                      color: Color.fromRGBO(0, 9, 89, 1),
+                      borderRadius: BorderRadius.circular(5)),
+                  padding: EdgeInsets.only(top: 5),
+                  width: 10,
+                  height: 30,
+                  child: Text(
+                    'Fechar',
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      });
+}
+
+class _RegisterFormState extends State<RegisterForm> {
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKeyRegister,
+      child: Positioned(
+        top: 70,
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              width: MediaQuery.of(context).size.width - 200,
+              child: TextFormField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.account_box_outlined,
+                  ),
+                  labelText: "Nome Completo",
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onSaved: (value) => nome = value!,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Por favor, informe seu nome.';
+                  }
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              width: MediaQuery.of(context).size.width - 200,
+              child: TextFormField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.mail),
+                  labelText: "E-mail",
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onSaved: (value) => email = value!,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Por favor, insira um email.';
+                  }
+                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                      .hasMatch(value)) {
+                    return 'Por favor, insira um email válido.';
+                  }
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              width: MediaQuery.of(context).size.width - 200,
+              child: TextFormField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.lock),
+                  labelText: "Senha",
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onSaved: (value) => password = value!,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return '';
+                  }
+                  if (value.length < 6) {
+                    return 'Senha muito curta';
+                  }
+                  password = value;
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              width: MediaQuery.of(context).size.width - 200,
+              child: TextFormField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.check),
+                  labelText: "Confirmar senha",
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Por favor confirme a senha';
+                  }
+                  if (password != value) {
+                    return 'As senhas não coincidem';
+                  }
+                  _confirmPassword = value;
+                  return null;
+                },
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Checkbox(
+                      checkColor: Colors.white,
+                      fillColor: MaterialStateProperty.resolveWith(getColor),
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value!;
+                        });
+                      }),
+                ),
+                Text(
+                  'Concordo com os',
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _popUp(context);
+                  },
+                  child: Text(
+                    ' termos de uso',
+                    style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                  ),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () => register(context),
+              child: Container(
+                margin: EdgeInsets.only(top: 20),
+                width: MediaQuery.of(context).size.width - 200,
+                height: 40,
+                padding: EdgeInsets.only(top: 8),
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(0, 9, 89, 1),
+                    borderRadius: BorderRadius.circular(5)),
+                child: Text(
+                  'Cadastrar-se',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
