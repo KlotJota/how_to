@@ -10,6 +10,7 @@ class OtherTutorials extends StatefulWidget {
 
 class _OtherTutorialsState extends State<OtherTutorials> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final int maxTutorials = 6;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class _OtherTutorialsState extends State<OtherTutorials> {
           }
 
           var tutoriais = snapshot.data!.docs;
+          tutoriais = tutoriais.take(maxTutorials).toList();
           return Column(
             children: [
               SizedBox(

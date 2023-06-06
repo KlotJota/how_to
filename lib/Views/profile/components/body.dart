@@ -39,6 +39,6 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Favorites());
+    return Scaffold(body: SafeArea(child: Favorites()));
   }
 }

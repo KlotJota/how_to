@@ -6,7 +6,9 @@ import 'package:how_to/Views/home/components/profile_panel.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Scaffold(
+        body: SafeArea(
+            child: Stack(
       children: [
         Container(
           alignment: Alignment.topCenter,
@@ -78,7 +80,7 @@ class Body extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        'Outros Tutoriais',
+                        'Tutoriais Recentes',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
@@ -95,6 +97,6 @@ class Body extends StatelessWidget {
           ),
         ),
       ],
-    );
+    )));
   }
 }

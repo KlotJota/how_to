@@ -4,7 +4,9 @@ import 'package:how_to/Views/login/components/login_form.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
+    return Scaffold(
+        body: SafeArea(
+            child: Stack(children: [
       Container(
         alignment: Alignment.topCenter,
         child: Container(
@@ -52,6 +54,6 @@ class Body extends StatelessWidget {
           ),
         ),
       ),
-    ]);
+    ])));
   }
 }

@@ -168,7 +168,8 @@ class _TutorialEditPage extends State<TutorialEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+        body: SafeArea(
+      child: ListView(
         physics: BouncingScrollPhysics(),
         children: [
           Stack(
@@ -245,6 +246,6 @@ class _TutorialEditPage extends State<TutorialEditPage> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

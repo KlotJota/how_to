@@ -181,7 +181,9 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Scaffold(
+        body: SafeArea(
+            child: ListView(
       physics: BouncingScrollPhysics(),
       children: [
         Stack(
@@ -243,6 +245,6 @@ class _BodyState extends State<Body> {
           ],
         ),
       ],
-    );
+    )));
   }
 }
