@@ -5,11 +5,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/create_tutorial/components/controllers.singleton.dart';
+
 import 'package:how_to/Views/create_tutorial/components/create_button.dart';
-import 'package:how_to/Views/create_tutorial/components/create_category.dart';
+
 import 'package:how_to/Views/create_tutorial/components/create_image.dart';
-import 'package:how_to/Views/create_tutorial/components/create_text.dart';
-import 'package:how_to/Views/create_tutorial/components/create_title.dart';
+
+import 'package:how_to/Views/create_tutorial/components/create_forms.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Body extends StatefulWidget {
@@ -22,9 +23,9 @@ class _BodyState extends State<Body> {
 
   void criarTutorial(BuildContext context) async {
     if (formKeyCreate.currentState!.validate()) {
-      String titulo = ControllersSingleton().tituloController.text;
-      String texto = ControllersSingleton().textoController.text;
-      String categoria = ControllersSingleton().categoriaController.text;
+      String titulo = CreateController().titulo.text;
+      String texto = CreateController().texto.text;
+      String categoria = CreateController().categoria.text;
       try {
         CollectionReference collection =
             FirebaseFirestore.instance.collection('tutoriais');
@@ -174,7 +175,9 @@ class _BodyState extends State<Body> {
       String imageUrl = await storageRef.getDownloadURL();
 
       setState(() {
-        ControllersSingleton.controllers.imagem = imageUrl;
+        if (imageUrl.isNotEmpty) {
+          ControllersSingleton.controllers.imagem = imageUrl;
+        }
       });
     }
   }
@@ -229,9 +232,7 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       GestureDetector(onTap: pegaImagem, child: CreateImage()),
-                      CreateTitle(),
-                      CreateCategory(),
-                      CreateText(),
+                      CreateForms(),
                       GestureDetector(
                           onTap: () {
                             criarTutorial(context);

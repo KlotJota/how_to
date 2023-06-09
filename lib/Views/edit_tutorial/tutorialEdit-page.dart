@@ -33,6 +33,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
   String titulo = ControllersSingleton.controllers.tituloController.text;
   String texto = ControllersSingleton.controllers.textoController.text;
   String categoria = ControllersSingleton.controllers.categoriaController.text;
+  String? imagem = ControllersSingleton.controllers.imagem;
 
   @override
   void initState() {
@@ -51,7 +52,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
       if (tutorial != null) {
         final tutorialData = tutorial!.data() as Map<String, dynamic>;
         titulo = tutorialData['titulo'];
-        ControllersSingleton.controllers.imagem = tutorialData['imagem'];
+        imagem = tutorialData['imagem'];
         categoria = tutorialData['categoria'];
         texto = tutorialData['texto'];
       }

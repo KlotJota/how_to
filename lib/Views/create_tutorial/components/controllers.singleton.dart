@@ -4,7 +4,7 @@ class ControllersSingleton {
   static final ControllersSingleton controllers =
       ControllersSingleton._internal();
 
-  String? imagem = '';
+  String? _imagem = '';
 
   TextEditingController _tituloController = TextEditingController();
 
@@ -23,4 +23,10 @@ class ControllersSingleton {
   TextEditingController get textoController => _textoController;
 
   TextEditingController get categoriaController => _categoriaController;
+
+  String? get imagem => _imagem;
+
+  set imagem(String? value) {
+    _imagem = value;
+  }
 }
