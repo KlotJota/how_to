@@ -19,8 +19,9 @@ String email = '';
 String password = '';
 String _confirmPassword = '';
 String imagem = '';
-
 bool isChecked = false;
+bool _passVisible = false;
+bool _checkPassVisible = false;
 
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -177,10 +178,20 @@ class _RegisterFormState extends State<RegisterForm> {
               margin: EdgeInsets.only(bottom: 10),
               width: MediaQuery.of(context).size.width - 200,
               child: TextFormField(
-                obscureText: true,
+                obscureText: !_passVisible,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.lock),
-                  labelText: "Senha",
+                  labelText: 'Senha',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _passVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _passVisible = !_passVisible;
+                      });
+                    },
+                  ),
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 onSaved: (value) => password = value!,
@@ -199,10 +210,22 @@ class _RegisterFormState extends State<RegisterForm> {
               margin: EdgeInsets.only(bottom: 10),
               width: MediaQuery.of(context).size.width - 200,
               child: TextFormField(
-                obscureText: true,
+                obscureText: !_checkPassVisible,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.check),
-                  labelText: "Confirmar senha",
+                  labelText: 'Confirmar Senha',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _checkPassVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _checkPassVisible = !_checkPassVisible;
+                      });
+                    },
+                  ),
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
@@ -246,22 +269,45 @@ class _RegisterFormState extends State<RegisterForm> {
               ],
             ),
             GestureDetector(
-              onTap: () => register(context),
               child: Container(
                 margin: EdgeInsets.only(top: 20),
                 width: MediaQuery.of(context).size.width - 200,
                 height: 40,
-                padding: EdgeInsets.only(top: 8),
                 decoration: BoxDecoration(
-                    color: Color.fromRGBO(0, 9, 89, 1),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Text(
-                  'Cadastrar-se',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  color: Color.fromRGBO(0, 9, 89, 1),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    if (!isChecked) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Erro de registro'),
+                          content: Text(
+                              'Você deve concordar com os termos e condições.'),
+                          actions: [
+                            TextButton(
+                              child: Text('OK'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      register(context);
+                    }
+                  },
+                  child: Text(
+                    'Cadastrar-se',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),

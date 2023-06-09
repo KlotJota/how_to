@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/reset_password/reset-pass.dart';
-
 import '../../first_pages/first_page.dart';
 import '../../first_pages/first_page_anonymous.dart';
 import '../../register/user-register.dart';
@@ -15,10 +14,9 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   String email = '';
   String password = '';
-
   FirebaseAuth auth = FirebaseAuth.instance;
-
   var formKeyLogin = GlobalKey<FormState>();
+  bool _passVisible = false;
 
   void login(BuildContext context) async {
     if (formKeyLogin.currentState!.validate()) {
@@ -147,7 +145,7 @@ class _LoginFormState extends State<LoginForm> {
                 margin: EdgeInsets.only(bottom: 10),
                 width: MediaQuery.of(context).size.width - 200,
                 child: TextFormField(
-                  obscureText: true,
+                  obscureText: !_passVisible,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   onSaved: (value) => password = value!,
                   validator: (value) {
@@ -158,6 +156,16 @@ class _LoginFormState extends State<LoginForm> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.lock),
                     labelText: 'Senha',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passVisible ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passVisible = !_passVisible;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),
