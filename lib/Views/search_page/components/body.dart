@@ -25,7 +25,6 @@ class _BodyState extends State<Body> {
                 child: CircularProgressIndicator(),
               );
             }
-
             return Container(
               width: double.infinity,
               height: double.infinity,

@@ -18,7 +18,8 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        body: SafeArea(
+      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: firestore.collection('tutoriais').snapshots(),
         builder: (context, snapshots) {
           if (!snapshots.hasData) {
@@ -155,6 +156,6 @@ class _SearchPageState extends State<SearchPage> {
           );
         },
       ),
-    );
+    ));
   }
 }
