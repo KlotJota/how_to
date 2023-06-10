@@ -7,6 +7,18 @@ class ProfileMenu extends StatefulWidget {
   State<ProfileMenu> createState() => _ProfileMenuState();
 }
 
+class QuantiaFavoritos {
+  static final QuantiaFavoritos quantiaFavoritos = QuantiaFavoritos._internal();
+
+  String? quantia;
+
+  factory QuantiaFavoritos() {
+    return quantiaFavoritos;
+  }
+
+  QuantiaFavoritos._internal();
+}
+
 class _ProfileMenuState extends State<ProfileMenu> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -43,9 +55,8 @@ class _ProfileMenuState extends State<ProfileMenu> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Column(
-              children: [
+              margin: EdgeInsets.only(top: 10),
+              child: Column(children: [
                 Container(
                     margin: EdgeInsets.only(bottom: 10),
                     child: Text(
@@ -53,14 +64,14 @@ class _ProfileMenuState extends State<ProfileMenu> {
                       style: TextStyle(fontSize: 25),
                     )),
                 Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      favoritos.length.toString(),
-                      style: TextStyle(fontSize: 23),
-                    ))
-              ],
-            ),
-          ),
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: favoritos.length == 0
+                      ? Text('0', style: TextStyle(fontSize: 23))
+                      : Text(
+                          QuantiaFavoritos.quantiaFavoritos.quantia.toString(),
+                          style: TextStyle(fontSize: 23)),
+                )
+              ]))
         ],
       ),
     );

@@ -200,6 +200,7 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                           onTap:
                                                                               () {
                                                                             removerFavorito(favorito.id);
+
                                                                             Get.back();
                                                                           },
                                                                           child:

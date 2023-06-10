@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:how_to/Views/edit_tutorial/tutorialEdit-page.dart';
+import 'package:how_to/Views/profile/components/profile.menu.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_image.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_text.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_title.dart';
@@ -187,6 +188,10 @@ class _TutorialPageState extends State<TutorialPage> {
                                                       FieldValue.arrayUnion(
                                                           [tutorial!.id])
                                                 }, SetOptions(merge: true));
+                                                QuantiaFavoritos
+                                                    .quantiaFavoritos.quantia
+                                                    .toString();
+                                                setState(() {});
                                               } else {
                                                 popUpRegister();
                                               }

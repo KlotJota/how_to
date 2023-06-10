@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/create_tutorial/components/controllers.singleton.dart';
 import 'package:how_to/Views/edit_tutorial/components/edit_category.dart';
-import 'package:how_to/Views/edit_tutorial/components/edit_image.dart';
+
 import 'package:how_to/Views/edit_tutorial/components/edit_text.dart';
 import 'package:how_to/Views/edit_tutorial/components/edit_title.dart';
 import 'package:how_to/Views/edit_tutorial/components/update_button.dart';
@@ -33,7 +33,8 @@ class _TutorialEditPage extends State<TutorialEditPage> {
   String titulo = ControllersSingleton.controllers.tituloController.text;
   String texto = ControllersSingleton.controllers.textoController.text;
   String categoria = ControllersSingleton.controllers.categoriaController.text;
-  String? imagem = ControllersSingleton.controllers.imagem;
+  String? imagem = ControllersSingleton.controllers.imagem.text;
+  XFile? pickedFile;
 
   @override
   void initState() {
@@ -63,6 +64,23 @@ class _TutorialEditPage extends State<TutorialEditPage> {
     try {
       var updateData = <String, dynamic>{};
 
+      if (pickedFile != null) {
+        File imageFile = File(pickedFile!.path);
+
+        String imagemRef = "imagens/img-${DateTime.now().toString()}.jpg";
+        Reference storageRef = FirebaseStorage.instance.ref().child(imagemRef);
+        await storageRef.putFile(imageFile);
+
+        // Obter URL da imagem
+        String imageUrl = await storageRef.getDownloadURL();
+
+        setState(() {
+          if (imageUrl.isNotEmpty) {
+            ControllersSingleton.controllers.imagem.text = imageUrl;
+          }
+        });
+      }
+
       if (ControllersSingleton.controllers.tituloController.text.isNotEmpty) {
         updateData['titulo'] =
             ControllersSingleton.controllers.tituloController.text;
@@ -73,8 +91,8 @@ class _TutorialEditPage extends State<TutorialEditPage> {
             ControllersSingleton.controllers.textoController.text;
       }
 
-      if (ControllersSingleton.controllers.imagem!.isNotEmpty) {
-        updateData['imagem'] = ControllersSingleton.controllers.imagem;
+      if (ControllersSingleton.controllers.imagem!.text.isNotEmpty) {
+        updateData['imagem'] = ControllersSingleton.controllers.imagem.text;
       }
 
       if (ControllersSingleton
@@ -97,22 +115,13 @@ class _TutorialEditPage extends State<TutorialEditPage> {
 
   Future<void> pegaImagem() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
-
-      String imagemRef = "imagens/img-${DateTime.now().toString()}.jpg";
-      Reference storageRef = FirebaseStorage.instance.ref().child(imagemRef);
-      await storageRef.putFile(imageFile);
-
-      // Obter URL da imagem
-      String imageUrl = await storageRef.getDownloadURL();
-
-      setState(() {
-        ControllersSingleton.controllers.imagem = imageUrl;
-      });
+    try {
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() => pickedFile);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -126,6 +135,79 @@ class _TutorialEditPage extends State<TutorialEditPage> {
       return Color.fromRGBO(0, 9, 89, 1);
     }
     return Color.fromRGBO(0, 9, 89, 1);
+  }
+
+  void _popUpImagem(context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          elevation: 10,
+          titlePadding: EdgeInsets.all(5),
+          title: Text('Escolher imagem'),
+          backgroundColor: Color.fromARGB(255, 240, 240, 240),
+          content: pickedFile == null
+              ? GestureDetector(
+                  onTap: () {
+                    pegaImagem();
+                    Get.back();
+                  },
+                  child: Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 243, 243, 243),
+                          border: Border.all(
+                              width: 1,
+                              color: Color.fromARGB(255, 112, 112, 112)),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(child: Icon(Icons.add)),
+                          Text("Selecione uma imagem"),
+                        ],
+                      )))
+              : Container(
+                  width: 200,
+                  height: 150,
+                  child: GestureDetector(
+                    onTap: () {
+                      pegaImagem();
+                      Get.back();
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.file(
+                        File(pickedFile!.path),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Container(
+                    padding: EdgeInsets.only(top: 5),
+                    height: 30,
+                    width: 80,
+                    child: Text(
+                      'Fechar',
+                      style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        );
+      },
+    );
   }
 
   void _popUpSucesso(context) {
@@ -228,7 +310,24 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                           ),
                         ),
                         GestureDetector(
-                            onTap: pegaImagem, child: EditImage(widget.id)),
+                            onTap: () => _popUpImagem(context),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width - 150,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1,
+                                      color:
+                                          Color.fromARGB(255, 112, 112, 112)),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                    ControllersSingleton
+                                        .controllers.imagem.text,
+                                    fit: BoxFit.cover),
+                              ),
+                            )),
                         EditTitle(widget.id),
                         EditCategory(widget.id),
                         EditText(widget.id),
