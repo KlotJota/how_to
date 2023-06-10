@@ -6,6 +6,7 @@ import 'package:how_to/Views/search_page/search-page.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
+import 'package:how_to/views/login/user_login.dart';
 
 import '../home/home.dart';
 import '../profile/user_profile.dart';
@@ -31,7 +32,7 @@ class _FirstPageState extends State<FirstPage> {
   void logOut(BuildContext context) async {
     try {
       await auth.signOut();
-      Navigator.of(context).pushNamed('/');
+      Get.offAll(UserLoginPage());
     } catch (e) {
       print(e);
     }

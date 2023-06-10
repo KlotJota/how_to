@@ -35,7 +35,9 @@ class _FavoritesFunctionState extends State<Favorites> {
         .update({'Favoritos': favoritos});
 
     // Atualiza o estado para refletir a remoção do tutorial
-    setState(() {});
+    setState(() {
+      favoritos.length;
+    });
   }
 
   void buscarFavorito() async {
@@ -198,10 +200,12 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                         ),
                                                                         GestureDetector(
                                                                           onTap:
-                                                                              () {
-                                                                            removerFavorito(favorito.id);
+                                                                              () async {
+                                                                            await Future.delayed(Duration.zero).then((_) =>
+                                                                                removerFavorito(favorito.id));
 
                                                                             Get.back();
+                                                                            Get.reloadAll();
                                                                           },
                                                                           child:
                                                                               Container(

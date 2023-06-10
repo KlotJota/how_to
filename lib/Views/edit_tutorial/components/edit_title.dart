@@ -13,7 +13,6 @@ class EditTitle extends StatefulWidget {
 
 class _EditTitleState extends State<EditTitle> {
   DocumentSnapshot<Object?>? tutorial;
-  String titulo = ControllersSingleton.controllers.tituloController.text;
 
   @override
   void initState() {

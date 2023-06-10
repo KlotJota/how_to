@@ -46,7 +46,7 @@ class _TutorialImageState extends State<TutorialImage> {
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Image.network(
                         tutorial!['imagem'],
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         alignment: Alignment.center,
                       ),
                     ),

@@ -34,7 +34,7 @@ void register(BuildContext context) async {
           email: email, password: password);
       result.user!.updateDisplayName(nome);
 
-      Get.to(UserLoginPage());
+      Get.offAll(UserLoginPage());
     } catch (e) {
       if (e is FirebaseAuthException) {
         if (e.message ==

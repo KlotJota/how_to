@@ -57,19 +57,18 @@ class Body extends StatelessWidget {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        'Tutoriais Populares',
+                        'Tutoriais mais recentes',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Icon(
-                      Icons.star,
-                      color: Color.fromARGB(255, 255, 191, 0),
+                      Icons.calendar_month,
                     )
                   ],
                 ),
@@ -80,7 +79,7 @@ class Body extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        'Tutoriais Recentes',
+                        'Outros tutoriais',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),

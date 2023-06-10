@@ -52,8 +52,10 @@ class _TutorialEditPage extends State<TutorialEditPage> {
 
       if (tutorial != null) {
         final tutorialData = tutorial!.data() as Map<String, dynamic>;
+        setState(() {
+          imagem = tutorialData['imagem'];
+        });
         titulo = tutorialData['titulo'];
-        imagem = tutorialData['imagem'];
         categoria = tutorialData['categoria'];
         texto = tutorialData['texto'];
       }
@@ -226,7 +228,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () => Get.to(FirstPage()),
+                    onTap: () => Get.offAll(FirstPage()),
                     child: Container(
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(0, 9, 89, 1),
@@ -306,7 +308,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                           padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
                           child: Text(
                             "Atualizar Tutorial",
-                            style: TextStyle(fontSize: 50),
+                            style: TextStyle(fontSize: 40),
                           ),
                         ),
                         GestureDetector(
@@ -322,9 +324,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                                   borderRadius: BorderRadius.circular(10)),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                    ControllersSingleton
-                                        .controllers.imagem.text,
+                                child: Image.network(imagem.toString(),
                                     fit: BoxFit.cover),
                               ),
                             )),

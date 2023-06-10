@@ -15,7 +15,10 @@ class _OtherTutorialsState extends State<OtherTutorials> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: firestore.collection('tutoriais').snapshots(),
+        stream: firestore
+            .collection('tutoriais')
+            .orderBy('titulo', descending: false)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // senao tiver dados

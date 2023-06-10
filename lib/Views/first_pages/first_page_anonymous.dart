@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:how_to/Views/login/user_login.dart';
 
 import 'package:how_to/Views/search_page/search-page.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,7 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
     try {
       await auth.signOut();
 
-      Navigator.of(context).pushNamed('/');
+      Get.offAll(UserLoginPage());
     } catch (e) {
       print(e);
     }

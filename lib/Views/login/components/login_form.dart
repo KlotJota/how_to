@@ -24,7 +24,7 @@ class _LoginFormState extends State<LoginForm> {
       try {
         await auth.signInWithEmailAndPassword(email: email, password: password);
 
-        Get.to(FirstPage());
+        Get.offAll(FirstPage());
       } catch (e) {
         if (e is FirebaseAuthException) {
           if (e.message ==
@@ -72,7 +72,7 @@ class _LoginFormState extends State<LoginForm> {
   void anonimous(BuildContext context) async {
     try {
       await auth.signInAnonymously();
-      Get.to(FirstPageAnonymous());
+      Get.offAll(FirstPageAnonymous());
     } on FirebaseAuthException catch (e) {
       showDialog(
           context: context,

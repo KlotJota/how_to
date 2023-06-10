@@ -7,18 +7,6 @@ class ProfileMenu extends StatefulWidget {
   State<ProfileMenu> createState() => _ProfileMenuState();
 }
 
-class QuantiaFavoritos {
-  static final QuantiaFavoritos quantiaFavoritos = QuantiaFavoritos._internal();
-
-  String? quantia;
-
-  factory QuantiaFavoritos() {
-    return quantiaFavoritos;
-  }
-
-  QuantiaFavoritos._internal();
-}
-
 class _ProfileMenuState extends State<ProfileMenu> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -38,12 +26,12 @@ class _ProfileMenuState extends State<ProfileMenu> {
         .doc(auth.currentUser!.uid)
         .get();
 
+    setState(() {});
+
     if (tutorialDoc.exists) {
       List<dynamic> favoritosDocument = tutorialDoc.data()?['Favoritos'] ?? [];
       favoritos =
           favoritosDocument.map((favorito) => favorito.toString()).toList();
-
-      setState(() {});
     }
   }
 
@@ -64,13 +52,8 @@ class _ProfileMenuState extends State<ProfileMenu> {
                       style: TextStyle(fontSize: 25),
                     )),
                 Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: favoritos.length == 0
-                      ? Text('0', style: TextStyle(fontSize: 23))
-                      : Text(
-                          QuantiaFavoritos.quantiaFavoritos.quantia.toString(),
-                          style: TextStyle(fontSize: 23)),
-                )
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Icon(Icons.list_alt))
               ]))
         ],
       ),

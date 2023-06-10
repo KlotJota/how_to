@@ -188,10 +188,6 @@ class _TutorialPageState extends State<TutorialPage> {
                                                       FieldValue.arrayUnion(
                                                           [tutorial!.id])
                                                 }, SetOptions(merge: true));
-                                                QuantiaFavoritos
-                                                    .quantiaFavoritos.quantia
-                                                    .toString();
-                                                setState(() {});
                                               } else {
                                                 popUpRegister();
                                               }
