@@ -56,6 +56,7 @@ class _TutorialTextState extends State<TutorialText> {
                 margin: EdgeInsets.all(10),
                 child: Container(
                   child: Text(tutorial!['texto'],
+                      textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontSize: 15,
                       )),

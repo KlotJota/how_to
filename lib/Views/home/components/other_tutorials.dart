@@ -10,7 +10,6 @@ class OtherTutorials extends StatefulWidget {
 
 class _OtherTutorialsState extends State<OtherTutorials> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final int maxTutorials = 6;
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +25,13 @@ class _OtherTutorialsState extends State<OtherTutorials> {
           }
 
           var tutoriais = snapshot.data!.docs;
-          tutoriais = tutoriais.take(maxTutorials).toList();
-          return Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: ListView(
-                    physics: BouncingScrollPhysics(),
+
+          return SizedBox(
+            child: Column(
+              children: [
+                ListView(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
                     children: tutoriais
                         .map((tutorial) => GestureDetector(
                               onTap: () => Get.to(TutorialPage(tutorial
@@ -86,8 +85,8 @@ class _OtherTutorialsState extends State<OtherTutorials> {
                               ),
                             ))
                         .toList()),
-              )
-            ],
+              ],
+            ),
           );
         });
   }

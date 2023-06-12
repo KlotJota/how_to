@@ -21,6 +21,7 @@ class _ProfilePanelState extends State<ProfilePanel> {
           Row(
             children: [
               Container(
+                  alignment: Alignment.centerLeft,
                   child: auth.currentUser!.photoURL == null
                       ? CircleAvatar(backgroundImage: NetworkImage(user))
                       : CircleAvatar(
@@ -28,6 +29,7 @@ class _ProfilePanelState extends State<ProfilePanel> {
                               auth.currentUser!.photoURL.toString()),
                         )),
               Container(
+                alignment: Alignment.center,
                 padding: EdgeInsets.only(top: 10),
                 child: Column(
                   children: [
@@ -42,7 +44,10 @@ class _ProfilePanelState extends State<ProfilePanel> {
                         padding: EdgeInsets.only(left: 10),
                         child: auth.currentUser!.displayName == null
                             ? Text('Usuário')
-                            : Text(auth.currentUser!.displayName.toString())),
+                            : Text(auth.currentUser!.displayName.toString(),
+                                style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                ))),
                   ],
                 ),
               ),

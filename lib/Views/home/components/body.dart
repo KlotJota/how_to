@@ -39,59 +39,63 @@ class Body extends StatelessWidget {
                 offset: Offset(0, 2), // changes position of shadow
               ),
             ], color: Color.fromARGB(255, 250, 247, 247)),
-            child: ListView(
-              children: [
-                Container(
-                  child: Column(
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(top: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Color.fromARGB(255, 243, 243, 243),
-                          ),
-                          height: 60,
-                          width: MediaQuery.of(context).size.width - 20,
-                          child: ProfilePanel()),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        'Tutoriais mais recentes',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Container(
+                    child: Column(
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(top: 10),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Color.fromARGB(255, 243, 243, 243),
+                            ),
+                            height: 60,
+                            width: MediaQuery.of(context).size.width - 20,
+                            child: ProfilePanel()),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                'Tutoriais mais recentes',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Icon(
+                              Icons.calendar_month,
+                            )
+                          ],
+                        ),
+                        PopularTutorials(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                'Outros tutoriais',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                            ),
+                            Icon(Icons.add_box_outlined)
+                          ],
+                        ),
+                        OtherTutorials(),
+                        Container(
+                          height: 150,
+                        )
+                      ],
                     ),
-                    Icon(
-                      Icons.calendar_month,
-                    )
-                  ],
-                ),
-                PopularTutorials(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        'Outros tutoriais',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    ),
-                    Icon(Icons.add_box_outlined)
-                  ],
-                ),
-                OtherTutorials(),
-                Container(
-                  height: 120,
-                )
-              ],
+                  );
+                }
+              },
             ),
           ),
         ),

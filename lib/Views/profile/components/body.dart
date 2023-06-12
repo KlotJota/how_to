@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/profile/components/favorites.dart';
-import 'package:how_to/Views/profile/components/profile.menu.dart';
-import 'package:how_to/Views/profile/components/profile_info.dart';
 
 class Body extends StatefulWidget {
   @override

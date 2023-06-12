@@ -112,6 +112,7 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
         onPageChanged: setPaginaAtual,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 4,
         type: BottomNavigationBarType.shifting,
         unselectedItemColor: Color.fromARGB(255, 240, 240, 240),
         currentIndex: paginaAtual,
