@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/create_tutorial/components/controllers.singleton.dart';
+import 'package:how_to/Views/edit_tutorial/components/controllers.singleton.dart';
 
 class CreateController {
   static final CreateController createControllers =

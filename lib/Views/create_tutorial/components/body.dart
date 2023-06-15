@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:how_to/Views/create_tutorial/components/controllers.singleton.dart';
+import 'package:how_to/Views/edit_tutorial/components/controllers.singleton.dart';
 import 'package:how_to/Views/create_tutorial/components/create_button.dart';
 import 'package:how_to/Views/create_tutorial/components/create_forms.dart';
 import 'package:image_picker/image_picker.dart';
