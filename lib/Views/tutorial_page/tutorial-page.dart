@@ -143,6 +143,126 @@ class _TutorialPageState extends State<TutorialPage> {
     });
   }
 
+  void popupFavorite() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          elevation: 10,
+          titlePadding: EdgeInsets.all(5),
+          title: Text('Remover favorito'),
+          backgroundColor: Color.fromARGB(255, 250, 247, 247),
+          content: Text('Deseja realmente remover o tutorial dos favoritos?'),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Container(
+                    padding: EdgeInsets.only(top: 5),
+                    height: 30,
+                    width: 80,
+                    child: Text(
+                      'Não',
+                      style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    await Future.delayed(Duration.zero)
+                        .then((_) => removerFavorito(tutorial!.id));
+
+                    FirebaseFirestore.instance
+                        .collection('tutoriais')
+                        .doc(tutorial!.id)
+                        .update({
+                      "qtdFavoritos": FieldValue.increment(-1),
+                    });
+
+                    favoritos.remove(
+                        tutorial!.id); // Remove o tutorial dos favoritos
+
+                    Get.back();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(0, 9, 89, 1),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding: EdgeInsets.only(top: 5),
+                    height: 30,
+                    width: 80,
+                    child: Text(
+                      'Sim',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void popupDelete() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 10,
+            titlePadding: EdgeInsets.all(5),
+            title: Text('Excluir'),
+            backgroundColor: Color.fromARGB(255, 250, 247, 247),
+            content: Text(
+                'Deseja realmente EXCLUIR esse tutorial da base de dados?'),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: Text(
+                        'Não',
+                        style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      deletar(tutorial!.id);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(0, 9, 89, 1),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: Text(
+                        'Sim',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -230,116 +350,7 @@ class _TutorialPageState extends State<TutorialPage> {
                                                   favoritos.add(tutorial!
                                                       .id); // Adiciona o tutorial aos favoritos
                                                 } else {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return AlertDialog(
-                                                        elevation: 10,
-                                                        titlePadding:
-                                                            EdgeInsets.all(5),
-                                                        title: Text(
-                                                            'Remover favorito'),
-                                                        backgroundColor:
-                                                            Color.fromARGB(255,
-                                                                250, 247, 247),
-                                                        content: Text(
-                                                            'Deseja realmente remover o tutorial dos favoritos?'),
-                                                        actions: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              GestureDetector(
-                                                                onTap: () =>
-                                                                    Get.back(),
-                                                                child:
-                                                                    Container(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                              top: 5),
-                                                                  height: 30,
-                                                                  width: 80,
-                                                                  child: Text(
-                                                                    'Não',
-                                                                    style: TextStyle(
-                                                                        color: Color.fromRGBO(
-                                                                            0,
-                                                                            9,
-                                                                            89,
-                                                                            1)),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              GestureDetector(
-                                                                onTap:
-                                                                    () async {
-                                                                  await Future.delayed(
-                                                                          Duration
-                                                                              .zero)
-                                                                      .then((_) =>
-                                                                          removerFavorito(
-                                                                              tutorial!.id));
-
-                                                                  FirebaseFirestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          'tutoriais')
-                                                                      .doc(tutorial!
-                                                                          .id)
-                                                                      .update({
-                                                                    "qtdFavoritos":
-                                                                        FieldValue.increment(
-                                                                            -1),
-                                                                  });
-
-                                                                  favoritos.remove(
-                                                                      tutorial!
-                                                                          .id); // Remove o tutorial dos favoritos
-
-                                                                  Get.back();
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            0,
-                                                                            9,
-                                                                            89,
-                                                                            1),
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(5),
-                                                                  ),
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                              top: 5),
-                                                                  height: 30,
-                                                                  width: 80,
-                                                                  child: Text(
-                                                                    'Sim',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
+                                                  popupFavorite();
                                                 }
                                               } else {
                                                 popUpRegister();
@@ -380,93 +391,7 @@ class _TutorialPageState extends State<TutorialPage> {
                                                   if (auth.currentUser!
                                                           .displayName !=
                                                       null) {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return AlertDialog(
-                                                            elevation: 10,
-                                                            titlePadding:
-                                                                EdgeInsets.all(
-                                                                    5),
-                                                            title:
-                                                                Text('Excluir'),
-                                                            backgroundColor:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    250,
-                                                                    247,
-                                                                    247),
-                                                            content: Text(
-                                                                'Deseja realmente EXCLUIR esse tutorial da base de dados?'),
-                                                            actions: [
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceEvenly,
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    onTap: () =>
-                                                                        Get.back(),
-                                                                    child:
-                                                                        Container(
-                                                                      padding: EdgeInsets
-                                                                          .only(
-                                                                              top: 5),
-                                                                      height:
-                                                                          30,
-                                                                      width: 80,
-                                                                      child:
-                                                                          Text(
-                                                                        'Não',
-                                                                        style: TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                0,
-                                                                                9,
-                                                                                89,
-                                                                                1)),
-                                                                        textAlign:
-                                                                            TextAlign.center,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      deletar(
-                                                                          tutorial!
-                                                                              .id);
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      decoration: BoxDecoration(
-                                                                          color: Color.fromRGBO(
-                                                                              0,
-                                                                              9,
-                                                                              89,
-                                                                              1),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(5)),
-                                                                      padding: EdgeInsets
-                                                                          .only(
-                                                                              top: 5),
-                                                                      height:
-                                                                          30,
-                                                                      width: 80,
-                                                                      child:
-                                                                          Text(
-                                                                        'Sim',
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                        textAlign:
-                                                                            TextAlign.center,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            ],
-                                                          );
-                                                        });
+                                                    popupDelete();
                                                   }
                                                 },
                                                 icon: Icon(
