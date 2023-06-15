@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 
 class TutorialText extends StatefulWidget {
   final String id;

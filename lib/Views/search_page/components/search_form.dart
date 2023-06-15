@@ -9,11 +9,13 @@ class SearchForm extends StatefulWidget {
 class PesquisaSingleton {
   static final PesquisaSingleton pesquisa = PesquisaSingleton._internal();
 
-  String? valor;
+  TextEditingController _pesquisaController = TextEditingController();
 
   factory PesquisaSingleton() {
     return pesquisa;
   }
+
+  TextEditingController get pesquisaController => _pesquisaController;
 
   PesquisaSingleton._internal();
 }
@@ -27,7 +29,8 @@ class _SearchFormState extends State<SearchForm> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            PesquisaSingleton.pesquisa.valor = value;
+            PesquisaSingleton.pesquisa.pesquisaController.text = value;
+            print(PesquisaSingleton.pesquisa.pesquisaController.text);
           });
         },
         decoration: InputDecoration(

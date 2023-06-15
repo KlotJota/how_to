@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/create_tutorial/components/controllers.singleton.dart';
 import 'package:how_to/Views/edit_tutorial/components/edit_category.dart';
-
 import 'package:how_to/Views/edit_tutorial/components/edit_text.dart';
 import 'package:how_to/Views/edit_tutorial/components/edit_title.dart';
 import 'package:how_to/Views/edit_tutorial/components/update_button.dart';

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
 import 'package:get/get.dart';
 import 'package:how_to/Views/first_pages/first_page.dart';
 import 'package:how_to/Views/first_pages/first_page_anonymous.dart';
-import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
-
 import 'login/user_login.dart';
 
 class App extends StatelessWidget {

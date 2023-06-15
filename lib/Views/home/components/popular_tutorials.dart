@@ -56,7 +56,7 @@ class _PopularTutorialsState extends State<PopularTutorials> {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: firestore
             .collection('tutoriais')
-            .orderBy('criação', descending: true)
+            .orderBy('qtdFavoritos', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {

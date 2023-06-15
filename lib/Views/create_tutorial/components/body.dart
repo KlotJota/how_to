@@ -48,7 +48,8 @@ class _BodyState extends State<Body> {
           'texto': texto,
           'imagem': ControllersSingleton.controllers.imagem.text,
           'categoria': categoria,
-          'criação': DateTime.now().toString()
+          'criação': DateTime.now().toString(),
+          'qtdFavoritos': 2
         };
         await collection.add(tutoriais);
         showDialog(

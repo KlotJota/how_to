@@ -204,8 +204,11 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                             await Future.delayed(Duration.zero).then((_) =>
                                                                                 removerFavorito(favorito.id));
 
+                                                                            FirebaseFirestore.instance.collection('tutoriais').doc(favorito!.id).update({
+                                                                              "qtdFavoritos": FieldValue.increment(-1),
+                                                                            });
+
                                                                             Get.back();
-                                                                            Get.reloadAll();
                                                                           },
                                                                           child:
                                                                               Container(

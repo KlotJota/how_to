@@ -62,13 +62,13 @@ class Body extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                'Tutoriais mais recentes',
+                                'Tutoriais populares',
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Icon(
-                              Icons.calendar_month,
+                              Icons.star_border_outlined,
                             )
                           ],
                         ),

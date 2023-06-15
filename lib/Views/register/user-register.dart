@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:how_to/Views/register/components/body.dart';
 
 class UserRegisterPage extends StatefulWidget {

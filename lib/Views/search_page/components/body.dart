@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/search_page/components/search_form.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 
@@ -19,8 +18,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: firestore.collection('tutoriais').snapshots(),
         builder: (context, snapshots) {
           if (!snapshots.hasData) {
@@ -61,7 +59,24 @@ class _BodyState extends State<Body> {
                   ], color: Color.fromARGB(255, 250, 247, 247)),
                   child: Column(
                     children: [
-                      SearchForm(),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width - 20,
+                        child: TextField(
+                          onChanged: (value) {
+                            setState(() {
+                              pesquisa = value;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            labelText: 'Pesquisar',
+                            suffixIcon: Icon(Icons.search),
+                            hintText: 'Pesquise por tutoriais',
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height - 180,
                         child: ListView.builder(
@@ -76,6 +91,10 @@ class _BodyState extends State<Body> {
                                     .toLowerCase()
                                     .contains(pesquisa.toLowerCase()) &&
                                 !tutorial['categoria']
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(pesquisa.toLowerCase()) &&
+                                !tutorial['texto']
                                     .toString()
                                     .toLowerCase()
                                     .contains(pesquisa.toLowerCase())) {
@@ -140,6 +159,6 @@ class _BodyState extends State<Body> {
           );
         },
       ),
-    ));
+    );
   }
 }

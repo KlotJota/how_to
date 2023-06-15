@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:how_to/Views/create_tutorial/createTutorial-page.dart';
 import 'package:how_to/Views/search_page/search-page.dart';
-
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:how_to/views/login/user_login.dart';
-
 import '../home/home.dart';
 import '../profile/user_profile.dart';
 

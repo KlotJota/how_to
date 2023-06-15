@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:how_to/Views/edit_tutorial/tutorialEdit-page.dart';
-import 'package:how_to/Views/profile/components/profile.menu.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_image.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_text.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_title.dart';
-
 import '../first_pages/first_page.dart';
 import '../register/user-register.dart';
 
@@ -26,10 +23,13 @@ class _TutorialPageState extends State<TutorialPage> {
 
   DocumentSnapshot<Object?>? tutorial;
 
+  List<String> favoritos = [];
+
   @override
   void initState() {
     super.initState();
     buscarTutorial(widget.id);
+    buscarFavorito();
   }
 
   void popUpRegister() {
@@ -101,8 +101,6 @@ class _TutorialPageState extends State<TutorialPage> {
     Get.to(FirstPage());
   }
 
-  bool _favorito = false;
-
   final user = FirebaseAuth.instance.currentUser;
 
   bool isLogado() {
@@ -112,6 +110,37 @@ class _TutorialPageState extends State<TutorialPage> {
       return true;
     }
     return false;
+  }
+
+  void buscarFavorito() async {
+    final tutorialDoc = await FirebaseFirestore.instance
+        .collection('favoritos')
+        .doc(auth.currentUser!.uid)
+        .get();
+
+    if (tutorialDoc.exists) {
+      List<dynamic> favoritosDocument = tutorialDoc.data()?['Favoritos'] ?? [];
+      favoritos =
+          favoritosDocument.map((favorito) => favorito.toString()).toList();
+
+      setState(() {});
+    }
+  }
+
+  void removerFavorito(String tutorialId) async {
+    // Remove o tutorial da lista de favoritos
+    favoritos.removeWhere((favorito) => favorito == tutorialId);
+
+    // Atualiza a coleção "favoritos" no Firestore
+    await FirebaseFirestore.instance
+        .collection('favoritos')
+        .doc(auth.currentUser!.uid)
+        .update({'Favoritos': favoritos});
+
+    // Atualiza o estado para refletir a remoção do tutorial
+    setState(() {
+      favoritos.length;
+    });
   }
 
   @override
@@ -174,15 +203,14 @@ class _TutorialPageState extends State<TutorialPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                if (auth.currentUser!
-                                                        .displayName !=
-                                                    null) {
-                                                  _favorito = !_favorito;
-                                                  print(tutorial!.id);
-                                                  print(auth.currentUser!.uid);
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (auth.currentUser!
+                                                      .displayName !=
+                                                  null) {
+                                                if (!favoritos
+                                                    .contains(tutorial!.id)) {
                                                   FirebaseFirestore.instance
                                                       .collection('favoritos')
                                                       .doc(
@@ -192,20 +220,143 @@ class _TutorialPageState extends State<TutorialPage> {
                                                         FieldValue.arrayUnion(
                                                             [tutorial!.id])
                                                   }, SetOptions(merge: true));
+                                                  FirebaseFirestore.instance
+                                                      .collection('tutoriais')
+                                                      .doc(tutorial!.id)
+                                                      .update({
+                                                    "qtdFavoritos":
+                                                        FieldValue.increment(1),
+                                                  });
+                                                  favoritos.add(tutorial!
+                                                      .id); // Adiciona o tutorial aos favoritos
                                                 } else {
-                                                  popUpRegister();
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        elevation: 10,
+                                                        titlePadding:
+                                                            EdgeInsets.all(5),
+                                                        title: Text(
+                                                            'Remover favorito'),
+                                                        backgroundColor:
+                                                            Color.fromARGB(255,
+                                                                250, 247, 247),
+                                                        content: Text(
+                                                            'Deseja realmente remover o tutorial dos favoritos?'),
+                                                        actions: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              GestureDetector(
+                                                                onTap: () =>
+                                                                    Get.back(),
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 5),
+                                                                  height: 30,
+                                                                  width: 80,
+                                                                  child: Text(
+                                                                    'Não',
+                                                                    style: TextStyle(
+                                                                        color: Color.fromRGBO(
+                                                                            0,
+                                                                            9,
+                                                                            89,
+                                                                            1)),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () async {
+                                                                  await Future.delayed(
+                                                                          Duration
+                                                                              .zero)
+                                                                      .then((_) =>
+                                                                          removerFavorito(
+                                                                              tutorial!.id));
+
+                                                                  FirebaseFirestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          'tutoriais')
+                                                                      .doc(tutorial!
+                                                                          .id)
+                                                                      .update({
+                                                                    "qtdFavoritos":
+                                                                        FieldValue.increment(
+                                                                            -1),
+                                                                  });
+
+                                                                  favoritos.remove(
+                                                                      tutorial!
+                                                                          .id); // Remove o tutorial dos favoritos
+
+                                                                  Get.back();
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            0,
+                                                                            9,
+                                                                            89,
+                                                                            1),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(5),
+                                                                  ),
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 5),
+                                                                  height: 30,
+                                                                  width: 80,
+                                                                  child: Text(
+                                                                    'Sim',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
                                                 }
-                                              });
-                                            },
-                                            icon: Icon(
-                                              Icons.star,
-                                            ),
-                                            iconSize: 35,
-                                            color: _favorito
-                                                ? Color.fromARGB(
-                                                    255, 194, 149, 4)
-                                                : const Color.fromARGB(
-                                                    255, 179, 179, 179)),
+                                              } else {
+                                                popUpRegister();
+                                              }
+                                            });
+                                          },
+                                          child: Icon(
+                                            Icons.star,
+                                            size: 35,
+                                            color:
+                                                favoritos.contains(tutorial!.id)
+                                                    ? Color.fromARGB(
+                                                        255, 221, 171, 4)
+                                                    : Color.fromARGB(
+                                                        255, 179, 179, 179),
+                                          ),
+                                        ),
                                         isLogado()
                                             ? IconButton(
                                                 onPressed: () {
@@ -334,7 +485,7 @@ class _TutorialPageState extends State<TutorialPage> {
                                   ],
                                 ),
                                 Container(
-                                  height: 70,
+                                  height: 100,
                                 )
                               ])))
                 ])),
