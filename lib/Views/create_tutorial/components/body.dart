@@ -49,7 +49,7 @@ class _BodyState extends State<Body> {
           'imagem': ControllersSingleton.controllers.imagem.text,
           'categoria': categoria,
           'criação': DateTime.now().toString(),
-          'qtdFavoritos': 2
+          'qtdFavoritos': 1
         };
         await collection.add(tutoriais);
         showDialog(
@@ -304,7 +304,7 @@ class _BodyState extends State<Body> {
                         padding: EdgeInsets.all(30),
                         child: Text(
                           "Novo Tutorial",
-                          style: TextStyle(fontSize: 40),
+                          style: TextStyle(fontSize: 35),
                         ),
                       ),
                       GestureDetector(

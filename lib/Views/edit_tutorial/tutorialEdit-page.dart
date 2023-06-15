@@ -306,7 +306,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                           padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
                           child: Text(
                             "Atualizar Tutorial",
-                            style: TextStyle(fontSize: 40),
+                            style: TextStyle(fontSize: 35),
                           ),
                         ),
                         GestureDetector(

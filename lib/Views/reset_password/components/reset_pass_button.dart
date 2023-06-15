@@ -11,7 +11,7 @@ class ResetPassButton extends StatelessWidget {
           context: context,
           builder: (context) => AlertDialog(
                 content: Text(
-                    "Um e-mail de redefinição de senha foi enviado para ${SingletonResetPass.controller.emailController}."),
+                    "Um e-mail de redefinição de senha foi enviado para ${SingletonResetPass.controller.emailController.text}."),
                 actions: [
                   TextButton(
                       onPressed: () => Navigator.of(context).pop(),
