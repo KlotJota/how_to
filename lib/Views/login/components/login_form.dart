@@ -121,7 +121,7 @@ class _LoginFormState extends State<LoginForm> {
             children: [
               Container(
                 margin: EdgeInsets.only(bottom: 10),
-                width: MediaQuery.of(context).size.width - 200,
+                width: MediaQuery.of(context).size.width - 120,
                 child: TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   onSaved: (value) => email = value!,
@@ -135,15 +135,21 @@ class _LoginFormState extends State<LoginForm> {
                     }
                   },
                   decoration: InputDecoration(
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: const BorderSide(
+                          color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                    ),
                     labelText: 'E-mail',
+                    labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                     prefixIcon: Icon(Icons.email),
+                    prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
                     hintText: 'email@exemplo.com',
                   ),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 10),
-                width: MediaQuery.of(context).size.width - 200,
+                width: MediaQuery.of(context).size.width - 120,
                 child: TextFormField(
                   obscureText: !_passVisible,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -154,8 +160,14 @@ class _LoginFormState extends State<LoginForm> {
                     }
                   },
                   decoration: InputDecoration(
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: const BorderSide(
+                          color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                    ),
                     prefixIcon: Icon(Icons.lock),
+                    prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
                     labelText: 'Senha',
+                    labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _passVisible ? Icons.visibility : Icons.visibility_off,
@@ -166,6 +178,7 @@ class _LoginFormState extends State<LoginForm> {
                         });
                       },
                     ),
+                    suffixIconColor: Color.fromRGBO(0, 9, 89, 1),
                   ),
                 ),
               ),
@@ -187,9 +200,9 @@ class _LoginFormState extends State<LoginForm> {
                 onTap: () => login(context),
                 child: Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  width: MediaQuery.of(context).size.width - 200,
-                  height: 40,
-                  padding: EdgeInsets.only(top: 8),
+                  width: MediaQuery.of(context).size.width - 120,
+                  height: 50,
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: Color.fromRGBO(0, 9, 89, 1),
                       borderRadius: BorderRadius.circular(5)),
@@ -207,16 +220,8 @@ class _LoginFormState extends State<LoginForm> {
                     children: [
                       Container(
                         child: Container(
-                            margin: EdgeInsets.only(top: 10),
-                            alignment: Alignment.center,
-                            child: Text('  ou  ')),
-                        width: MediaQuery.of(context).size.width - 200,
-                        decoration: BoxDecoration(
-                            border: BorderDirectional(
-                                top: BorderSide(
-                                    width: 1,
-                                    color:
-                                        Color.fromARGB(255, 223, 223, 223)))),
+                            alignment: Alignment.center, child: Text('  ou  ')),
+                        width: MediaQuery.of(context).size.width - 120,
                       ),
                     ],
                   ),
@@ -227,10 +232,11 @@ class _LoginFormState extends State<LoginForm> {
                 child: Container(
                   margin: EdgeInsets.only(top: 20, bottom: 20),
                   width: MediaQuery.of(context).size.width - 120,
-                  height: 40,
+                  height: 50,
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 221, 221, 221),
                       borderRadius: BorderRadius.circular(5)),
+                  alignment: Alignment.center,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

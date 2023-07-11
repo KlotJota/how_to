@@ -137,33 +137,35 @@ class ProfileInfoState extends State<ProfileInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-            margin: EdgeInsets.only(top: 40),
-            child: GestureDetector(
-              onTap: () {
-                _popUpImagem(context);
-              },
-              child: CircleAvatar(
-                backgroundImage:
-                    NetworkImage(auth.currentUser!.photoURL.toString()),
-                radius: 40,
-              ),
-            )),
-        Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.only(top: 10),
-            child: auth.currentUser!.displayName == null
-                ? Text(
-                    'Usuário',
-                    style: TextStyle(fontSize: 18),
-                  )
-                : Text(
-                    auth.currentUser!.displayName.toString(),
-                    style: TextStyle(fontSize: 18),
-                  )),
-      ],
+    return Container(
+      child: Column(
+        children: [
+          Container(
+              margin: EdgeInsets.only(top: 10),
+              child: GestureDetector(
+                onTap: () {
+                  _popUpImagem(context);
+                },
+                child: CircleAvatar(
+                  backgroundImage:
+                      NetworkImage(auth.currentUser!.photoURL.toString()),
+                  radius: 40,
+                ),
+              )),
+          Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 10),
+              child: auth.currentUser!.displayName == null
+                  ? Text(
+                      'Usuário',
+                      style: TextStyle(fontSize: 18),
+                    )
+                  : Text(
+                      auth.currentUser!.displayName.toString(),
+                      style: TextStyle(fontSize: 18),
+                    )),
+        ],
+      ),
     );
   }
 }

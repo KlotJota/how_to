@@ -130,58 +130,72 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     return Form(
       key: formKeyRegister,
-      child: Positioned(
-        top: 70,
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 10),
-              width: MediaQuery.of(context).size.width - 200,
-              child: TextFormField(
-                decoration: InputDecoration(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            width: MediaQuery.of(context).size.width - 120,
+            child: TextFormField(
+              decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                  ),
                   prefixIcon: Icon(
                     Icons.account_box_outlined,
                   ),
+                  prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
                   labelText: "Nome Completo",
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                onSaved: (value) => nome = value!,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Por favor, informe seu nome.';
-                  }
-                },
-              ),
+                  labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1))),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              onSaved: (value) => nome = value!,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Por favor, informe seu nome.';
+                }
+              },
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 10),
-              width: MediaQuery.of(context).size.width - 200,
-              child: TextFormField(
-                decoration: InputDecoration(
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            width: MediaQuery.of(context).size.width - 120,
+            child: TextFormField(
+              decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                  ),
                   prefixIcon: Icon(Icons.mail),
+                  prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
                   labelText: "E-mail",
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                onSaved: (value) => email = value!,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Por favor, insira um email.';
-                  }
-                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                      .hasMatch(value)) {
-                    return 'Por favor, insira um email válido.';
-                  }
-                },
-              ),
+                  labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1))),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              onSaved: (value) => email = value!,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Por favor, insira um email.';
+                }
+                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                    .hasMatch(value)) {
+                  return 'Por favor, insira um email válido.';
+                }
+              },
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 10),
-              width: MediaQuery.of(context).size.width - 200,
-              child: TextFormField(
-                obscureText: !_passVisible,
-                decoration: InputDecoration(
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            width: MediaQuery.of(context).size.width - 120,
+            child: TextFormField(
+              obscureText: !_passVisible,
+              decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                  ),
                   prefixIcon: Icon(Icons.lock),
+                  prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
                   labelText: 'Senha',
+                  labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _passVisible ? Icons.visibility : Icons.visibility_off,
@@ -192,28 +206,34 @@ class _RegisterFormState extends State<RegisterForm> {
                       });
                     },
                   ),
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                onSaved: (value) => password = value!,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return '';
-                  }
-                  if (value.length < 6) {
-                    return 'Senha muito curta';
-                  }
-                  password = value;
-                },
-              ),
+                  suffixIconColor: Color.fromRGBO(0, 9, 89, 1)),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              onSaved: (value) => password = value!,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Por favor insira uma senha';
+                }
+                if (value.length < 6) {
+                  return 'Senha muito curta';
+                }
+                password = value;
+              },
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 10),
-              width: MediaQuery.of(context).size.width - 200,
-              child: TextFormField(
-                obscureText: !_checkPassVisible,
-                decoration: InputDecoration(
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            width: MediaQuery.of(context).size.width - 120,
+            child: TextFormField(
+              obscureText: !_checkPassVisible,
+              decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                  ),
                   prefixIcon: Icon(Icons.check),
+                  prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
                   labelText: 'Confirmar Senha',
+                  labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _checkPassVisible
@@ -226,21 +246,23 @@ class _RegisterFormState extends State<RegisterForm> {
                       });
                     },
                   ),
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Por favor confirme a senha';
-                  }
-                  if (password != value) {
-                    return 'As senhas não coincidem';
-                  }
-                  _confirmPassword = value;
-                  return null;
-                },
-              ),
+                  suffixIconColor: Color.fromRGBO(0, 9, 89, 1)),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Por favor confirme a senha';
+                }
+                if (password != value) {
+                  return 'As senhas não coincidem';
+                }
+                _confirmPassword = value;
+                return null;
+              },
             ),
-            Row(
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
@@ -257,59 +279,63 @@ class _RegisterFormState extends State<RegisterForm> {
                 Text(
                   'Concordo com os',
                 ),
-                GestureDetector(
-                  onTap: () {
-                    _popUp(context);
-                  },
-                  child: Text(
-                    ' termos de uso',
-                    style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                Container(
+                  padding: EdgeInsets.only(right: 15),
+                  child: GestureDetector(
+                    onTap: () {
+                      _popUp(context);
+                    },
+                    child: Text(
+                      ' termos de uso',
+                      style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                    ),
                   ),
                 ),
               ],
             ),
-            GestureDetector(
-              child: Container(
-                margin: EdgeInsets.only(top: 20),
-                width: MediaQuery.of(context).size.width - 200,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(0, 9, 89, 1),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    if (!isChecked) {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('Erro de registro'),
-                          content: Text(
-                              'Você deve concordar com os termos e condições.'),
-                          actions: [
-                            TextButton(
-                              child: Text('OK'),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      register(context);
-                    }
-                  },
-                  child: Text(
-                    'Cadastrar-se',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
+          ),
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(top: 20),
+              width: MediaQuery.of(context).size.width - 120,
+              height: 50,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(0, 9, 89, 1),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  if (!isChecked) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Erro de registro'),
+                        content: Text(
+                            'Você deve concordar com os termos e condições.'),
+                        actions: [
+                          TextButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    register(context);
+                  }
+                },
+                child: Text(
+                  'Cadastrar-se',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
