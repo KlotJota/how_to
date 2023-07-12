@@ -23,7 +23,7 @@ class Body extends StatelessWidget {
                         margin: EdgeInsets.only(top: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Color.fromARGB(255, 243, 243, 243),
+                          color: Color.fromARGB(255, 250, 247, 247),
                         ),
                         height: 60,
                         width: MediaQuery.of(context).size.width - 20,

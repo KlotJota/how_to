@@ -262,80 +262,82 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              spreadRadius: 8,
-              blurRadius: 10,
-              offset: Offset(0, 2), // changes position of shadow
-            ),
-          ], color: Color.fromARGB(255, 250, 247, 247)),
-          child: Form(
-            key: formKeyCreate,
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(30),
-                  child: Text(
-                    "Novo Tutorial",
-                    style: TextStyle(fontSize: 35),
+        child: SingleChildScrollView(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.5),
+                spreadRadius: 8,
+                blurRadius: 10,
+                offset: Offset(0, 2), // changes position of shadow
+              ),
+            ], color: Color.fromARGB(255, 250, 247, 247)),
+            child: Form(
+              key: formKeyCreate,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(30),
+                    child: Text(
+                      "Novo Tutorial",
+                      style: TextStyle(fontSize: 35),
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _popUpImagem(context);
-                  },
-                  child: pickedFile == null
-                      ? Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          width: MediaQuery.of(context).size.width - 150,
-                          height: 45,
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 243, 243, 243),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              border:
-                                  Border.all(width: 1, color: Colors.black)),
-                          child: Row(
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(left: 10, right: 5),
-                                  child: Icon(Icons.image_search)),
-                              Text(
-                                'Adicionar imagem',
-                                style: TextStyle(fontSize: 16),
-                              )
-                            ],
-                          ),
-                          alignment: Alignment.centerLeft,
-                        )
-                      : Container(
-                          width: MediaQuery.of(context).size.width - 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1,
-                                  color: Color.fromARGB(255, 112, 112, 112)),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.file(
-                              File(pickedFile!.path),
-                              fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: () {
+                      _popUpImagem(context);
+                    },
+                    child: pickedFile == null
+                        ? Container(
+                            margin: EdgeInsets.only(bottom: 10),
+                            width: MediaQuery.of(context).size.width - 150,
+                            height: 45,
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 243, 243, 243),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)),
+                            child: Row(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(left: 10, right: 5),
+                                    child: Icon(Icons.image_search)),
+                                Text(
+                                  'Adicionar imagem',
+                                  style: TextStyle(fontSize: 16),
+                                )
+                              ],
+                            ),
+                            alignment: Alignment.centerLeft,
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width - 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1,
+                                    color: Color.fromARGB(255, 112, 112, 112)),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.file(
+                                File(pickedFile!.path),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
-                ),
-                CreateForms(),
-                GestureDetector(
-                    onTap: () {
-                      criarTutorial(context);
-                    },
-                    child: CreateButton()),
-              ],
+                  ),
+                  CreateForms(),
+                  GestureDetector(
+                      onTap: () {
+                        criarTutorial(context);
+                      },
+                      child: CreateButton()),
+                ],
+              ),
             ),
           ),
         ),

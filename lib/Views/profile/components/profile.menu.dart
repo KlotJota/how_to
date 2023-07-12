@@ -26,8 +26,6 @@ class _ProfileMenuState extends State<ProfileMenu> {
         .doc(auth.currentUser!.uid)
         .get();
 
-    setState(() {});
-
     if (tutorialDoc.exists) {
       List<dynamic> favoritosDocument = tutorialDoc.data()?['Favoritos'] ?? [];
       favoritos =

@@ -33,10 +33,16 @@ class CreateForms extends StatelessWidget {
           child: TextFormField(
             controller: CreateController.createControllers.titulo,
             decoration: InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                borderSide: const BorderSide(
+                    color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+              ),
               prefixIcon: Icon(
                 Icons.title_sharp,
               ),
+              prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
               labelText: "Titulo",
+              labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
@@ -53,8 +59,14 @@ class CreateForms extends StatelessWidget {
           child: TextFormField(
             controller: CreateController.createControllers.categoria,
             decoration: InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                borderSide: const BorderSide(
+                    color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+              ),
               prefixIcon: Icon(Icons.category),
+              prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
               labelText: "Categoria",
+              labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
@@ -72,9 +84,15 @@ class CreateForms extends StatelessWidget {
             maxLines: 4,
             controller: CreateController.createControllers.texto,
             decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                ),
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.text_fields_rounded),
+                prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
                 labelText: "Texto",
+                labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
             autovalidateMode: AutovalidateMode.onUserInteraction,

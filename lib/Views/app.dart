@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/first_pages/first_page.dart';
 import 'package:how_to/Views/first_pages/first_page_anonymous.dart';
+import 'package:how_to/Views/temas/dark_mode.dart';
+import 'package:how_to/Views/temas/light_mode.dart';
 import 'login/user_login.dart';
 
 class App extends StatelessWidget {
@@ -11,6 +13,7 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Lexend'),
+      //darkTheme: darkMode,
       routes: {
         '/first_page': (context) => FirstPage(),
         '/first_page_anonymous': (context) => FirstPageAnonymous(),

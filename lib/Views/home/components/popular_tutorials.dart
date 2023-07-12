@@ -71,7 +71,7 @@ class _PopularTutorialsState extends State<PopularTutorials> {
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width - 10,
-                height: 260,
+                height: 240,
                 child: ListView.builder(
                   controller: _scrollController,
                   physics: BouncingScrollPhysics(),
@@ -82,24 +82,15 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                     return GestureDetector(
                       onTap: () => Get.to(TutorialPage(tutorial.id)),
                       child: Card(
-                        elevation: 5,
+                        elevation: 3,
                         margin: EdgeInsets.only(left: 5, right: 5),
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                bottomLeft: Radius.circular(10))),
+                                topRight: Radius.circular(15),
+                                topLeft: Radius.circular(15))),
                         child: Container(
                           decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                spreadRadius: 5,
-                                blurRadius: 10,
-                                offset:
-                                    Offset(0, 2), // changes position of shadow
-                              ),
-                            ],
                             image: DecorationImage(
                               image: NetworkImage(tutorial['imagem']),
                               fit: BoxFit.cover,
@@ -107,13 +98,12 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                           ),
                           width: 160,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 220),
+                            padding: const EdgeInsets.only(top: 200),
                             child: Container(
-                                height: 36,
-                                color: Color.fromRGBO(0, 9, 89, 1),
+                                color: Color.fromRGBO(0, 9, 89, 0.815),
                                 child: Container(
                                   padding: EdgeInsets.only(
-                                      top: 4, left: 8, right: 8),
+                                      top: 4, left: 8, right: 8, bottom: 4),
                                   child: Text(
                                     tutorial['titulo'],
                                     style: TextStyle(
@@ -137,7 +127,7 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                   width: MediaQuery.of(context).size.width - 20,
                   child: LinearProgressIndicator(
                     value: _progress,
-                    backgroundColor: Color.fromARGB(255, 202, 202, 202),
+                    backgroundColor: Color.fromARGB(0, 202, 202, 202),
                     valueColor: AlwaysStoppedAnimation<Color>(
                         Color.fromRGBO(0, 9, 89, 1)),
                   ))

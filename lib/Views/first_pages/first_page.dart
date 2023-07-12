@@ -144,32 +144,33 @@ class _FirstPageState extends State<FirstPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        elevation: 4,
+        elevation: 3,
         type: BottomNavigationBarType.shifting,
-        unselectedItemColor: Color.fromARGB(255, 240, 240, 240),
+        selectedItemColor: Color.fromRGBO(0, 9, 89, 1),
+        unselectedItemColor: Color.fromRGBO(68, 72, 109, 1),
         currentIndex: paginaAtual,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Início',
-            backgroundColor: Color.fromARGB(255, 0, 9, 89),
+            backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Pesquisar',
-            backgroundColor: Color.fromARGB(255, 0, 9, 89),
+            backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
           if (isAdmin) // Verifica a condição para mostrar o botão
             BottomNavigationBarItem(
               icon: Icon(Icons.add),
               label: 'Novo tutorial',
-              backgroundColor: Color.fromARGB(255, 0, 9, 89),
+              backgroundColor: Color.fromARGB(255, 250, 247, 247),
             ),
           if (user!.displayName != null)
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_outlined),
               label: 'Perfil',
-              backgroundColor: Color.fromARGB(255, 0, 9, 89),
+              backgroundColor: Color.fromARGB(255, 250, 247, 247),
             ),
           BottomNavigationBarItem(
             icon: GestureDetector(
@@ -177,7 +178,7 @@ class _FirstPageState extends State<FirstPage> {
               onTap: () => _popUp(context),
             ),
             label: 'Sair',
-            backgroundColor: Color.fromARGB(255, 0, 9, 89),
+            backgroundColor: Color.fromARGB(255, 250, 247, 247),
           )
         ],
         onTap: (pagina) {

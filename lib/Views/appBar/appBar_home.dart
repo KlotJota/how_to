@@ -7,7 +7,7 @@ class MyAppBarHome extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 1,
+      elevation: 2,
       automaticallyImplyLeading: false,
       title: Text('HowTo',
           style: TextStyle(

@@ -38,38 +38,30 @@ class _OtherTutorialsState extends State<OtherTutorials> {
                                   .id)), // colocar tutorial.id como parametro
                               child: Card(
                                 color: Color.fromARGB(255, 250, 247, 247),
-                                elevation: 5,
+                                elevation: 3,
                                 margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10))),
+                                        topLeft: Radius.circular(10))),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.3),
-                                        spreadRadius: 5,
-                                        blurRadius: 10,
-                                        offset: Offset(
-                                            0, 2), // changes position of shadow
-                                      ),
-                                    ],
                                     image: DecorationImage(
                                         image: NetworkImage(tutorial['imagem']),
                                         fit: BoxFit.cover,
                                         alignment: Alignment.bottomCenter),
                                   ),
-                                  width: MediaQuery.of(context).size.height,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(top: 220),
+                                    padding: const EdgeInsets.only(top: 200),
                                     child: Container(
-                                        height: 36,
-                                        color: Color.fromRGBO(0, 9, 89, 1),
+                                        color: Color.fromRGBO(0, 9, 89, 0.815),
                                         child: Container(
                                           padding: EdgeInsets.only(
-                                              top: 4, left: 8, right: 8),
+                                              top: 4,
+                                              left: 8,
+                                              right: 8,
+                                              bottom: 4),
                                           child: Text(
                                             tutorial['titulo'],
                                             style: TextStyle(
