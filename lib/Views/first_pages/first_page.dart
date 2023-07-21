@@ -147,7 +147,7 @@ class _FirstPageState extends State<FirstPage> {
         elevation: 3,
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Color.fromRGBO(0, 9, 89, 1),
-        unselectedItemColor: Color.fromRGBO(68, 72, 109, 1),
+        unselectedItemColor: Color.fromRGBO(0, 9, 89, 0.815),
         currentIndex: paginaAtual,
         items: [
           BottomNavigationBarItem(

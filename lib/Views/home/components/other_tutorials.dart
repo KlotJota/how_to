@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/loadingScreens/loading_other_tutorials.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 
 class OtherTutorials extends StatefulWidget {
@@ -21,7 +22,7 @@ class _OtherTutorialsState extends State<OtherTutorials> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // senao tiver dados
-            return CircularProgressIndicator(); // circulo de carregando
+            return LoadingOtherTutorials(); // circulo de carregando
           }
 
           var tutoriais = snapshot.data!.docs;

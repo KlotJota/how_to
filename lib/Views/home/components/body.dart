@@ -35,8 +35,7 @@ class Body extends StatelessWidget {
                           padding: EdgeInsets.all(10),
                           child: Text(
                             'Tutoriais populares',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 20),
                           ),
                         ),
                         Icon(
@@ -52,8 +51,7 @@ class Body extends StatelessWidget {
                           padding: EdgeInsets.all(10),
                           child: Text(
                             'Outros tutoriais',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
+                            style: TextStyle(fontSize: 20),
                           ),
                         ),
                         Icon(Icons.add_box_outlined)

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/loadingScreens/loading_searched_tutorials.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 
 class Body extends StatefulWidget {
@@ -23,7 +24,7 @@ class _BodyState extends State<Body> {
         builder: (context, snapshots) {
           if (!snapshots.hasData) {
             // senao tiver dados
-            return CircularProgressIndicator(); // circulo de carregando
+            return LoadingSearchedTutorials(); // circulo de carregando
           }
 
           return SafeArea(
@@ -42,7 +43,8 @@ class _BodyState extends State<Body> {
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.all(10),
+                      height: 50,
+                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
                       width: MediaQuery.of(context).size.width - 20,
                       child: TextField(
                         onChanged: (value) {
@@ -51,14 +53,34 @@ class _BodyState extends State<Body> {
                           });
                         },
                         decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                          ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5)),
                           labelText: 'Pesquisar',
+                          labelStyle:
+                              TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                           suffixIcon: Icon(Icons.search),
+                          suffixIconColor: Color.fromRGBO(0, 9, 89, 1),
                           hintText: 'Pesquise por tutoriais',
                         ),
                       ),
                     ),
+                    pesquisa == ''
+                        ? Container(
+                            margin: EdgeInsets.only(bottom: 5, top: 5),
+                            child: Text(
+                              "Todos os tutoriais",
+                              style: TextStyle(fontSize: 20),
+                            ))
+                        : Container(
+                            margin: EdgeInsets.only(bottom: 5, top: 5),
+                            child: Text(
+                              "Tutoriais encontrados",
+                              style: TextStyle(fontSize: 20),
+                            )),
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 180,
                       child: ListView.builder(
@@ -86,14 +108,14 @@ class _BodyState extends State<Body> {
                           return GestureDetector(
                             onTap: () => Get.to(TutorialPage(tutorial.id)),
                             child: Card(
-                              elevation: 5,
+                              elevation: 3,
                               margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
-                                ),
-                              ),
+                                  borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                              )),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
@@ -104,9 +126,9 @@ class _BodyState extends State<Body> {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 220),
+                                  padding: const EdgeInsets.only(top: 200),
                                   child: Container(
-                                    color: Color.fromRGBO(0, 9, 89, 1),
+                                    color: Color.fromRGBO(0, 9, 89, 0.815),
                                     child: Container(
                                       padding: EdgeInsets.only(
                                         top: 4,

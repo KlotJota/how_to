@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/loadingScreens/loading_popular_tutorials.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 import 'dart:async';
 
@@ -61,7 +62,7 @@ class _PopularTutorialsState extends State<PopularTutorials> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // senao tiver dados
-            return CircularProgressIndicator(); // circulo de carregando
+            return LoadingPopularTutorials(); // circulo de carregando
           }
 
           var tutoriais = snapshot.data!.docs;
