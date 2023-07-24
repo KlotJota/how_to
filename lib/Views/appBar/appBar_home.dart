@@ -8,12 +8,10 @@ class MyAppBarHome extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 2,
-      automaticallyImplyLeading: false,
       title: Text('HowTo',
           style: TextStyle(
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black)),
       centerTitle: false,
-      leadingWidth: 0,
       toolbarHeight: 60,
       backgroundColor: Color.fromARGB(255, 250, 247, 247),
     );

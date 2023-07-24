@@ -89,7 +89,7 @@ class _FavoritesFunctionState extends State<Favorites> {
                             physics: BouncingScrollPhysics(),
                             children: [
                               Card(
-                                margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                                margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
                                 color: Color.fromARGB(255, 250, 247, 247),
                                 elevation: 5,
                                 child: Column(

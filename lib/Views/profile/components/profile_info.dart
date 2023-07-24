@@ -50,7 +50,7 @@ class ProfileInfoState extends State<ProfileInfo> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          elevation: 10,
+          elevation: 5,
           titlePadding: EdgeInsets.all(5),
           title: Text('Escolher imagem'),
           backgroundColor: Color.fromARGB(255, 240, 240, 240),
@@ -149,7 +149,7 @@ class ProfileInfoState extends State<ProfileInfo> {
                 child: CircleAvatar(
                   backgroundImage:
                       NetworkImage(auth.currentUser!.photoURL.toString()),
-                  radius: 40,
+                  radius: 50,
                 ),
               )),
           Container(

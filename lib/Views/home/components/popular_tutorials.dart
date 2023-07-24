@@ -62,7 +62,15 @@ class _PopularTutorialsState extends State<PopularTutorials> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // senao tiver dados
-            return LoadingPopularTutorials(); // circulo de carregando
+            return Row(
+              children: [
+                LoadingPopularTutorials(),
+                LoadingPopularTutorials(),
+                LoadingPopularTutorials(),
+                LoadingPopularTutorials(),
+                LoadingPopularTutorials()
+              ],
+            ); // circulo de carregando
           }
 
           var tutoriais = snapshot.data!.docs;

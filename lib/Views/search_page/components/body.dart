@@ -24,7 +24,15 @@ class _BodyState extends State<Body> {
         builder: (context, snapshots) {
           if (!snapshots.hasData) {
             // senao tiver dados
-            return LoadingSearchedTutorials(); // circulo de carregando
+            return Column(
+              children: [
+                LoadingSearchedTutorials(),
+                LoadingSearchedTutorials(),
+                LoadingSearchedTutorials(),
+                LoadingSearchedTutorials(),
+                LoadingSearchedTutorials()
+              ],
+            ); // circulo de carregando
           }
 
           return SafeArea(

@@ -22,7 +22,15 @@ class _OtherTutorialsState extends State<OtherTutorials> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // senao tiver dados
-            return LoadingOtherTutorials(); // circulo de carregando
+            return Column(
+              children: [
+                LoadingOtherTutorials(),
+                LoadingOtherTutorials(),
+                LoadingOtherTutorials(),
+                LoadingOtherTutorials(),
+                LoadingOtherTutorials()
+              ],
+            ); // circulo de carregando
           }
 
           var tutoriais = snapshot.data!.docs;

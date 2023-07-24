@@ -172,14 +172,6 @@ class _FirstPageState extends State<FirstPage> {
               label: 'Perfil',
               backgroundColor: Color.fromARGB(255, 250, 247, 247),
             ),
-          BottomNavigationBarItem(
-            icon: GestureDetector(
-              child: Icon(Icons.logout),
-              onTap: () => _popUp(context),
-            ),
-            label: 'Sair',
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
-          )
         ],
         onTap: (pagina) {
           pc.animateToPage(pagina,
