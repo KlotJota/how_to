@@ -6,8 +6,7 @@ import 'package:how_to/Views/home/components/profile_panel.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
+    return SafeArea(
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -28,34 +27,20 @@ class Body extends StatelessWidget {
                         height: 60,
                         width: MediaQuery.of(context).size.width - 20,
                         child: ProfilePanel()),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'Tutoriais populares',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        Icon(
-                          Icons.star_border_outlined,
-                        )
-                      ],
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        'Tutoriais populares',
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                     PopularTutorials(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'Outros tutoriais',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        Icon(Icons.add_box_outlined)
-                      ],
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        'Outros tutoriais',
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                     OtherTutorials(),
                   ],
@@ -65,6 +50,6 @@ class Body extends StatelessWidget {
           },
         ),
       ),
-    ));
+    );
   }
 }

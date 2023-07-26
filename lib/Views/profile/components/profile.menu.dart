@@ -47,7 +47,7 @@ class _ProfileMenuState extends State<ProfileMenu> {
                     margin: EdgeInsets.only(bottom: 10),
                     child: Text(
                       'Tutoriais Salvos',
-                      style: TextStyle(fontSize: 25),
+                      style: TextStyle(fontSize: 20),
                     )),
                 Container(
                     margin: EdgeInsets.only(bottom: 10),

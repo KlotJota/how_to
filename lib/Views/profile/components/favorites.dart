@@ -106,14 +106,14 @@ class _FavoritesFunctionState extends State<Favorites> {
                                     crossAxisCount: 3,
                                     crossAxisSpacing: 3,
                                     mainAxisSpacing: 12,
-                                    mainAxisExtent: 130,
+                                    mainAxisExtent: 120,
                                   ),
                                   children: favoritos
                                       .map((favorito) => GestureDetector(
                                             onTap: () => Get.to(
                                                 TutorialPage(favorito.id)),
                                             child: Card(
-                                              elevation: 5,
+                                              elevation: 3,
                                               clipBehavior:
                                                   Clip.antiAliasWithSaveLayer,
                                               shape: RoundedRectangleBorder(
