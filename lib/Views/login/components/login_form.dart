@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/first_pages/first_page_anonymous.dart';
 import 'package:how_to/Views/reset_password/reset-pass.dart';
 import '../../first_pages/first_page.dart';
-import '../../first_pages/first_page_anonymous.dart';
+
 import '../../register/user-register.dart';
 
 class LoginForm extends StatefulWidget {
