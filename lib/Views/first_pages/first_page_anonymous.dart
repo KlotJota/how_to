@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:how_to/Views/login/user_login.dart';
 import 'package:how_to/Views/search_page/search-page.dart';
 import 'package:get/get.dart';
@@ -28,7 +27,7 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
     try {
       await auth.signOut();
 
-      Get.offAll(UserLoginPage());
+      Get.offAll(const UserLoginPage());
     } catch (e) {
       print(e);
     }
@@ -40,10 +39,10 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Sair'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
-            content: Text('Você realmente deseja sair do aplicativo?'),
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Sair'),
+            backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+            content: const Text('Você realmente deseja sair do aplicativo?'),
             actions: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,10 +50,10 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Não',
                         style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                         textAlign: TextAlign.center,
@@ -65,12 +64,12 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
                     onTap: () => logOut(context),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 9, 89, 1),
+                          color: const Color.fromRGBO(0, 9, 89, 1),
                           borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Sim',
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -103,41 +102,41 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
     return Scaffold(
       body: PageView(
         controller: pc,
-        children: [
+        onPageChanged: setPaginaAtual,
+        children: const [
           HomePage(),
           SearchPage(),
         ],
-        onPageChanged: setPaginaAtual,
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 4,
         type: BottomNavigationBarType.shifting,
-        selectedItemColor: Color.fromRGBO(0, 9, 89, 1),
-        unselectedItemColor: Color.fromRGBO(68, 72, 109, 1),
+        selectedItemColor: const Color.fromRGBO(0, 9, 89, 1),
+        unselectedItemColor: const Color.fromRGBO(68, 72, 109, 1),
         currentIndex: paginaAtual,
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Início',
             backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Pesquisar',
             backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
           BottomNavigationBarItem(
             icon: GestureDetector(
-              child: Icon(Icons.logout),
+              child: const Icon(Icons.logout),
               onTap: () => _popUp(context),
             ),
             label: 'Sair',
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
+            backgroundColor: const Color.fromARGB(255, 250, 247, 247),
           )
         ],
         onTap: (pagina) {
           pc.animateToPage(pagina,
-              duration: Duration(milliseconds: 450), curve: Curves.ease);
+              duration: const Duration(milliseconds: 450), curve: Curves.ease);
           if (pagina == pc.page!.round()) {
             _desabilitarAnimacao();
           } else {

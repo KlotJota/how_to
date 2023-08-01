@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class TutorialImage extends StatefulWidget {
   final String id;
-  TutorialImage(this.id);
+  const TutorialImage(this.id, {super.key});
 
   @override
   State<TutorialImage> createState() => _TutorialImageState();
@@ -29,11 +29,11 @@ class _TutorialImageState extends State<TutorialImage> {
   @override
   Widget build(BuildContext context) {
     return tutorial == null
-        ? Center(
+        ? const Center(
             child: CircularProgressIndicator(),
           )
         : Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             height: 200,
             child: Column(
               children: [
@@ -42,7 +42,7 @@ class _TutorialImageState extends State<TutorialImage> {
                   fit: StackFit.expand,
                   children: [
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Image.network(
                         tutorial!['imagem'],

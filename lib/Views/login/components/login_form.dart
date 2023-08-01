@@ -8,6 +8,8 @@ import '../../first_pages/first_page.dart';
 import '../../register/user-register.dart';
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
@@ -25,7 +27,7 @@ class _LoginFormState extends State<LoginForm> {
       try {
         await auth.signInWithEmailAndPassword(email: email, password: password);
 
-        Get.offAll(FirstPage());
+        Get.offAll(const FirstPage());
       } catch (e) {
         if (e is FirebaseAuthException) {
           if (e.message ==
@@ -35,10 +37,10 @@ class _LoginFormState extends State<LoginForm> {
                 builder: (context) {
                   return AlertDialog(
                     elevation: 10,
-                    titlePadding: EdgeInsets.all(5),
-                    title: Text('Erro'),
-                    backgroundColor: Color.fromARGB(255, 248, 246, 246),
-                    content: Text('Login ou senha inválidos'),
+                    titlePadding: const EdgeInsets.all(5),
+                    title: const Text('Erro'),
+                    backgroundColor: const Color.fromARGB(255, 248, 246, 246),
+                    content: const Text('Login ou senha inválidos'),
                     actions: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,12 +49,12 @@ class _LoginFormState extends State<LoginForm> {
                             onTap: () => Get.back(),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(0, 9, 89, 1),
+                                  color: const Color.fromRGBO(0, 9, 89, 1),
                                   borderRadius: BorderRadius.circular(5)),
-                              padding: EdgeInsets.only(top: 5),
+                              padding: const EdgeInsets.only(top: 5),
                               height: 30,
                               width: 80,
-                              child: Text(
+                              child: const Text(
                                 'Ok',
                                 style: TextStyle(color: Colors.white),
                                 textAlign: TextAlign.center,
@@ -73,16 +75,16 @@ class _LoginFormState extends State<LoginForm> {
   void anonimous(BuildContext context) async {
     try {
       await auth.signInAnonymously();
-      Get.offAll(FirstPageAnonymous());
+      Get.offAll(const FirstPageAnonymous());
     } on FirebaseAuthException catch (e) {
       showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
               elevation: 10,
-              titlePadding: EdgeInsets.all(5),
-              title: Text('Erro'),
-              backgroundColor: Color.fromARGB(255, 250, 247, 247),
+              titlePadding: const EdgeInsets.all(5),
+              title: const Text('Erro'),
+              backgroundColor: const Color.fromARGB(255, 250, 247, 247),
               content: Text(e.message.toString()),
               actions: [
                 Row(
@@ -92,12 +94,12 @@ class _LoginFormState extends State<LoginForm> {
                       onTap: () => Get.back(),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Color.fromRGBO(0, 9, 89, 1),
+                            color: const Color.fromRGBO(0, 9, 89, 1),
                             borderRadius: BorderRadius.circular(5)),
-                        padding: EdgeInsets.only(top: 5),
+                        padding: const EdgeInsets.only(top: 5),
                         height: 30,
                         width: 80,
-                        child: Text(
+                        child: const Text(
                           'Ok',
                           style: TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
@@ -121,7 +123,7 @@ class _LoginFormState extends State<LoginForm> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(bottom: 10),
                 width: MediaQuery.of(context).size.width - 120,
                 child: TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -134,10 +136,11 @@ class _LoginFormState extends State<LoginForm> {
                     } else if (value.isEmpty) {
                       return ('Por favor, insira um email.');
                     }
+                    return null;
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                           color: Color.fromRGBO(0, 9, 89, 1), width: 2),
                     ),
                     labelText: 'E-mail',
@@ -149,7 +152,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(bottom: 10),
                 width: MediaQuery.of(context).size.width - 120,
                 child: TextFormField(
                   obscureText: !_passVisible,
@@ -159,16 +162,17 @@ class _LoginFormState extends State<LoginForm> {
                     if (value!.isEmpty) {
                       return ('Por favor, insira uma senha.');
                     }
+                    return null;
                   },
                   decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: const BorderSide(
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
                           color: Color.fromRGBO(0, 9, 89, 1), width: 2),
                     ),
-                    prefixIcon: Icon(Icons.lock),
-                    prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
+                    prefixIcon: const Icon(Icons.lock),
+                    prefixIconColor: const Color.fromRGBO(0, 9, 89, 1),
                     labelText: 'Senha',
-                    labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                    labelStyle: const TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _passVisible ? Icons.visibility : Icons.visibility_off,
@@ -179,14 +183,14 @@ class _LoginFormState extends State<LoginForm> {
                         });
                       },
                     ),
-                    suffixIconColor: Color.fromRGBO(0, 9, 89, 1),
+                    suffixIconColor: const Color.fromRGBO(0, 9, 89, 1),
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 20, top: 15),
+                margin: const EdgeInsets.only(bottom: 20, top: 15),
                 child: GestureDetector(
-                    child: Text(
+                    child: const Text(
                       "Esqueceu sua senha?",
                       style: TextStyle(
                           fontSize: 13,
@@ -200,14 +204,14 @@ class _LoginFormState extends State<LoginForm> {
               GestureDetector(
                 onTap: () => login(context),
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 20),
+                  margin: const EdgeInsets.only(bottom: 20),
                   width: MediaQuery.of(context).size.width - 120,
                   height: 50,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      color: Color.fromRGBO(0, 9, 89, 1),
+                      color: const Color.fromRGBO(0, 9, 89, 1),
                       borderRadius: BorderRadius.circular(5)),
-                  child: Text(
+                  child: const Text(
                     'Entrar',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20, color: Colors.white),
@@ -219,10 +223,10 @@ class _LoginFormState extends State<LoginForm> {
                 children: [
                   Stack(
                     children: [
-                      Container(
-                        child: Container(
-                            alignment: Alignment.center, child: Text('  ou  ')),
+                      SizedBox(
                         width: MediaQuery.of(context).size.width - 120,
+                        child: Container(
+                            alignment: Alignment.center, child: const Text('  ou  ')),
                       ),
                     ],
                   ),
@@ -231,14 +235,14 @@ class _LoginFormState extends State<LoginForm> {
               GestureDetector(
                 onTap: () => anonimous(context),
                 child: Container(
-                  margin: EdgeInsets.only(top: 20, bottom: 20),
+                  margin: const EdgeInsets.only(top: 20, bottom: 20),
                   width: MediaQuery.of(context).size.width - 120,
                   height: 50,
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 221, 221, 221),
+                      color: const Color.fromARGB(255, 221, 221, 221),
                       borderRadius: BorderRadius.circular(5)),
                   alignment: Alignment.center,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.account_circle_rounded),
@@ -255,15 +259,15 @@ class _LoginFormState extends State<LoginForm> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Primeira vez no How To? ',
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(UserRegisterPage(),
+                      Get.to(const UserRegisterPage(),
                           transition: Transition.rightToLeftWithFade);
                     },
-                    child: Text(
+                    child: const Text(
                       'Criar conta',
                       style: TextStyle(
                           color: Color.fromRGBO(0, 9, 89, 1),

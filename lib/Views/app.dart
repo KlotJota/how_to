@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/first_pages/first_page.dart';
 import 'package:how_to/Views/profile/user_profile.dart';
 import 'package:how_to/Views/settings/settings.dart';
-import 'package:how_to/Views/temas/dark_mode.dart';
-import 'package:how_to/Views/temas/light_mode.dart';
 import 'login/user_login.dart';
 
 class App extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  App({super.key});
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -20,15 +19,15 @@ class App extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Lexend'),
       //darkTheme: darkMode,
       getPages: [
-        GetPage(name: '/settings', page: () => Settings()),
-        GetPage(name: '/', page: () => FirstPage()),
-        GetPage(name: '/userProfile', page: () => UserProfilePage()),
+        GetPage(name: '/settings', page: () => const Settings()),
+        GetPage(name: '/', page: () => const FirstPage()),
+        GetPage(name: '/userProfile', page: () => const UserProfilePage()),
       ],
       routes: {
-        '/first_page': (context) => FirstPage(),
-        '/userProfile': (context) => UserProfilePage(),
+        '/first_page': (context) => const FirstPage(),
+        '/userProfile': (context) => const UserProfilePage(),
       },
-      home: UserLoginPage(),
+      home: const UserLoginPage(),
     );
   }
 }

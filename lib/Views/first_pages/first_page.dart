@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:how_to/Views/create_tutorial/createTutorial-page.dart';
 import 'package:how_to/Views/search_page/search-page.dart';
 import 'package:get/get.dart';
@@ -42,10 +41,10 @@ class _FirstPageState extends State<FirstPage> {
       builder: (context) {
         return AlertDialog(
           elevation: 10,
-          titlePadding: EdgeInsets.all(5),
-          title: Text('Sair'),
-          backgroundColor: Color.fromARGB(255, 240, 240, 240),
-          content: Text('Você realmente deseja sair do aplicativo?'),
+          titlePadding: const EdgeInsets.all(5),
+          title: const Text('Sair'),
+          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+          content: const Text('Você realmente deseja sair do aplicativo?'),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -53,10 +52,10 @@ class _FirstPageState extends State<FirstPage> {
                 GestureDetector(
                   onTap: () => Get.back(),
                   child: Container(
-                    padding: EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(top: 5),
                     height: 30,
                     width: 80,
-                    child: Text(
+                    child: const Text(
                       'Não',
                       style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                       textAlign: TextAlign.center,
@@ -67,12 +66,12 @@ class _FirstPageState extends State<FirstPage> {
                   onTap: () => logOut(context),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Color.fromRGBO(0, 9, 89, 1),
+                        color: const Color.fromRGBO(0, 9, 89, 1),
                         borderRadius: BorderRadius.circular(5)),
-                    padding: EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(top: 5),
                     height: 30,
                     width: 80,
-                    child: Text(
+                    child: const Text(
                       'Sim',
                       style: TextStyle(color: Colors.white),
                       textAlign: TextAlign.center,
@@ -136,38 +135,38 @@ class _FirstPageState extends State<FirstPage> {
             }
           },
           children: [
-            HomePage(),
-            SearchPage(),
-            if (isAdmin) CreateTutorialPage(),
-            UserProfilePage(),
+            const HomePage(),
+            const SearchPage(),
+            if (isAdmin) const CreateTutorialPage(),
+            const UserProfilePage(),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 3,
         type: BottomNavigationBarType.shifting,
-        selectedItemColor: Color.fromRGBO(0, 9, 89, 1),
-        unselectedItemColor: Color.fromRGBO(68, 72, 109, 1),
+        selectedItemColor: const Color.fromRGBO(0, 9, 89, 1),
+        unselectedItemColor: const Color.fromRGBO(68, 72, 109, 1),
         currentIndex: paginaAtual,
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Início',
             backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Pesquisar',
             backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
           if (isAdmin) // Verifica a condição para mostrar o botão
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.add),
               label: 'Novo tutorial',
               backgroundColor: Color.fromARGB(255, 250, 247, 247),
             ),
           if (user!.displayName != null)
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_outlined),
               label: 'Perfil',
               backgroundColor: Color.fromARGB(255, 250, 247, 247),
@@ -175,7 +174,7 @@ class _FirstPageState extends State<FirstPage> {
         ],
         onTap: (pagina) {
           pc.animateToPage(pagina,
-              duration: Duration(milliseconds: 450), curve: Curves.ease);
+              duration: const Duration(milliseconds: 450), curve: Curves.ease);
           if (pagina == pc.page!.round()) {
             _desabilitarAnimacao();
           } else {

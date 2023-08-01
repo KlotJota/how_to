@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/appBar/appBar_home.dart';
 
 import 'package:how_to/Views/profile/components/body.dart';
 import 'package:how_to/Views/profile/components/drawerMenu_content.dart';
@@ -7,6 +6,8 @@ import 'package:how_to/Views/profile/components/drawerMenu_content.dart';
 import '../appBar/appBar_profile.dart';
 
 class UserProfilePage extends StatefulWidget {
+  const UserProfilePage({super.key});
+
   @override
   State<UserProfilePage> createState() => _UserProfilePageState();
 }
@@ -18,11 +19,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         appBar: MyAppBarProfile(),
         endDrawer: Drawer(
-          child: DrawerMenuContent(),
           backgroundColor: Color.fromARGB(255, 250, 247, 247),
+          child: DrawerMenuContent(),
         ),
         body: Body());
   }

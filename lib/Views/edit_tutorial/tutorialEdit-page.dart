@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/edit_tutorial/components/controllers.singleton.dart';
@@ -16,7 +15,7 @@ import '../first_pages/first_page.dart';
 
 class TutorialEditPage extends StatefulWidget {
   final String id;
-  TutorialEditPage(this.id);
+  const TutorialEditPage(this.id, {super.key});
 
   @override
   State<TutorialEditPage> createState() => _TutorialEditPage();
@@ -91,7 +90,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
             ControllersSingleton.controllers.textoController.text;
       }
 
-      if (ControllersSingleton.controllers.imagem!.text.isNotEmpty) {
+      if (ControllersSingleton.controllers.imagem.text.isNotEmpty) {
         updateData['imagem'] = ControllersSingleton.controllers.imagem.text;
       }
 
@@ -132,9 +131,9 @@ class _TutorialEditPage extends State<TutorialEditPage> {
       MaterialState.focused,
     };
     if (states.any(interactiveStates.contains)) {
-      return Color.fromRGBO(0, 9, 89, 1);
+      return const Color.fromRGBO(0, 9, 89, 1);
     }
-    return Color.fromRGBO(0, 9, 89, 1);
+    return const Color.fromRGBO(0, 9, 89, 1);
   }
 
   void _popUpImagem(context) {
@@ -143,9 +142,9 @@ class _TutorialEditPage extends State<TutorialEditPage> {
       builder: (context) {
         return AlertDialog(
           elevation: 10,
-          titlePadding: EdgeInsets.all(5),
-          title: Text('Escolher imagem'),
-          backgroundColor: Color.fromARGB(255, 240, 240, 240),
+          titlePadding: const EdgeInsets.all(5),
+          title: const Text('Escolher imagem'),
+          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
           content: pickedFile == null
               ? GestureDetector(
                   onTap: () {
@@ -156,19 +155,19 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                       height: 50,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 243, 243, 243),
+                          color: const Color.fromARGB(255, 243, 243, 243),
                           border: Border.all(
                               width: 1,
-                              color: Color.fromARGB(255, 112, 112, 112)),
+                              color: const Color.fromARGB(255, 112, 112, 112)),
                           borderRadius: BorderRadius.circular(10)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(child: Icon(Icons.add)),
-                          Text("Selecione uma imagem"),
+                          Container(child: const Icon(Icons.add)),
+                          const Text("Selecione uma imagem"),
                         ],
                       )))
-              : Container(
+              : SizedBox(
                   width: 200,
                   height: 150,
                   child: GestureDetector(
@@ -192,10 +191,10 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                 GestureDetector(
                   onTap: () => Get.back(),
                   child: Container(
-                    padding: EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(top: 5),
                     height: 30,
                     width: 80,
-                    child: Text(
+                    child: const Text(
                       'Fechar',
                       style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                       textAlign: TextAlign.center,
@@ -216,25 +215,25 @@ class _TutorialEditPage extends State<TutorialEditPage> {
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Sucesso'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
-            content: Text(
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Sucesso'),
+            backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+            content: const Text(
                 'Seu tutorial foi atualizado e já pode ser conferido no aplicativo.'),
             actions: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () => Get.offAll(FirstPage()),
+                    onTap: () => Get.offAll(const FirstPage()),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 9, 89, 1),
+                          color: const Color.fromRGBO(0, 9, 89, 1),
                           borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Fechar',
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -253,25 +252,25 @@ class _TutorialEditPage extends State<TutorialEditPage> {
     return Scaffold(
         body: SafeArea(
       child: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: [
           Stack(
             children: [
               Container(
                 alignment: Alignment.topCenter,
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(0, 9, 89, 1),
+                ),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 child: Container(
-                  margin: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
+                  margin: const EdgeInsets.all(5),
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                           scale: 19,
                           alignment: Alignment.topCenter,
                           image: AssetImage('images/how-to-branco.png'))),
                 ),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(0, 9, 89, 1),
-                ),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
               ),
               Positioned(
                 top: 70,
@@ -283,28 +282,28 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                       color: Colors.black.withOpacity(0.5),
                       spreadRadius: 8,
                       blurRadius: 10,
-                      offset: Offset(0, 2), // changes position of shadow
+                      offset: const Offset(0, 2), // changes position of shadow
                     ),
-                  ], color: Color.fromARGB(255, 250, 247, 247)),
+                  ], color: const Color.fromARGB(255, 250, 247, 247)),
                   child: Form(
                     key: formKeyEdit,
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(bottom: 10),
+                          margin: const EdgeInsets.only(bottom: 10),
                           alignment: Alignment.topLeft,
-                          padding: EdgeInsets.only(left: 10, top: 10),
+                          padding: const EdgeInsets.only(left: 10, top: 10),
                           child: GestureDetector(
                             onTap: () => Get.back(),
-                            child: Icon(
+                            child: const Icon(
                               Icons.arrow_back_outlined,
                               color: Color.fromRGBO(0, 9, 89, 1),
                             ),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
-                          child: Text(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
+                          child: const Text(
                             "Atualizar Tutorial",
                             style: TextStyle(fontSize: 35),
                           ),
@@ -318,7 +317,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                                   border: Border.all(
                                       width: 1,
                                       color:
-                                          Color.fromARGB(255, 112, 112, 112)),
+                                          const Color.fromARGB(255, 112, 112, 112)),
                                   borderRadius: BorderRadius.circular(10)),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -333,7 +332,7 @@ class _TutorialEditPage extends State<TutorialEditPage> {
                           onTap: () {
                             editarTutorial(context);
                           },
-                          child: UpdateButton(),
+                          child: const UpdateButton(),
                         ),
                       ],
                     ),

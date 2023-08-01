@@ -6,11 +6,11 @@ class ControllersSingleton {
 
   TextEditingController _imagem = TextEditingController();
 
-  TextEditingController _tituloController = TextEditingController();
+  final TextEditingController _tituloController = TextEditingController();
 
-  TextEditingController _textoController = TextEditingController();
+  final TextEditingController _textoController = TextEditingController();
 
-  TextEditingController _categoriaController = TextEditingController();
+  final TextEditingController _categoriaController = TextEditingController();
 
   factory ControllersSingleton() {
     return controllers;

@@ -6,6 +6,8 @@ import 'package:how_to/Views/loadingScreens/loading_searched_tutorials.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 
 class Body extends StatefulWidget {
+  const Body({super.key});
+
   @override
   State<Body> createState() => _BodyState();
 }
@@ -24,7 +26,7 @@ class _BodyState extends State<Body> {
         builder: (context, snapshots) {
           if (!snapshots.hasData) {
             // senao tiver dados
-            return Column(
+            return const Column(
               children: [
                 LoadingSearchedTutorials(),
                 LoadingSearchedTutorials(),
@@ -45,14 +47,14 @@ class _BodyState extends State<Body> {
                     color: Colors.black.withOpacity(0.5),
                     spreadRadius: 8,
                     blurRadius: 10,
-                    offset: Offset(0, 2), // changes position of shadow
+                    offset: const Offset(0, 2), // changes position of shadow
                   ),
-                ], color: Color.fromARGB(255, 250, 247, 247)),
+                ], color: const Color.fromARGB(255, 250, 247, 247)),
                 child: Column(
                   children: [
                     Container(
                       height: 50,
-                      margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       width: MediaQuery.of(context).size.width - 20,
                       child: TextField(
                         onChanged: (value) {
@@ -61,38 +63,38 @@ class _BodyState extends State<Body> {
                           });
                         },
                         decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
                                 color: Color.fromRGBO(0, 9, 89, 1), width: 2),
                           ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5)),
                           labelText: 'Pesquisar',
                           labelStyle:
-                              TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
-                          suffixIcon: Icon(Icons.search),
-                          suffixIconColor: Color.fromRGBO(0, 9, 89, 1),
+                              const TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                          suffixIcon: const Icon(Icons.search),
+                          suffixIconColor: const Color.fromRGBO(0, 9, 89, 1),
                           hintText: 'Pesquise por tutoriais',
                         ),
                       ),
                     ),
                     pesquisa == ''
                         ? Container(
-                            margin: EdgeInsets.only(bottom: 5, top: 5),
-                            child: Text(
+                            margin: const EdgeInsets.only(bottom: 5, top: 5),
+                            child: const Text(
                               "Todos os tutoriais",
                               style: TextStyle(fontSize: 20),
                             ))
                         : Container(
-                            margin: EdgeInsets.only(bottom: 5, top: 5),
-                            child: Text(
+                            margin: const EdgeInsets.only(bottom: 5, top: 5),
+                            child: const Text(
                               "Tutoriais encontrados",
                               style: TextStyle(fontSize: 20),
                             )),
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 180,
                       child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         itemCount: snapshots.data!.docs.length,
                         itemBuilder: (context, index) {
                           var tutorial = snapshots.data!.docs[index];
@@ -110,16 +112,16 @@ class _BodyState extends State<Body> {
                                   .toString()
                                   .toLowerCase()
                                   .contains(pesquisa.toLowerCase())) {
-                            return SizedBox.shrink();
+                            return const SizedBox.shrink();
                           }
 
                           return GestureDetector(
                             onTap: () => Get.to(TutorialPage(tutorial.id)),
                             child: Card(
                               elevation: 3,
-                              margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                              margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                               clipBehavior: Clip.antiAliasWithSaveLayer,
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(10),
                                 topLeft: Radius.circular(10),
@@ -136,9 +138,9 @@ class _BodyState extends State<Body> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 200),
                                   child: Container(
-                                    color: Color.fromRGBO(0, 9, 89, 0.815),
+                                    color: const Color.fromRGBO(0, 9, 89, 0.815),
                                     child: Container(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                         top: 4,
                                         left: 8,
                                         right: 8,
@@ -146,7 +148,7 @@ class _BodyState extends State<Body> {
                                       ),
                                       child: Text(
                                         tutorial['titulo'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 12,
                                           overflow: TextOverflow.ellipsis,
                                           color: Color.fromARGB(

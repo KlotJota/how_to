@@ -9,6 +9,8 @@ import 'package:how_to/Views/create_tutorial/components/create_forms.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Body extends StatefulWidget {
+  const Body({super.key});
+
   @override
   State<Body> createState() => _BodyState();
 }
@@ -57,10 +59,10 @@ class _BodyState extends State<Body> {
             builder: (context) {
               return AlertDialog(
                 elevation: 10,
-                titlePadding: EdgeInsets.all(5),
-                title: Text('Sucesso'),
-                backgroundColor: Color.fromARGB(255, 240, 240, 240),
-                content: Text(
+                titlePadding: const EdgeInsets.all(5),
+                title: const Text('Sucesso'),
+                backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+                content: const Text(
                     'Seu novo tutorial foi criado e já pode ser conferido no aplicativo.'),
                 actions: [
                   Row(
@@ -70,12 +72,12 @@ class _BodyState extends State<Body> {
                         onTap: () => Get.back(),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Color.fromRGBO(0, 9, 89, 1),
+                              color: const Color.fromRGBO(0, 9, 89, 1),
                               borderRadius: BorderRadius.circular(5)),
-                          padding: EdgeInsets.only(top: 5),
+                          padding: const EdgeInsets.only(top: 5),
                           height: 30,
                           width: 80,
-                          child: Text(
+                          child: const Text(
                             'Fechar',
                             style: TextStyle(color: Colors.white),
                             textAlign: TextAlign.center,
@@ -100,9 +102,9 @@ class _BodyState extends State<Body> {
       MaterialState.focused,
     };
     if (states.any(interactiveStates.contains)) {
-      return Color.fromRGBO(0, 9, 89, 1);
+      return const Color.fromRGBO(0, 9, 89, 1);
     }
-    return Color.fromRGBO(0, 9, 89, 1);
+    return const Color.fromRGBO(0, 9, 89, 1);
   }
 
   Future<void> pegaImagem() async {
@@ -121,9 +123,9 @@ class _BodyState extends State<Body> {
       builder: (context) {
         return AlertDialog(
           elevation: 10,
-          titlePadding: EdgeInsets.all(5),
-          title: Text('Escolher imagem'),
-          backgroundColor: Color.fromARGB(255, 240, 240, 240),
+          titlePadding: const EdgeInsets.all(5),
+          title: const Text('Escolher imagem'),
+          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
           content: pickedFile == null
               ? GestureDetector(
                   onTap: () {
@@ -134,19 +136,19 @@ class _BodyState extends State<Body> {
                       height: 50,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 243, 243, 243),
+                          color: const Color.fromARGB(255, 243, 243, 243),
                           border: Border.all(
                               width: 1,
-                              color: Color.fromARGB(255, 112, 112, 112)),
+                              color: const Color.fromARGB(255, 112, 112, 112)),
                           borderRadius: BorderRadius.circular(10)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(child: Icon(Icons.add)),
-                          Text("Selecione uma imagem"),
+                          Container(child: const Icon(Icons.add)),
+                          const Text("Selecione uma imagem"),
                         ],
                       )))
-              : Container(
+              : SizedBox(
                   width: 200,
                   height: 150,
                   child: GestureDetector(
@@ -170,10 +172,10 @@ class _BodyState extends State<Body> {
                 GestureDetector(
                   onTap: () => Get.back(),
                   child: Container(
-                    padding: EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(top: 5),
                     height: 30,
                     width: 80,
-                    child: Text(
+                    child: const Text(
                       'Fechar',
                       style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                       textAlign: TextAlign.center,
@@ -194,10 +196,10 @@ class _BodyState extends State<Body> {
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Sucesso'),
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
-            content: Text(
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Sucesso'),
+            backgroundColor: const Color.fromARGB(255, 250, 247, 247),
+            content: const Text(
                 'Novo tutorial criado com sucesso! Você já poderá vê-lo no app.'),
             actions: [
               Row(
@@ -206,10 +208,10 @@ class _BodyState extends State<Body> {
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Fechar',
                         style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                         textAlign: TextAlign.center,
@@ -229,10 +231,10 @@ class _BodyState extends State<Body> {
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Erro'),
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
-            content: Text(
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Erro'),
+            backgroundColor: const Color.fromARGB(255, 250, 247, 247),
+            content: const Text(
                 'Você precisa preencher todos os campos para adicionar um novo tutorial'),
             actions: [
               Row(
@@ -241,10 +243,10 @@ class _BodyState extends State<Body> {
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Fechar',
                         style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                         textAlign: TextAlign.center,
@@ -271,16 +273,16 @@ class _BodyState extends State<Body> {
                 color: Colors.black.withOpacity(0.5),
                 spreadRadius: 8,
                 blurRadius: 10,
-                offset: Offset(0, 2), // changes position of shadow
+                offset: const Offset(0, 2), // changes position of shadow
               ),
-            ], color: Color.fromARGB(255, 250, 247, 247)),
+            ], color: const Color.fromARGB(255, 250, 247, 247)),
             child: Form(
               key: formKeyCreate,
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(30),
-                    child: Text(
+                    padding: const EdgeInsets.all(30),
+                    child: const Text(
                       "Novo Tutorial",
                       style: TextStyle(fontSize: 35),
                     ),
@@ -291,27 +293,27 @@ class _BodyState extends State<Body> {
                     },
                     child: pickedFile == null
                         ? Container(
-                            margin: EdgeInsets.only(bottom: 10),
+                            margin: const EdgeInsets.only(bottom: 10),
                             width: MediaQuery.of(context).size.width - 150,
                             height: 45,
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 243, 243, 243),
+                                color: const Color.fromARGB(255, 243, 243, 243),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                    const BorderRadius.all(Radius.circular(10)),
                                 border:
                                     Border.all(width: 1, color: Colors.black)),
+                            alignment: Alignment.centerLeft,
                             child: Row(
                               children: [
                                 Container(
-                                    margin: EdgeInsets.only(left: 10, right: 5),
-                                    child: Icon(Icons.image_search)),
-                                Text(
+                                    margin: const EdgeInsets.only(left: 10, right: 5),
+                                    child: const Icon(Icons.image_search)),
+                                const Text(
                                   'Adicionar imagem',
                                   style: TextStyle(fontSize: 16),
                                 )
                               ],
                             ),
-                            alignment: Alignment.centerLeft,
                           )
                         : Container(
                             width: MediaQuery.of(context).size.width - 150,
@@ -319,7 +321,7 @@ class _BodyState extends State<Body> {
                             decoration: BoxDecoration(
                                 border: Border.all(
                                     width: 1,
-                                    color: Color.fromARGB(255, 112, 112, 112)),
+                                    color: const Color.fromARGB(255, 112, 112, 112)),
                                 borderRadius: BorderRadius.circular(10)),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
@@ -330,12 +332,12 @@ class _BodyState extends State<Body> {
                             ),
                           ),
                   ),
-                  CreateForms(),
+                  const CreateForms(),
                   GestureDetector(
                       onTap: () {
                         criarTutorial(context);
                       },
-                      child: CreateButton()),
+                      child: const CreateButton()),
                 ],
               ),
             ),

@@ -4,9 +4,9 @@ class CreateController {
   static final CreateController createControllers =
       CreateController._internal();
 
-  TextEditingController _titulo = TextEditingController();
-  TextEditingController _categoria = TextEditingController();
-  TextEditingController _texto = TextEditingController();
+  final TextEditingController _titulo = TextEditingController();
+  final TextEditingController _categoria = TextEditingController();
+  final TextEditingController _texto = TextEditingController();
 
   factory CreateController() {
     return createControllers;
@@ -22,18 +22,20 @@ class CreateController {
 }
 
 class CreateForms extends StatelessWidget {
+  const CreateForms({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
           width: MediaQuery.of(context).size.width - 150,
           child: TextFormField(
             controller: CreateController.createControllers.titulo,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               focusedBorder: UnderlineInputBorder(
-                borderSide: const BorderSide(
+                borderSide: BorderSide(
                     color: Color.fromRGBO(0, 9, 89, 1), width: 2),
               ),
               prefixIcon: Icon(
@@ -53,13 +55,13 @@ class CreateForms extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(bottom: 25),
+          margin: const EdgeInsets.only(bottom: 25),
           width: MediaQuery.of(context).size.width - 150,
           child: TextFormField(
             controller: CreateController.createControllers.categoria,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               focusedBorder: UnderlineInputBorder(
-                borderSide: const BorderSide(
+                borderSide: BorderSide(
                     color: Color.fromRGBO(0, 9, 89, 1), width: 2),
               ),
               prefixIcon: Icon(Icons.category),
@@ -77,14 +79,14 @@ class CreateForms extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
           width: MediaQuery.of(context).size.width - 150,
           child: TextFormField(
             maxLines: 4,
             controller: CreateController.createControllers.texto,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
+                  borderSide: BorderSide(
                       color: Color.fromRGBO(0, 9, 89, 1), width: 2),
                 ),
                 border: OutlineInputBorder(),

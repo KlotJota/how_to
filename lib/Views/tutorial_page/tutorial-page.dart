@@ -11,7 +11,7 @@ import '../register/user-register.dart';
 
 class TutorialPage extends StatefulWidget {
   final String id;
-  TutorialPage(this.id);
+  const TutorialPage(this.id, {super.key});
 
   @override
   State<TutorialPage> createState() => _TutorialPageState();
@@ -38,10 +38,10 @@ class _TutorialPageState extends State<TutorialPage> {
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Criar conta'),
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
-            content: Text(
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Criar conta'),
+            backgroundColor: const Color.fromARGB(255, 250, 247, 247),
+            content: const Text(
               'Você deve criar uma conta para poder adicionar tutoriais aos favoritos e consultar sua Área de usuário',
             ),
             actions: [
@@ -51,10 +51,10 @@ class _TutorialPageState extends State<TutorialPage> {
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Fechar',
                         style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                         textAlign: TextAlign.center,
@@ -63,16 +63,16 @@ class _TutorialPageState extends State<TutorialPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(UserRegisterPage());
+                      Get.to(const UserRegisterPage());
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 9, 89, 1),
+                          color: const Color.fromRGBO(0, 9, 89, 1),
                           borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 85,
-                      child: Text(
+                      child: const Text(
                         'Criar conta',
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -98,7 +98,7 @@ class _TutorialPageState extends State<TutorialPage> {
 
   void deletar(String id) {
     firestore.collection('tutoriais').doc(id).delete();
-    Get.to(FirstPage());
+    Get.to(const FirstPage());
   }
 
   final user = FirebaseAuth.instance.currentUser;
@@ -149,10 +149,10 @@ class _TutorialPageState extends State<TutorialPage> {
       builder: (context) {
         return AlertDialog(
           elevation: 10,
-          titlePadding: EdgeInsets.all(5),
-          title: Text('Remover favorito'),
-          backgroundColor: Color.fromARGB(255, 250, 247, 247),
-          content: Text('Deseja realmente remover o tutorial dos favoritos?'),
+          titlePadding: const EdgeInsets.all(5),
+          title: const Text('Remover favorito'),
+          backgroundColor: const Color.fromARGB(255, 250, 247, 247),
+          content: const Text('Deseja realmente remover o tutorial dos favoritos?'),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -160,10 +160,10 @@ class _TutorialPageState extends State<TutorialPage> {
                 GestureDetector(
                   onTap: () => Get.back(),
                   child: Container(
-                    padding: EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(top: 5),
                     height: 30,
                     width: 80,
-                    child: Text(
+                    child: const Text(
                       'Não',
                       style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                       textAlign: TextAlign.center,
@@ -189,13 +189,13 @@ class _TutorialPageState extends State<TutorialPage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(0, 9, 89, 1),
+                      color: const Color.fromRGBO(0, 9, 89, 1),
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    padding: EdgeInsets.only(top: 5),
+                    padding: const EdgeInsets.only(top: 5),
                     height: 30,
                     width: 80,
-                    child: Text(
+                    child: const Text(
                       'Sim',
                       style: TextStyle(color: Colors.white),
                       textAlign: TextAlign.center,
@@ -216,10 +216,10 @@ class _TutorialPageState extends State<TutorialPage> {
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Excluir'),
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
-            content: Text(
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Excluir'),
+            backgroundColor: const Color.fromARGB(255, 250, 247, 247),
+            content: const Text(
                 'Deseja realmente EXCLUIR esse tutorial da base de dados?'),
             actions: [
               Row(
@@ -228,10 +228,10 @@ class _TutorialPageState extends State<TutorialPage> {
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Não',
                         style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                         textAlign: TextAlign.center,
@@ -244,12 +244,12 @@ class _TutorialPageState extends State<TutorialPage> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 9, 89, 1),
+                          color: const Color.fromRGBO(0, 9, 89, 1),
                           borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Sim',
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -268,23 +268,23 @@ class _TutorialPageState extends State<TutorialPage> {
     return SafeArea(
       child: Scaffold(
           body: tutorial == null
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : Stack(children: [
                   Container(
                     alignment: Alignment.topCenter,
+                    decoration: const BoxDecoration(
+                      color: Color.fromRGBO(0, 9, 89, 1),
+                    ),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
                     child: Container(
-                      margin: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.all(5),
+                      decoration: const BoxDecoration(
                           image: DecorationImage(
                               scale: 19,
                               alignment: Alignment.topCenter,
                               image: AssetImage('images/how-to-branco.png'))),
                     ),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(0, 9, 89, 1),
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
                   ),
                   Positioned(
                       top: 70,
@@ -297,19 +297,19 @@ class _TutorialPageState extends State<TutorialPage> {
                               spreadRadius: 8,
                               blurRadius: 10,
                               offset:
-                                  Offset(0, 2), // changes position of shadow
+                                  const Offset(0, 2), // changes position of shadow
                             ),
-                          ], color: Color.fromARGB(255, 250, 247, 247)),
+                          ], color: const Color.fromARGB(255, 250, 247, 247)),
                           child: ListView(
-                              physics: BouncingScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10),
+                                  margin: const EdgeInsets.only(bottom: 10),
                                   alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.only(left: 10, top: 10),
+                                  padding: const EdgeInsets.only(left: 10, top: 10),
                                   child: GestureDetector(
                                     onTap: () => Get.back(),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.arrow_back_outlined,
                                       color: Color.fromRGBO(0, 9, 89, 1),
                                     ),
@@ -362,9 +362,9 @@ class _TutorialPageState extends State<TutorialPage> {
                                             size: 35,
                                             color:
                                                 favoritos.contains(tutorial!.id)
-                                                    ? Color.fromARGB(
+                                                    ? const Color.fromARGB(
                                                         255, 221, 171, 4)
-                                                    : Color.fromARGB(
+                                                    : const Color.fromARGB(
                                                         255, 179, 179, 179),
                                           ),
                                         ),
@@ -378,7 +378,7 @@ class _TutorialPageState extends State<TutorialPage> {
                                                         tutorial!.id));
                                                   }
                                                 },
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.edit,
                                                   color: Color.fromARGB(
                                                       255, 0, 0, 0),
@@ -394,7 +394,7 @@ class _TutorialPageState extends State<TutorialPage> {
                                                     popupDelete();
                                                   }
                                                 },
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.delete,
                                                   color: Color.fromARGB(
                                                       255, 175, 0, 0),

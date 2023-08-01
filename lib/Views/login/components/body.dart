@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:how_to/Views/login/components/login_form.dart';
 
 class Body extends StatelessWidget {
+  const Body({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -14,19 +16,19 @@ class Body extends StatelessWidget {
               color: Colors.black.withOpacity(0.5),
               spreadRadius: 8,
               blurRadius: 10,
-              offset: Offset(0, 2), // changes position of shadow
+              offset: const Offset(0, 2), // changes position of shadow
             ),
-          ], color: Color.fromARGB(255, 250, 247, 247)),
+          ], color: const Color.fromARGB(255, 250, 247, 247)),
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.fromLTRB(30, 64, 30, 30),
-                child: Text(
+                padding: const EdgeInsets.fromLTRB(30, 64, 30, 30),
+                child: const Text(
                   "Login",
                   style: TextStyle(fontSize: 50),
                 ),
               ),
-              LoginForm()
+              const LoginForm()
             ],
           ),
         ),

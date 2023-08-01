@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/appBar/appBar_home.dart';
 import 'package:how_to/Views/create_tutorial/components/body.dart';
 
 class CreateTutorialPage extends StatefulWidget {
+  const CreateTutorialPage({super.key});
+
   @override
   State<CreateTutorialPage> createState() => _CreateTutorialPage();
 }
@@ -11,6 +12,6 @@ class CreateTutorialPage extends StatefulWidget {
 class _CreateTutorialPage extends State<CreateTutorialPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: MyAppBarHome(), body: Body());
+    return const Scaffold(appBar: MyAppBarHome(), body: Body());
   }
 }

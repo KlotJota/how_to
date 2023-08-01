@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:how_to/Views/first_pages/first_page.dart';
-import 'package:how_to/Views/profile/user_profile.dart';
-import 'package:how_to/Views/register/components/register-form.dart';
+import 'package:how_to/Views/changeProfile/changeProfile_page.dart';
 
 import '../../login/user_login.dart';
 
@@ -24,7 +22,7 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
 
     _controller.addStatusListener((status) {
@@ -60,7 +58,7 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
     void logOut(BuildContext context) async {
       try {
         await auth.signOut();
-        Get.offAll(UserLoginPage());
+        Get.offAll(const UserLoginPage());
       } catch (e) {
         print(e);
       }
@@ -72,10 +70,10 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Sair'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
-            content: Text('Você realmente deseja sair do aplicativo?'),
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Sair'),
+            backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+            content: const Text('Você realmente deseja sair do aplicativo?'),
             actions: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,10 +81,10 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Não',
                         style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                         textAlign: TextAlign.center,
@@ -97,12 +95,12 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                     onTap: () => logOut(context),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 9, 89, 1),
+                          color: const Color.fromRGBO(0, 9, 89, 1),
                           borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Sim',
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -123,10 +121,10 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Sucesso'),
-            backgroundColor: Color.fromARGB(255, 248, 246, 246),
-            content: Text(
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Sucesso'),
+            backgroundColor: const Color.fromARGB(255, 248, 246, 246),
+            content: const Text(
                 'Você será redirecionado para a tela de login para que as mudanças sejam aplicadas.'),
             actions: [
               Row(
@@ -134,17 +132,17 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      Get.offAll(UserLoginPage());
+                      Get.offAll(const UserLoginPage());
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(0, 9, 89, 1),
+                        color: const Color.fromRGBO(0, 9, 89, 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Voltar',
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -165,10 +163,10 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
           builder: (context) {
             return AlertDialog(
               elevation: 10,
-              titlePadding: EdgeInsets.all(5),
-              title: Text('Erro'),
-              backgroundColor: Color.fromARGB(255, 248, 246, 246),
-              content: Text('A senha inserida está incorreta'),
+              titlePadding: const EdgeInsets.all(5),
+              title: const Text('Erro'),
+              backgroundColor: const Color.fromARGB(255, 248, 246, 246),
+              content: const Text('A senha inserida está incorreta'),
               actions: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -177,12 +175,12 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                       onTap: () => Get.back(),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Color.fromRGBO(0, 9, 89, 1),
+                            color: const Color.fromRGBO(0, 9, 89, 1),
                             borderRadius: BorderRadius.circular(5)),
-                        padding: EdgeInsets.only(top: 5),
+                        padding: const EdgeInsets.only(top: 5),
                         height: 30,
                         width: 80,
-                        child: Text(
+                        child: const Text(
                           'Voltar',
                           style: TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
@@ -237,24 +235,24 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Confirmar senha'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
-            content: Text(
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Confirmar senha'),
+            backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+            content: const Text(
                 'Você precisa confirmar sua indentidade para realizar essa ação'),
             actions: [
               Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 120,
                     child: Form(
                       key: formKeyConfirm,
                       child: TextFormField(
                         controller: senhaController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
+                              borderSide: BorderSide(
                                   color: Color.fromRGBO(0, 9, 89, 1), width: 2),
                             ),
                             border: OutlineInputBorder(),
@@ -268,6 +266,7 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                           if (value!.isEmpty) {
                             return 'Você precisa inserir sua senha';
                           }
+
                           return null;
                         },
                       ),
@@ -279,11 +278,11 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                       GestureDetector(
                         onTap: () => Get.back(),
                         child: Container(
-                          padding: EdgeInsets.only(top: 5),
-                          margin: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 5),
+                          margin: const EdgeInsets.only(top: 10),
                           height: 30,
                           width: 80,
-                          child: Text(
+                          child: const Text(
                             'Cancelar',
                             style:
                                 TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
@@ -295,13 +294,13 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                         onTap: () => _reautenticarUsuario(senhaController.text),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Color.fromRGBO(0, 9, 89, 1),
+                              color: const Color.fromRGBO(0, 9, 89, 1),
                               borderRadius: BorderRadius.circular(5)),
-                          padding: EdgeInsets.only(top: 5),
-                          margin: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 5),
+                          margin: const EdgeInsets.only(top: 10),
                           height: 30,
                           width: 80,
-                          child: Text(
+                          child: const Text(
                             'Confirmar',
                             style: TextStyle(color: Colors.white),
                             textAlign: TextAlign.center,
@@ -324,22 +323,22 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Alterar nome'),
-            backgroundColor: Color.fromARGB(255, 240, 240, 240),
-            content:
-                Text('ATENÇÃO: Você só pode realizar essa ação a cada 10 dias'),
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Alterar nome'),
+            backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+            content: const Text(
+                'ATENÇÃO: Você só pode realizar essa ação a cada 10 dias'),
             actions: [
               Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width - 120,
                     child: TextFormField(
                       controller: novoNomeController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                                 color: Color.fromRGBO(0, 9, 89, 1), width: 2),
                           ),
                           border: OutlineInputBorder(),
@@ -362,11 +361,11 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                       GestureDetector(
                         onTap: () => Get.back(),
                         child: Container(
-                          padding: EdgeInsets.only(top: 5),
-                          margin: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 5),
+                          margin: const EdgeInsets.only(top: 10),
                           height: 30,
                           width: 80,
-                          child: Text(
+                          child: const Text(
                             'Cancelar',
                             style:
                                 TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
@@ -378,13 +377,13 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                         onTap: () => _popUpConfirmaSenha(context),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Color.fromRGBO(0, 9, 89, 1),
+                              color: const Color.fromRGBO(0, 9, 89, 1),
                               borderRadius: BorderRadius.circular(5)),
-                          padding: EdgeInsets.only(top: 5),
-                          margin: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 5),
+                          margin: const EdgeInsets.only(top: 10),
                           height: 30,
                           width: 80,
-                          child: Text(
+                          child: const Text(
                             'Confirmar',
                             style: TextStyle(color: Colors.white),
                             textAlign: TextAlign.center,
@@ -406,18 +405,18 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            color: Color.fromRGBO(0, 9, 89, 1),
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            color: const Color.fromRGBO(0, 9, 89, 1),
             width: double.infinity,
             child: Column(
               children: [
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border:
-                        Border.all(color: Color.fromARGB(255, 250, 247, 247)),
+                    border: Border.all(
+                        color: const Color.fromARGB(255, 250, 247, 247)),
                   ),
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   child: GestureDetector(
                     onTap: _startAnimation,
                     child: RotationTransition(
@@ -431,21 +430,21 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                     ),
                   ),
                 ),
-                Text('olá,',
+                const Text('olá,',
                     style: TextStyle(
                         overflow: TextOverflow.ellipsis,
                         color: Color.fromARGB(255, 250, 247, 247))),
                 Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Text(auth.currentUser!.displayName.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           overflow: TextOverflow.ellipsis,
                           fontSize: 20,
                           color: Color.fromARGB(255, 250, 247, 247))),
                 ),
                 Text(
                   auth.currentUser!.email.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                       overflow: TextOverflow.ellipsis,
                       color: Color.fromARGB(255, 250, 247, 247)),
                 ),
@@ -456,7 +455,7 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
             onTap: () {
               Get.toNamed('/settings');
             },
-            child: Padding(
+            child: const Padding(
               padding: EdgeInsets.all(10),
               child: Row(
                 children: [
@@ -473,12 +472,12 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
               ),
             ),
           ),
-          Divider(height: 10, thickness: 1),
+          const Divider(height: 10, thickness: 1),
           InkWell(
             onTap: () {
               _popUpAlteraUser(context);
             },
-            child: Padding(
+            child: const Padding(
               padding: EdgeInsets.all(10),
               child: Row(
                 children: [
@@ -495,10 +494,32 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
               ),
             ),
           ),
-          Divider(height: 10, thickness: 1),
+          const Divider(height: 10, thickness: 1),
+          InkWell(
+            onTap: () {
+              Get.to(ChangeProfilePage());
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Icon(Icons.edit, size: 30),
+                  ),
+                  Expanded(
+                      flex: 3,
+                      child: Text(
+                        "Alterar perfil",
+                        style: TextStyle(fontSize: 16),
+                      )),
+                ],
+              ),
+            ),
+          ),
+          const Divider(height: 10, thickness: 1),
           InkWell(
             onTap: () => _popUpLogout(context),
-            child: Padding(
+            child: const Padding(
               padding: EdgeInsets.all(10),
               child: Row(
                 children: [

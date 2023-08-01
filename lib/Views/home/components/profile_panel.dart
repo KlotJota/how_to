@@ -5,6 +5,8 @@ import '../../register/user-register.dart';
 import 'package:get/get.dart';
 
 class ProfilePanel extends StatefulWidget {
+  const ProfilePanel({super.key});
+
   @override
   State<ProfilePanel> createState() => _ProfilePanelState();
 }
@@ -20,10 +22,10 @@ class _ProfilePanelState extends State<ProfilePanel> {
         builder: (context) {
           return AlertDialog(
             elevation: 10,
-            titlePadding: EdgeInsets.all(5),
-            title: Text('Criar conta'),
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
-            content: Text(
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Criar conta'),
+            backgroundColor: const Color.fromARGB(255, 250, 247, 247),
+            content: const Text(
               'Você pode criar uma conta para ter acesso a sua página de perfil',
             ),
             actions: [
@@ -33,10 +35,10 @@ class _ProfilePanelState extends State<ProfilePanel> {
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: Container(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 80,
-                      child: Text(
+                      child: const Text(
                         'Fechar',
                         style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                         textAlign: TextAlign.center,
@@ -45,16 +47,16 @@ class _ProfilePanelState extends State<ProfilePanel> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(UserRegisterPage());
+                      Get.to(const UserRegisterPage());
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(0, 9, 89, 1),
+                          color: const Color.fromRGBO(0, 9, 89, 1),
                           borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: 5),
                       height: 30,
                       width: 85,
-                      child: Text(
+                      child: const Text(
                         'Criar conta',
                         style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
@@ -77,7 +79,7 @@ class _ProfilePanelState extends State<ProfilePanel> {
         }
       },
       child: Container(
-        padding: EdgeInsets.only(left: 10),
+        padding: const EdgeInsets.only(left: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -93,22 +95,22 @@ class _ProfilePanelState extends State<ProfilePanel> {
                           )),
                 Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 10),
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(left: 10, bottom: 2),
-                        child: Text(
+                        padding: const EdgeInsets.only(left: 10, bottom: 2),
+                        child: const Text(
                           'Bem vindo!',
                           style: TextStyle(fontSize: 12),
                         ),
                       ),
                       Container(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: auth.currentUser!.isAnonymous
-                              ? Text('Usuário')
+                              ? const Text('Usuário')
                               : Text(auth.currentUser!.displayName.toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                   ))),
                     ],

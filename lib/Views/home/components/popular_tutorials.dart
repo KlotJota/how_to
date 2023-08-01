@@ -6,6 +6,8 @@ import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 import 'dart:async';
 
 class PopularTutorials extends StatefulWidget {
+  const PopularTutorials({super.key});
+
   @override
   State<PopularTutorials> createState() => _PopularTutorialsState();
 }
@@ -15,7 +17,7 @@ class _PopularTutorialsState extends State<PopularTutorials> {
   final int maxTutorials = 10;
   final double itemWidth = 160;
 
-  final Duration autoScrollDuration = Duration(seconds: 3);
+  final Duration autoScrollDuration = const Duration(seconds: 3);
 
   late Timer _timer;
   late ScrollController _scrollController;
@@ -62,7 +64,7 @@ class _PopularTutorialsState extends State<PopularTutorials> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // senao tiver dados
-            return Row(
+            return const Row(
               children: [
                 LoadingPopularTutorials(),
                 LoadingPopularTutorials(),
@@ -83,7 +85,7 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                 height: 240,
                 child: ListView.builder(
                   controller: _scrollController,
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: tutoriais.length,
                   itemBuilder: (context, index) {
@@ -92,9 +94,9 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                       onTap: () => Get.to(TutorialPage(tutorial.id)),
                       child: Card(
                         elevation: 3,
-                        margin: EdgeInsets.only(left: 5, right: 5),
+                        margin: const EdgeInsets.only(left: 5, right: 5),
                         clipBehavior: Clip.antiAliasWithSaveLayer,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(15),
                                 topLeft: Radius.circular(15))),
@@ -109,13 +111,13 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 200),
                             child: Container(
-                                color: Color.fromRGBO(0, 9, 89, 0.815),
+                                color: const Color.fromRGBO(0, 9, 89, 0.815),
                                 child: Container(
-                                  padding: EdgeInsets.only(
+                                  padding: const EdgeInsets.only(
                                       top: 4, left: 8, right: 8, bottom: 4),
                                   child: Text(
                                     tutorial['titulo'],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 12,
                                         overflow: TextOverflow.ellipsis,
                                         color:
@@ -131,13 +133,13 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                 ),
               ),
               Container(
-                  margin: EdgeInsets.only(top: 5),
+                  margin: const EdgeInsets.only(top: 5),
                   height: 5,
                   width: MediaQuery.of(context).size.width - 20,
                   child: LinearProgressIndicator(
                     value: _progress,
-                    backgroundColor: Color.fromARGB(0, 202, 202, 202),
-                    valueColor: AlwaysStoppedAnimation<Color>(
+                    backgroundColor: const Color.fromARGB(0, 202, 202, 202),
+                    valueColor: const AlwaysStoppedAnimation<Color>(
                         Color.fromRGBO(0, 9, 89, 1)),
                   ))
             ],

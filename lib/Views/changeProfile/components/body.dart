@@ -1,23 +1,25 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/register/components/register-form.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 
-class ProfileInfo extends StatefulWidget {
-  const ProfileInfo({super.key});
-
+class Body extends StatefulWidget {
   @override
-  State<ProfileInfo> createState() => ProfileInfoState();
+  State<Body> createState() => _BodyState();
 }
 
-class ProfileInfoState extends State<ProfileInfo> {
+class _BodyState extends State<Body> {
   FirebaseAuth auth = FirebaseAuth.instance;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   XFile? pickedFile;
+  String? imageUrl;
 
   Future<void> pegaImagem() async {
     final ImagePicker picker = ImagePicker();
@@ -39,7 +41,7 @@ class ProfileInfoState extends State<ProfileInfo> {
       await storageRef.putFile(imageFile);
 
       // Obter URL da imagem
-      String imageUrl = await storageRef.getDownloadURL();
+      imageUrl = await storageRef.getDownloadURL();
 
       await auth.currentUser!.updatePhotoURL(imageUrl);
     }
@@ -139,47 +141,49 @@ class ProfileInfoState extends State<ProfileInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: const Color.fromARGB(255, 243, 243, 243),
+          child: Column(children: [
+            Container(
               margin: const EdgeInsets.only(top: 10),
               child: GestureDetector(
-                onTap: () {
-                  _popUpImagem(context);
-                },
-                child: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage(auth.currentUser!.photoURL.toString()),
-                  radius: 50,
-                ),
-              )),
-          Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(top: 10),
-              child: auth.currentUser!.displayName == null
-                  ? const Text(
-                      'Usuário',
-                      style: TextStyle(fontSize: 18),
-                    )
-                  : Text(
-                      auth.currentUser!.displayName.toString(),
-                      style: const TextStyle(fontSize: 18),
-                    )),
-          GestureDetector(
-            child: Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(top: 10),
-              width: MediaQuery.of(context).size.width - 250,
-              height: MediaQuery.of(context).size.width - 330,
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 243, 243, 243),
-                  border: Border.all(color: Colors.black, width: 1),
-                  borderRadius: BorderRadius.circular(2)),
-              child: Text('Alterar perfil'),
+                  onTap: () {
+                    _popUpImagem(context);
+                  },
+                  child: CircleAvatar(
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color.fromARGB(96, 0, 0, 0),
+                      ),
+                      child: Icon(Icons.photo, size: 30),
+                    ),
+                    backgroundImage:
+                        NetworkImage(auth.currentUser!.photoURL.toString()),
+                    radius: 50,
+                  )),
             ),
-          )
-        ],
+            const Divider(height: 10, thickness: 1),
+            Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(top: 10),
+                child: auth.currentUser!.displayName == null
+                    ? const Text(
+                        'Usuário',
+                        style: TextStyle(fontSize: 18),
+                      )
+                    : Text(
+                        auth.currentUser!.displayName.toString(),
+                        style: const TextStyle(fontSize: 18),
+                      )),
+          ]),
+        ),
       ),
     );
   }

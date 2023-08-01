@@ -8,6 +8,8 @@ import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 import 'package:how_to/Views/profile/components/empty_favorites.dart';
 
 class Favorites extends StatefulWidget {
+  const Favorites({super.key});
+
   @override
   State<Favorites> createState() => _FavoritesFunctionState();
 }
@@ -59,7 +61,7 @@ class _FavoritesFunctionState extends State<Favorites> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: favoritos.isEmpty
-            ? EmptyFavorites()
+            ? const EmptyFavorites()
             : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: firestore
                     .collection('tutoriais')
@@ -68,7 +70,7 @@ class _FavoritesFunctionState extends State<Favorites> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     // senao tiver dados
-                    return CircularProgressIndicator(); // circulo de carregando
+                    return const CircularProgressIndicator(); // circulo de carregando
                   }
 
                   var favoritos = snapshot.data!.docs;
@@ -82,13 +84,14 @@ class _FavoritesFunctionState extends State<Favorites> {
                             color: Colors.black.withOpacity(0.5),
                             spreadRadius: 8,
                             blurRadius: 10,
-                            offset: Offset(0, 2), // changes position of shadow
+                            offset: const Offset(
+                                0, 2), // changes position of shadow
                           ),
-                        ], color: Color.fromARGB(255, 243, 243, 243)),
+                        ], color: const Color.fromARGB(255, 243, 243, 243)),
                         child: ListView(
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             children: [
-                              Card(
+                              const Card(
                                 margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
                                 color: Color.fromARGB(255, 250, 247, 247),
                                 elevation: 5,
@@ -99,10 +102,10 @@ class _FavoritesFunctionState extends State<Favorites> {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: GridView(
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
                                     crossAxisSpacing: 3,
                                     mainAxisSpacing: 12,
@@ -116,13 +119,33 @@ class _FavoritesFunctionState extends State<Favorites> {
                                               elevation: 3,
                                               clipBehavior:
                                                   Clip.antiAliasWithSaveLayer,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(5))),
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  5))),
                                               child: Container(
                                                 alignment:
                                                     Alignment.bottomRight,
+                                                decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black
+                                                          .withOpacity(0.3),
+                                                      spreadRadius: 5,
+                                                      blurRadius: 10,
+                                                      offset: const Offset(0,
+                                                          2), // changes position of shadow
+                                                    ),
+                                                  ],
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          favorito['imagem']),
+                                                      fit: BoxFit.cover,
+                                                      alignment: Alignment
+                                                          .bottomCenter),
+                                                ),
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     showDialog(
@@ -131,17 +154,18 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                           return AlertDialog(
                                                             elevation: 10,
                                                             titlePadding:
-                                                                EdgeInsets.all(
-                                                                    5),
-                                                            title: Text(
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            title: const Text(
                                                                 'Remover favorito'),
                                                             backgroundColor:
-                                                                Color.fromARGB(
+                                                                const Color
+                                                                        .fromARGB(
                                                                     255,
                                                                     250,
                                                                     247,
                                                                     247),
-                                                            content: Text(
+                                                            content: const Text(
                                                                 'Deseja realmente remover o tutorial dos favoritos?'),
                                                             actions: [
                                                               Row(
@@ -154,14 +178,15 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                         Get.back(),
                                                                     child:
                                                                         Container(
-                                                                      padding: EdgeInsets
-                                                                          .only(
-                                                                              top: 5),
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              5),
                                                                       height:
                                                                           30,
                                                                       width: 80,
                                                                       child:
-                                                                          Text(
+                                                                          const Text(
                                                                         'Não',
                                                                         style: TextStyle(
                                                                             color: Color.fromRGBO(
@@ -186,7 +211,7 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                           .instance
                                                                           .collection(
                                                                               'tutoriais')
-                                                                          .doc(favorito!
+                                                                          .doc(favorito
                                                                               .id)
                                                                           .update({
                                                                         "qtdFavoritos":
@@ -198,21 +223,22 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                     child:
                                                                         Container(
                                                                       decoration: BoxDecoration(
-                                                                          color: Color.fromRGBO(
+                                                                          color: const Color.fromRGBO(
                                                                               0,
                                                                               9,
                                                                               89,
                                                                               1),
                                                                           borderRadius:
                                                                               BorderRadius.circular(5)),
-                                                                      padding: EdgeInsets
-                                                                          .only(
-                                                                              top: 5),
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              5),
                                                                       height:
                                                                           30,
                                                                       width: 80,
                                                                       child:
-                                                                          Text(
+                                                                          const Text(
                                                                         'Sim',
                                                                         style: TextStyle(
                                                                             color:
@@ -229,7 +255,7 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                         });
                                                   },
                                                   child: Container(
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                           color: Color.fromARGB(
                                                               137, 255, 0, 0),
                                                           borderRadius:
@@ -239,28 +265,10 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                           5))),
                                                       height: 30,
                                                       width: 30,
-                                                      child: Icon(
+                                                      child: const Icon(
                                                         Icons.close_rounded,
                                                         color: Colors.white,
                                                       )),
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.black
-                                                          .withOpacity(0.3),
-                                                      spreadRadius: 5,
-                                                      blurRadius: 10,
-                                                      offset: Offset(0,
-                                                          2), // changes position of shadow
-                                                    ),
-                                                  ],
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          favorito['imagem']),
-                                                      fit: BoxFit.cover,
-                                                      alignment: Alignment
-                                                          .bottomCenter),
                                                 ),
                                               ),
                                             ),

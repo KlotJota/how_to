@@ -1,18 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UpdateButton extends StatelessWidget {
+  const UpdateButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 5),
+      margin: const EdgeInsets.only(top: 5),
       width: MediaQuery.of(context).size.width - 150,
       height: 40,
-      padding: EdgeInsets.only(top: 6),
+      padding: const EdgeInsets.only(top: 6),
       decoration: BoxDecoration(
-          color: Color.fromRGBO(0, 9, 89, 1),
+          color: const Color.fromRGBO(0, 9, 89, 1),
           borderRadius: BorderRadius.circular(5)),
-      child: Text(
+      child: const Text(
         'Atualizar tutorial',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 20, color: Colors.white),

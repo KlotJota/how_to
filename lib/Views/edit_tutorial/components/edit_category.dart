@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/edit_tutorial/components/controllers.singleton.dart';
 
 class EditCategory extends StatefulWidget {
   final String id;
-  EditCategory(this.id);
+  const EditCategory(this.id, {super.key});
 
   @override
   State<EditCategory> createState() => _EditCategoryState();
@@ -40,11 +39,11 @@ class _EditCategoryState extends State<EditCategory> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 25),
+      margin: const EdgeInsets.only(bottom: 25),
       width: MediaQuery.of(context).size.width - 150,
       child: TextFormField(
         controller: ControllersSingleton.controllers.categoriaController,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           prefixIcon: Icon(Icons.category),
           labelText: "Categoria",
         ),

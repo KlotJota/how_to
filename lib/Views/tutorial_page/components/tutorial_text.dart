@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class TutorialText extends StatefulWidget {
   final String id;
-  TutorialText(this.id);
+  const TutorialText(this.id, {super.key});
 
   @override
   State<TutorialText> createState() => _TutorialTextState();
@@ -29,21 +29,21 @@ class _TutorialTextState extends State<TutorialText> {
   @override
   Widget build(BuildContext context) {
     return tutorial == null
-        ? Center(
+        ? const Center(
             child: CircularProgressIndicator(),
           )
         : Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 10),
+                margin: const EdgeInsets.only(top: 10),
                 color: Colors.black,
                 height: 1,
                 width: MediaQuery.of(context).size.width - 20,
               ),
               Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 alignment: Alignment.topCenter,
-                child: Text(
+                child: const Text(
                   'How To?',
                   style: TextStyle(
                     fontSize: 25,
@@ -52,11 +52,11 @@ class _TutorialTextState extends State<TutorialText> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 child: Container(
                   child: Text(tutorial!['texto'],
                       textAlign: TextAlign.justify,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15,
                       )),
                 ),

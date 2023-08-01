@@ -5,6 +5,8 @@ import 'package:how_to/Views/loadingScreens/loading_other_tutorials.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 
 class OtherTutorials extends StatefulWidget {
+  const OtherTutorials({super.key});
+
   @override
   State<OtherTutorials> createState() => _OtherTutorialsState();
 }
@@ -22,7 +24,7 @@ class _OtherTutorialsState extends State<OtherTutorials> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // senao tiver dados
-            return Column(
+            return const Column(
               children: [
                 LoadingOtherTutorials(),
                 LoadingOtherTutorials(),
@@ -39,18 +41,18 @@ class _OtherTutorialsState extends State<OtherTutorials> {
             child: Column(
               children: [
                 ListView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     children: tutoriais
                         .map((tutorial) => GestureDetector(
                               onTap: () => Get.to(TutorialPage(tutorial
                                   .id)), // colocar tutorial.id como parametro
                               child: Card(
-                                color: Color.fromARGB(255, 250, 247, 247),
+                                color: const Color.fromARGB(255, 250, 247, 247),
                                 elevation: 3,
-                                margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(10),
                                         topLeft: Radius.circular(10))),
@@ -64,16 +66,16 @@ class _OtherTutorialsState extends State<OtherTutorials> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 200),
                                     child: Container(
-                                        color: Color.fromRGBO(0, 9, 89, 0.815),
+                                        color: const Color.fromRGBO(0, 9, 89, 0.815),
                                         child: Container(
-                                          padding: EdgeInsets.only(
+                                          padding: const EdgeInsets.only(
                                               top: 4,
                                               left: 8,
                                               right: 8,
                                               bottom: 4),
                                           child: Text(
                                             tutorial['titulo'],
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 12,
                                                 overflow: TextOverflow.ellipsis,
                                                 color: Color.fromARGB(
