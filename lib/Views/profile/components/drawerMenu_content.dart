@@ -497,7 +497,7 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
           const Divider(height: 10, thickness: 1),
           InkWell(
             onTap: () {
-              Get.to(ChangeProfilePage());
+              Get.to(() => ChangeProfilePage());
             },
             child: const Padding(
               padding: EdgeInsets.all(10),

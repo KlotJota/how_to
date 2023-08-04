@@ -21,6 +21,8 @@ class _BodyState extends State<Body> {
   XFile? pickedFile;
   String? imageUrl;
 
+  TextEditingController nomeUser = TextEditingController();
+
   Future<void> pegaImagem() async {
     final ImagePicker picker = ImagePicker();
     try {
@@ -141,6 +143,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    nomeUser.text = auth.currentUser!.displayName.toString();
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(
@@ -148,6 +151,13 @@ class _BodyState extends State<Body> {
           height: MediaQuery.of(context).size.height,
           color: const Color.fromARGB(255, 243, 243, 243),
           child: Column(children: [
+            Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'Alterar Perfil',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                )),
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: GestureDetector(
@@ -169,7 +179,6 @@ class _BodyState extends State<Body> {
                     radius: 50,
                   )),
             ),
-            const Divider(height: 10, thickness: 1),
             Container(
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(top: 10),
@@ -182,6 +191,57 @@ class _BodyState extends State<Body> {
                         auth.currentUser!.displayName.toString(),
                         style: const TextStyle(fontSize: 18),
                       )),
+            const Divider(height: 10, thickness: 1),
+            Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'Nome de usuário',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                )),
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(bottom: 10),
+              width: MediaQuery.of(context).size.width - 50,
+              child: TextFormField(
+                controller: nomeUser,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.account_box_outlined,
+                  ),
+                  prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onSaved: (value) => nome = value!,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Por favor, informe seu nome.';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'Endereço de e-mail da conta',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                )),
+            Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: Text(
+                  auth.currentUser!.email.toString(),
+                  style: const TextStyle(fontSize: 16),
+                )),
           ]),
         ),
       ),

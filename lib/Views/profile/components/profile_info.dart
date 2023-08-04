@@ -144,15 +144,10 @@ class ProfileInfoState extends State<ProfileInfo> {
         children: [
           Container(
               margin: const EdgeInsets.only(top: 10),
-              child: GestureDetector(
-                onTap: () {
-                  _popUpImagem(context);
-                },
-                child: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage(auth.currentUser!.photoURL.toString()),
-                  radius: 50,
-                ),
+              child: CircleAvatar(
+                backgroundImage:
+                    NetworkImage(auth.currentUser!.photoURL.toString()),
+                radius: 50,
               )),
           Container(
               alignment: Alignment.center,
