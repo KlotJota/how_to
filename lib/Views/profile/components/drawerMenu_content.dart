@@ -15,6 +15,8 @@ class DrawerMenuContent extends StatefulWidget {
 
 class _DrawerMenuContentState extends State<DrawerMenuContent>
     with SingleTickerProviderStateMixin {
+  String user =
+      'https://firebasestorage.googleapis.com/v0/b/howto-60459.appspot.com/o/perfis%2Fpadr%C3%A3o%2Fuser.png?alt=media&token=bb4a0f5c-8839-400d-8fb3-dbaaf07b3117';
   late AnimationController _controller;
 
   @override
@@ -128,14 +130,17 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                   child: GestureDetector(
                     onTap: _startAnimation,
                     child: RotationTransition(
-                      turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          auth.currentUser!.photoURL.toString(),
-                        ),
-                        radius: 50,
-                      ),
-                    ),
+                        turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
+                        child: auth.currentUser!.photoURL == null
+                            ? CircleAvatar(
+                                backgroundImage: NetworkImage(user),
+                                radius: 50,
+                              )
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  auth.currentUser!.photoURL.toString(),
+                                ),
+                                radius: 50)),
                   ),
                 ),
                 const Text('olá,',
@@ -144,18 +149,26 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                         color: Color.fromARGB(255, 250, 247, 247))),
                 Container(
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Text(auth.currentUser!.displayName.toString(),
-                      style: const TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 250, 247, 247))),
+                  child: auth.currentUser!.isAnonymous
+                      ? Text('Usuário',
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 250, 247, 247)))
+                      : Text(auth.currentUser!.displayName.toString(),
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 250, 247, 247))),
                 ),
-                Text(
-                  auth.currentUser!.email.toString(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      color: Color.fromARGB(255, 250, 247, 247)),
-                ),
+                auth.currentUser!.isAnonymous
+                    ? Container()
+                    : Text(
+                        auth.currentUser!.email.toString(),
+                        style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: Color.fromARGB(255, 250, 247, 247)),
+                      ),
               ],
             ),
           ),
@@ -203,28 +216,32 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
             ),
           ),
           const Divider(height: 10, thickness: 1),
-          InkWell(
-            onTap: () {
-              Get.to(() => ChangeProfilePage());
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Icon(Icons.edit, size: 30),
+          auth.currentUser!.isAnonymous
+              ? Container()
+              : InkWell(
+                  onTap: () {
+                    Get.to(() => ChangeProfilePage());
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Icon(Icons.edit, size: 30),
+                        ),
+                        Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Alterar perfil",
+                              style: TextStyle(fontSize: 16),
+                            )),
+                      ],
+                    ),
                   ),
-                  Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Alterar perfil",
-                        style: TextStyle(fontSize: 16),
-                      )),
-                ],
-              ),
-            ),
-          ),
-          const Divider(height: 10, thickness: 1),
+                ),
+          auth.currentUser!.isAnonymous
+              ? Container()
+              : const Divider(height: 10, thickness: 1),
           InkWell(
             onTap: () => _popUpLogout(context),
             child: const Padding(
