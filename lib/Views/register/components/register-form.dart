@@ -47,7 +47,8 @@ void register(BuildContext context) async {
                   titlePadding: const EdgeInsets.all(5),
                   title: const Text('Erro'),
                   backgroundColor: const Color.fromARGB(255, 250, 247, 247),
-                  content: const Text('O email informado para cadastro já existe'),
+                  content:
+                      const Text('O email informado para cadastro já existe'),
                   actions: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -137,16 +138,14 @@ class _RegisterFormState extends State<RegisterForm> {
             width: MediaQuery.of(context).size.width - 120,
             child: TextFormField(
               decoration: const InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.account_box_outlined,
-                  ),
-                  prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
-                  labelText: "Nome Completo",
-                  labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1))),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(width: 2),
+                ),
+                prefixIcon: Icon(
+                  Icons.account_box_outlined,
+                ),
+                labelText: "Nome Completo",
+              ),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onSaved: (value) => nome = value!,
               validator: (value) {
@@ -162,14 +161,12 @@ class _RegisterFormState extends State<RegisterForm> {
             width: MediaQuery.of(context).size.width - 120,
             child: TextFormField(
               decoration: const InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
-                  ),
-                  prefixIcon: Icon(Icons.mail),
-                  prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
-                  labelText: "E-mail",
-                  labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1))),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(width: 2),
+                ),
+                prefixIcon: Icon(Icons.mail),
+                labelText: "E-mail",
+              ),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onSaved: (value) => email = value!,
               validator: (value) {
@@ -190,25 +187,22 @@ class _RegisterFormState extends State<RegisterForm> {
             child: TextFormField(
               obscureText: !_passVisible,
               decoration: InputDecoration(
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(width: 2),
+                ),
+                prefixIcon: const Icon(Icons.lock),
+                labelText: 'Senha',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _passVisible ? Icons.visibility : Icons.visibility_off,
                   ),
-                  prefixIcon: const Icon(Icons.lock),
-                  prefixIconColor: const Color.fromRGBO(0, 9, 89, 1),
-                  labelText: 'Senha',
-                  labelStyle: const TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _passVisible ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _passVisible = !_passVisible;
-                      });
-                    },
-                  ),
-                  suffixIconColor: const Color.fromRGBO(0, 9, 89, 1)),
+                  onPressed: () {
+                    setState(() {
+                      _passVisible = !_passVisible;
+                    });
+                  },
+                ),
+              ),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onSaved: (value) => password = value!,
               validator: (value) {
@@ -229,27 +223,22 @@ class _RegisterFormState extends State<RegisterForm> {
             child: TextFormField(
               obscureText: !_checkPassVisible,
               decoration: InputDecoration(
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(width: 2),
+                ),
+                prefixIcon: const Icon(Icons.check),
+                labelText: 'Confirmar Senha',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _checkPassVisible ? Icons.visibility : Icons.visibility_off,
                   ),
-                  prefixIcon: const Icon(Icons.check),
-                  prefixIconColor: const Color.fromRGBO(0, 9, 89, 1),
-                  labelText: 'Confirmar Senha',
-                  labelStyle: const TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _checkPassVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _checkPassVisible = !_checkPassVisible;
-                      });
-                    },
-                  ),
-                  suffixIconColor: const Color.fromRGBO(0, 9, 89, 1)),
+                  onPressed: () {
+                    setState(() {
+                      _checkPassVisible = !_checkPassVisible;
+                    });
+                  },
+                ),
+              ),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value!.isEmpty) {

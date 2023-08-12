@@ -11,12 +11,9 @@ class MyAppBarHome extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0.5,
       title: const Text('HowTo',
-          style: TextStyle(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black)),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       centerTitle: false,
       toolbarHeight: 50,
-      iconTheme: IconThemeData(color: Colors.black),
-      backgroundColor: const Color.fromARGB(255, 250, 247, 247),
     );
   }
 }

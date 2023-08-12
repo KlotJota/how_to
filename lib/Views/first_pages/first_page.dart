@@ -145,31 +145,25 @@ class _FirstPageState extends State<FirstPage> {
       bottomNavigationBar: BottomNavigationBar(
         elevation: 3,
         type: BottomNavigationBarType.shifting,
-        selectedItemColor: const Color.fromRGBO(0, 9, 89, 1),
-        unselectedItemColor: const Color.fromRGBO(68, 72, 109, 1),
         currentIndex: paginaAtual,
         items: [
           const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Início',
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Pesquisar',
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
           if (isAdmin) // Verifica a condição para mostrar o botão
             const BottomNavigationBarItem(
               icon: Icon(Icons.add),
               label: 'Novo tutorial',
-              backgroundColor: Color.fromARGB(255, 250, 247, 247),
             ),
           if (user!.displayName != null)
             const BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_outlined),
               label: 'Perfil',
-              backgroundColor: Color.fromARGB(255, 250, 247, 247),
             ),
         ],
         onTap: (pagina) {

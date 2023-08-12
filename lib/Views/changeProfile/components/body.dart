@@ -378,7 +378,6 @@ class _BodyState extends State<Body> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: const Color.fromARGB(255, 243, 243, 243),
           child: Column(children: [
             Container(
                 margin: const EdgeInsets.only(top: 10),
@@ -437,17 +436,14 @@ class _BodyState extends State<Body> {
                 child: TextFormField(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                     prefixIcon: Icon(
                       Icons.account_box_outlined,
                     ),
-                    prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
                   ),
                   textAlign: TextAlign.left,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -455,7 +451,7 @@ class _BodyState extends State<Body> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Por favor, informe seu nome.';
-                    } else if (value! == nome) {
+                    } else if (value == nome) {
                       return 'O nome inserido é igual ao anterior.';
                     }
                     return null;
@@ -491,7 +487,7 @@ class _BodyState extends State<Body> {
                 child: const Text(
                   'Alterar nome',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),

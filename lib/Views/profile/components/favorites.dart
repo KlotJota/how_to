@@ -79,21 +79,11 @@ class _FavoritesFunctionState extends State<Favorites> {
                     child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            spreadRadius: 8,
-                            blurRadius: 10,
-                            offset: const Offset(
-                                0, 2), // changes position of shadow
-                          ),
-                        ], color: const Color.fromARGB(255, 243, 243, 243)),
                         child: ListView(
                             physics: const BouncingScrollPhysics(),
                             children: [
                               const Card(
                                 margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
-                                color: Color.fromARGB(255, 250, 247, 247),
                                 elevation: 5,
                                 child: Column(
                                   children: [ProfileInfo(), ProfileMenu()],
@@ -129,16 +119,6 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                 alignment:
                                                     Alignment.bottomRight,
                                                 decoration: BoxDecoration(
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.black
-                                                          .withOpacity(0.3),
-                                                      spreadRadius: 5,
-                                                      blurRadius: 10,
-                                                      offset: const Offset(0,
-                                                          2), // changes position of shadow
-                                                    ),
-                                                  ],
                                                   image: DecorationImage(
                                                       image: NetworkImage(
                                                           favorito['imagem']),
@@ -267,7 +247,6 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                       width: 30,
                                                       child: const Icon(
                                                         Icons.close_rounded,
-                                                        color: Colors.white,
                                                       )),
                                                 ),
                                               ),

@@ -12,7 +12,6 @@ class Body extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(color: Color.fromARGB(255, 250, 247, 247)),
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index) {
@@ -24,7 +23,6 @@ class Body extends StatelessWidget {
                         margin: const EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Color.fromARGB(255, 250, 247, 247),
                         ),
                         height: 60,
                         width: MediaQuery.of(context).size.width - 20,

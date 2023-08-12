@@ -12,14 +12,6 @@ class Body extends StatelessWidget {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              spreadRadius: 8,
-              blurRadius: 10,
-              offset: const Offset(0, 2), // changes position of shadow
-            ),
-          ], color: const Color.fromARGB(255, 250, 247, 247)),
           child: Column(
             children: [
               Container(
@@ -29,7 +21,6 @@ class Body extends StatelessWidget {
                   onTap: () => Get.back(),
                   child: const Icon(
                     Icons.arrow_back_outlined,
-                    color: Color.fromRGBO(0, 9, 89, 1),
                   ),
                 ),
               ),

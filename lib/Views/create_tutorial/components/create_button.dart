@@ -16,7 +16,9 @@ class CreateButton extends StatelessWidget {
       child: const Text(
         'Criar novo tutorial',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20, color: Colors.white),
+        style: TextStyle(
+          fontSize: 20,
+        ),
       ),
     );
   }

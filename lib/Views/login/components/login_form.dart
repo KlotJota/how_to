@@ -139,14 +139,9 @@ class _LoginFormState extends State<LoginForm> {
                     return null;
                   },
                   decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(0, 9, 89, 1), width: 2),
-                    ),
+                    focusedBorder: UnderlineInputBorder(),
                     labelText: 'E-mail',
-                    labelStyle: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                     prefixIcon: Icon(Icons.email),
-                    prefixIconColor: Color.fromRGBO(0, 9, 89, 1),
                     hintText: 'email@exemplo.com',
                   ),
                 ),
@@ -166,13 +161,10 @@ class _LoginFormState extends State<LoginForm> {
                   },
                   decoration: InputDecoration(
                     focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromRGBO(0, 9, 89, 1), width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                     prefixIcon: const Icon(Icons.lock),
-                    prefixIconColor: const Color.fromRGBO(0, 9, 89, 1),
                     labelText: 'Senha',
-                    labelStyle: const TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _passVisible ? Icons.visibility : Icons.visibility_off,
@@ -183,7 +175,6 @@ class _LoginFormState extends State<LoginForm> {
                         });
                       },
                     ),
-                    suffixIconColor: const Color.fromRGBO(0, 9, 89, 1),
                   ),
                 ),
               ),
@@ -193,9 +184,9 @@ class _LoginFormState extends State<LoginForm> {
                     child: const Text(
                       "Esqueceu sua senha?",
                       style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(0, 9, 89, 1)),
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     onTap: () {
                       Get.to(resetPassPage());
@@ -226,7 +217,8 @@ class _LoginFormState extends State<LoginForm> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 120,
                         child: Container(
-                            alignment: Alignment.center, child: const Text('  ou  ')),
+                            alignment: Alignment.center,
+                            child: const Text('  ou  ')),
                       ),
                     ],
                   ),
@@ -239,7 +231,7 @@ class _LoginFormState extends State<LoginForm> {
                   width: MediaQuery.of(context).size.width - 120,
                   height: 50,
                   decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 221, 221, 221),
+                      color: Color.fromARGB(255, 172, 172, 172),
                       borderRadius: BorderRadius.circular(5)),
                   alignment: Alignment.center,
                   child: const Row(
@@ -250,7 +242,8 @@ class _LoginFormState extends State<LoginForm> {
                         ' Entrar como convidado',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 18, color: Color.fromRGBO(0, 9, 89, 1)),
+                          fontSize: 18,
+                        ),
                       ),
                     ],
                   ),

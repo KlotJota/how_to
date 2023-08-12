@@ -42,14 +42,7 @@ class _BodyState extends State<Body> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    spreadRadius: 8,
-                    blurRadius: 10,
-                    offset: const Offset(0, 2), // changes position of shadow
-                  ),
-                ], color: const Color.fromARGB(255, 250, 247, 247)),
+                decoration: BoxDecoration(),
                 child: Column(
                   children: [
                     Container(
@@ -63,17 +56,11 @@ class _BodyState extends State<Body> {
                           });
                         },
                         decoration: InputDecoration(
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromRGBO(0, 9, 89, 1), width: 2),
-                          ),
+                          focusedBorder: const OutlineInputBorder(),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5)),
                           labelText: 'Pesquisar',
-                          labelStyle:
-                              const TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
                           suffixIcon: const Icon(Icons.search),
-                          suffixIconColor: const Color.fromRGBO(0, 9, 89, 1),
                           hintText: 'Pesquise por tutoriais',
                         ),
                       ),
@@ -138,7 +125,8 @@ class _BodyState extends State<Body> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 200),
                                   child: Container(
-                                    color: const Color.fromRGBO(0, 9, 89, 0.815),
+                                    color:
+                                        const Color.fromRGBO(0, 9, 89, 0.815),
                                     child: Container(
                                       padding: const EdgeInsets.only(
                                         top: 4,
@@ -151,8 +139,6 @@ class _BodyState extends State<Body> {
                                         style: const TextStyle(
                                           fontSize: 12,
                                           overflow: TextOverflow.ellipsis,
-                                          color: Color.fromARGB(
-                                              255, 240, 240, 240),
                                         ),
                                         maxLines: 2,
                                       ),

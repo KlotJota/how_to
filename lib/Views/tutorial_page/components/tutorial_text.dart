@@ -36,7 +36,6 @@ class _TutorialTextState extends State<TutorialText> {
             children: [
               Container(
                 margin: const EdgeInsets.only(top: 10),
-                color: Colors.black,
                 height: 1,
                 width: MediaQuery.of(context).size.width - 20,
               ),

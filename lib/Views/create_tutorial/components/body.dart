@@ -268,14 +268,6 @@ class _BodyState extends State<Body> {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.5),
-                spreadRadius: 8,
-                blurRadius: 10,
-                offset: const Offset(0, 2), // changes position of shadow
-              ),
-            ], color: const Color.fromARGB(255, 250, 247, 247)),
             child: Form(
               key: formKeyCreate,
               child: Column(
@@ -297,7 +289,6 @@ class _BodyState extends State<Body> {
                             width: MediaQuery.of(context).size.width - 150,
                             height: 45,
                             decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 243, 243, 243),
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
                                 border:
@@ -306,7 +297,8 @@ class _BodyState extends State<Body> {
                             child: Row(
                               children: [
                                 Container(
-                                    margin: const EdgeInsets.only(left: 10, right: 5),
+                                    margin: const EdgeInsets.only(
+                                        left: 10, right: 5),
                                     child: const Icon(Icons.image_search)),
                                 const Text(
                                   'Adicionar imagem',
@@ -320,8 +312,8 @@ class _BodyState extends State<Body> {
                             height: 150,
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                    width: 1,
-                                    color: const Color.fromARGB(255, 112, 112, 112)),
+                                  width: 1,
+                                ),
                                 borderRadius: BorderRadius.circular(10)),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),

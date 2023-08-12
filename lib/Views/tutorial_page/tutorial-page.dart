@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/appBar/appBar_profile.dart';
 import 'package:how_to/Views/edit_tutorial/tutorialEdit-page.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_image.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_text.dart';
@@ -152,7 +153,8 @@ class _TutorialPageState extends State<TutorialPage> {
           titlePadding: const EdgeInsets.all(5),
           title: const Text('Remover favorito'),
           backgroundColor: const Color.fromARGB(255, 250, 247, 247),
-          content: const Text('Deseja realmente remover o tutorial dos favoritos?'),
+          content:
+              const Text('Deseja realmente remover o tutorial dos favoritos?'),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -267,153 +269,102 @@ class _TutorialPageState extends State<TutorialPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          appBar: MyAppBarProfile(),
           body: tutorial == null
               ? const CircularProgressIndicator()
-              : Stack(children: [
-                  Container(
-                    alignment: Alignment.topCenter,
-                    decoration: const BoxDecoration(
-                      color: Color.fromRGBO(0, 9, 89, 1),
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: Container(
-                      margin: const EdgeInsets.all(5),
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              scale: 19,
-                              alignment: Alignment.topCenter,
-                              image: AssetImage('images/how-to-branco.png'))),
-                    ),
-                  ),
-                  Positioned(
-                      top: 70,
-                      child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          decoration: BoxDecoration(boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.5),
-                              spreadRadius: 8,
-                              blurRadius: 10,
-                              offset:
-                                  const Offset(0, 2), // changes position of shadow
-                            ),
-                          ], color: const Color.fromARGB(255, 250, 247, 247)),
-                          child: ListView(
-                              physics: const BouncingScrollPhysics(),
+              : Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: ListView(
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        TutorialTitle(widget.id),
+                        TutorialImage(widget.id),
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 10),
-                                  alignment: Alignment.topLeft,
-                                  padding: const EdgeInsets.only(left: 10, top: 10),
-                                  child: GestureDetector(
-                                    onTap: () => Get.back(),
-                                    child: const Icon(
-                                      Icons.arrow_back_outlined,
-                                      color: Color.fromRGBO(0, 9, 89, 1),
-                                    ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (auth.currentUser!.displayName !=
+                                          null) {
+                                        if (!favoritos.contains(tutorial!.id)) {
+                                          FirebaseFirestore.instance
+                                              .collection('favoritos')
+                                              .doc(auth.currentUser!.uid)
+                                              .set({
+                                            "Favoritos": FieldValue.arrayUnion(
+                                                [tutorial!.id])
+                                          }, SetOptions(merge: true));
+                                          FirebaseFirestore.instance
+                                              .collection('tutoriais')
+                                              .doc(tutorial!.id)
+                                              .update({
+                                            "qtdFavoritos":
+                                                FieldValue.increment(1),
+                                          });
+                                          favoritos.add(tutorial!
+                                              .id); // Adiciona o tutorial aos favoritos
+                                        } else {
+                                          popupFavorite();
+                                        }
+                                      } else {
+                                        popUpRegister();
+                                      }
+                                    });
+                                  },
+                                  child: Icon(
+                                    Icons.star,
+                                    size: 35,
+                                    color: favoritos.contains(tutorial!.id)
+                                        ? Color.fromARGB(255, 226, 173, 0)
+                                        : const Color.fromARGB(
+                                            255, 179, 179, 179),
                                   ),
                                 ),
-                                TutorialTitle(widget.id),
-                                TutorialImage(widget.id),
-                                Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              if (auth.currentUser!
-                                                      .displayName !=
-                                                  null) {
-                                                if (!favoritos
-                                                    .contains(tutorial!.id)) {
-                                                  FirebaseFirestore.instance
-                                                      .collection('favoritos')
-                                                      .doc(
-                                                          auth.currentUser!.uid)
-                                                      .set({
-                                                    "Favoritos":
-                                                        FieldValue.arrayUnion(
-                                                            [tutorial!.id])
-                                                  }, SetOptions(merge: true));
-                                                  FirebaseFirestore.instance
-                                                      .collection('tutoriais')
-                                                      .doc(tutorial!.id)
-                                                      .update({
-                                                    "qtdFavoritos":
-                                                        FieldValue.increment(1),
-                                                  });
-                                                  favoritos.add(tutorial!
-                                                      .id); // Adiciona o tutorial aos favoritos
-                                                } else {
-                                                  popupFavorite();
-                                                }
-                                              } else {
-                                                popUpRegister();
-                                              }
-                                            });
-                                          },
-                                          child: Icon(
-                                            Icons.star,
-                                            size: 35,
-                                            color:
-                                                favoritos.contains(tutorial!.id)
-                                                    ? const Color.fromARGB(
-                                                        255, 221, 171, 4)
-                                                    : const Color.fromARGB(
-                                                        255, 179, 179, 179),
-                                          ),
+                                isLogado()
+                                    ? IconButton(
+                                        onPressed: () {
+                                          if (auth.currentUser!.displayName !=
+                                              null) {
+                                            Get.to(() =>
+                                                TutorialEditPage(tutorial!.id));
+                                          }
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          color: Color.fromARGB(255, 0, 0, 0),
                                         ),
-                                        isLogado()
-                                            ? IconButton(
-                                                onPressed: () {
-                                                  if (auth.currentUser!
-                                                          .displayName !=
-                                                      null) {
-                                                    Get.to(TutorialEditPage(
-                                                        tutorial!.id));
-                                                  }
-                                                },
-                                                icon: const Icon(
-                                                  Icons.edit,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0),
-                                                ),
-                                              )
-                                            : Container(),
-                                        isLogado()
-                                            ? IconButton(
-                                                onPressed: () {
-                                                  if (auth.currentUser!
-                                                          .displayName !=
-                                                      null) {
-                                                    popupDelete();
-                                                  }
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete,
-                                                  color: Color.fromARGB(
-                                                      255, 175, 0, 0),
-                                                ),
-                                                iconSize: 35,
-                                                color: const Color.fromARGB(
-                                                    255, 179, 179, 179),
-                                              )
-                                            : Container(),
-                                      ],
-                                    ),
-                                    TutorialText(widget.id)
-                                  ],
-                                ),
-                                Container(
-                                  height: 100,
-                                )
-                              ])))
-                ])),
+                                      )
+                                    : Container(),
+                                isLogado()
+                                    ? IconButton(
+                                        onPressed: () {
+                                          if (auth.currentUser!.displayName !=
+                                              null) {
+                                            popupDelete();
+                                          }
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Color.fromARGB(255, 175, 0, 0),
+                                        ),
+                                        iconSize: 35,
+                                        color: const Color.fromARGB(
+                                            255, 179, 179, 179),
+                                      )
+                                    : Container(),
+                              ],
+                            ),
+                            TutorialText(widget.id)
+                          ],
+                        ),
+                        Container(
+                          height: 100,
+                        )
+                      ]))),
     );
   }
 }

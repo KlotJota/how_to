@@ -16,7 +16,6 @@ class SendMailForm extends StatelessWidget {
             onTap: () => Get.back(),
             child: const Icon(
               Icons.arrow_back_outlined,
-              color: Color.fromRGBO(0, 9, 89, 1),
             ),
           ),
         ),

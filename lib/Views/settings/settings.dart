@@ -10,19 +10,16 @@ class Settings extends StatelessWidget {
           elevation: 0.5,
           title: const Text('HowTo',
               style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              )),
           centerTitle: true,
           toolbarHeight: 50,
-          backgroundColor: const Color.fromARGB(255, 250, 247, 247),
-          iconTheme: const IconThemeData(color: Colors.black),
         ),
         body: SafeArea(
             child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(color: Color.fromARGB(255, 250, 247, 247)),
           child: Column(
             children: [
               InkWell(
