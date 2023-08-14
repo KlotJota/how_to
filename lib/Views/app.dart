@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Themes/themes_service.dart';
 import 'package:how_to/Views/first_pages/first_page.dart';
 import 'package:how_to/Views/profile/user_profile.dart';
 import 'package:how_to/Views/settings/settings.dart';
@@ -19,6 +20,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: Themes().lightTheme,
       darkTheme: Themes().darkTheme,
+      themeMode: ThemeService().getThemeMode(),
       getPages: [
         GetPage(name: '/settings', page: () => const Settings()),
         GetPage(name: '/', page: () => const FirstPage()),

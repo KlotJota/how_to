@@ -25,7 +25,9 @@ class MyAppBarProfile extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         // Use o IconTheme para definir a cor do ícone do Drawer nesta página
         IconTheme(
-          data: const IconThemeData(), // Altere a cor para a desejada
+          data: const IconThemeData(
+            color: Color.fromRGBO(0, 9, 89, 1),
+          ), // Altere a cor para a desejada
           child: IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () => _openDrawer(context),

@@ -13,7 +13,6 @@ class HomePage extends StatelessWidget {
     return const Scaffold(
         appBar: MyAppBarProfile(),
         endDrawer: Drawer(
-          backgroundColor: Color.fromARGB(255, 250, 247, 247),
           child: DrawerMenuContent(),
         ),
         body: Body());

@@ -137,6 +137,8 @@ class _BodyState extends State<Body> {
                                       child: Text(
                                         tutorial['titulo'],
                                         style: const TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 250, 250, 250),
                                           fontSize: 12,
                                           overflow: TextOverflow.ellipsis,
                                         ),

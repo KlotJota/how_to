@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'views/app.dart'; // toda classe que criarmos precisa sem importada aqui
+import 'package:get_storage/get_storage.dart';
 
 const firebaseConfig = FirebaseOptions(
   apiKey: "AIzaSyBsCEO5On4mjgZp7rzggN4e1qGFYJExcpg",
@@ -13,6 +14,7 @@ const firebaseConfig = FirebaseOptions(
 );
 
 void main() async {
+  await GetStorage.init();
   // garante que o app será carregado apenas quando a conexão estiver sido feita
   WidgetsFlutterBinding.ensureInitialized();
 

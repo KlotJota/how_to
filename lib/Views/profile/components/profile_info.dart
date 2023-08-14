@@ -41,8 +41,7 @@ class ProfileInfoState extends State<ProfileInfo> {
                       style: const TextStyle(fontSize: 18),
                     )),
           GestureDetector(
-            onTap: () => Get.changeThemeMode(
-                Get.isDarkMode ? ThemeMode.light : ThemeMode.dark),
+            onTap: () => Get.to(() => ChangeProfilePage()),
             child: Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.only(top: 10),

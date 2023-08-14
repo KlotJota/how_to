@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Themes/themes_service.dart';
 import 'package:how_to/Views/changeProfile/changeProfile_page.dart';
 
 import '../../login/user_login.dart';
@@ -144,6 +145,7 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                 ),
                 const Text('olá,',
                     style: TextStyle(
+                      color: Color.fromARGB(255, 250, 250, 250),
                       overflow: TextOverflow.ellipsis,
                     )),
                 Container(
@@ -151,11 +153,13 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                   child: auth.currentUser!.isAnonymous
                       ? Text('Usuário',
                           style: const TextStyle(
+                            color: Color.fromARGB(255, 250, 250, 250),
                             overflow: TextOverflow.ellipsis,
                             fontSize: 20,
                           ))
                       : Text(auth.currentUser!.displayName.toString(),
                           style: const TextStyle(
+                            color: Color.fromARGB(255, 250, 250, 250),
                             overflow: TextOverflow.ellipsis,
                             fontSize: 20,
                           )),
@@ -165,6 +169,7 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
                     : Text(
                         auth.currentUser!.email.toString(),
                         style: const TextStyle(
+                          color: Color.fromARGB(255, 250, 250, 250),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -192,16 +197,26 @@ class _DrawerMenuContentState extends State<DrawerMenuContent>
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () => Get.changeThemeMode(
-                Get.isDarkMode ? ThemeMode.light : ThemeMode.dark),
-            child: Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(top: 10),
-              width: MediaQuery.of(context).size.width - 250,
-              height: MediaQuery.of(context).size.width - 330,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(2)),
-              child: Text('Alterar perfil'),
+          const Divider(height: 10, thickness: 1),
+          InkWell(
+            onTap: () {
+              ThemeService().changeThemeMode();
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Icon(Icons.settings, size: 30),
+                  ),
+                  Expanded(
+                      flex: 3,
+                      child: Text(
+                        "Alterar tema",
+                        style: TextStyle(fontSize: 16),
+                      )),
+                ],
+              ),
             ),
           ),
           const Divider(height: 10, thickness: 1),

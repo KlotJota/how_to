@@ -246,6 +246,8 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                       height: 30,
                                                       width: 30,
                                                       child: const Icon(
+                                                        color: Color.fromARGB(
+                                                            255, 250, 250, 250),
                                                         Icons.close_rounded,
                                                       )),
                                                 ),

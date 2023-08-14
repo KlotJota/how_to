@@ -487,7 +487,10 @@ class _BodyState extends State<Body> {
                 child: const Text(
                   'Alterar nome',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 250, 250, 250),
+                  ),
                 ),
               ),
             ),

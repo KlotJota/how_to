@@ -17,6 +17,7 @@ class CreateButton extends StatelessWidget {
         'Criar novo tutorial',
         textAlign: TextAlign.center,
         style: TextStyle(
+          color: Color.fromARGB(255, 250, 250, 250),
           fontSize: 20,
         ),
       ),

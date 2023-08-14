@@ -53,7 +53,10 @@ class ResetPassButton extends StatelessWidget {
         child: const Text(
           'Enviar',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(
+            fontSize: 20,
+            color: Color.fromARGB(255, 250, 250, 250),
+          ),
         ),
       ),
     );
