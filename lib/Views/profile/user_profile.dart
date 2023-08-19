@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/appBar/micButton.dart';
 
 import 'package:how_to/Views/profile/components/body.dart';
 import 'package:how_to/Views/profile/components/drawerMenu_content.dart';
@@ -19,8 +20,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
         appBar: MyAppBarProfile(),
+        floatingActionButton: MicButton(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         endDrawer: Drawer(
           child: DrawerMenuContent(),
         ),

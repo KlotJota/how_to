@@ -121,7 +121,7 @@ class _BodyState extends State<Body> {
 
   void alteraUser(BuildContext context, String newDisplayName) async {
     await FirebaseFirestore.instance
-        .collection('tempoAlteraNome')
+        .collection('userInfo')
         .doc(auth.currentUser!.uid)
         .set({"Tempo": dataFormatada});
 
