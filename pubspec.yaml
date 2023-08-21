@@ -36,6 +36,7 @@ dependencies:
   firebase_auth:
   http:
   firebase_storage:
+  speech_to_text: ^6.3.0
 
 flutter_native_splash:
   image: images/how-to-branco.png
@@ -58,6 +59,7 @@ dev_dependencies:
   get_storage: # storage para salvar o modo de cor do usuario
   image_picker:
   flutter_launcher_icons: "^0.13.1"
+  avatar_glow:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
