@@ -14,8 +14,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: MyAppBarProfile(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: MicButton(),
         endDrawer: Drawer(
           child: DrawerMenuContent(),
         ),

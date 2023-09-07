@@ -111,19 +111,15 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
       bottomNavigationBar: BottomNavigationBar(
         elevation: 4,
         type: BottomNavigationBarType.shifting,
-        selectedItemColor: const Color.fromRGBO(0, 9, 89, 1),
-        unselectedItemColor: const Color.fromRGBO(68, 72, 109, 1),
         currentIndex: paginaAtual,
         items: [
           const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Início',
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Pesquisar',
-            backgroundColor: Color.fromARGB(255, 250, 247, 247),
           ),
           BottomNavigationBarItem(
             icon: GestureDetector(
@@ -131,7 +127,6 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
               onTap: () => _popUp(context),
             ),
             label: 'Sair',
-            backgroundColor: const Color.fromARGB(255, 250, 247, 247),
           )
         ],
         onTap: (pagina) {

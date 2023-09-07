@@ -22,8 +22,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: MyAppBarProfile(),
-        floatingActionButton: MicButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         endDrawer: Drawer(
           child: DrawerMenuContent(),
         ),

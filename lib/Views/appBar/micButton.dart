@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/search_page/search-page.dart';
 
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:get/get.dart';
+import '../search_page/components/search.singleton.dart';
 
 class MicButton extends StatefulWidget {
   @override
@@ -12,7 +15,7 @@ class _MicButtonState extends State<MicButton> {
 
   bool _isPressed = false;
 
-  var texto = "Como atualizar o Windows";
+  SearchSingleton pesquisa = SearchSingleton.controller;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,8 @@ class _MicButtonState extends State<MicButton> {
               speechToText.listen(
                 onResult: (result) {
                   setState(() {
-                    texto = result.recognizedWords;
+                    pesquisa.searchController.text = '';
+                    pesquisa.searchController.text = result.recognizedWords;
                   });
                 },
               );
@@ -38,8 +42,10 @@ class _MicButtonState extends State<MicButton> {
         setState(() {
           _isPressed = false;
         });
-        print(texto);
         speechToText.stop();
+        if (pesquisa.searchController.text.isNotEmpty) {
+          Get.to(SearchPage());
+        }
       },
       child: _isPressed ? _buildContainer() : _buildFAB(),
     );
@@ -80,7 +86,7 @@ class _MicButtonState extends State<MicButton> {
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     child: Text(
-                      texto,
+                      pesquisa.searchController.text,
                       style: TextStyle(
                         overflow: TextOverflow.clip,
                         color: _isPressed

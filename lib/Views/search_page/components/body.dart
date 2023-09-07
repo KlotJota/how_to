@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/loadingScreens/loading_searched_tutorials.dart';
+import 'package:how_to/Views/search_page/components/search.singleton.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 
 class Body extends StatefulWidget {
@@ -16,10 +17,12 @@ class _BodyState extends State<Body> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  String pesquisa = '';
+  var searchKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    SearchSingleton pesquisa = SearchSingleton.controller;
+
     return Scaffold(
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: firestore.collection('tutoriais').snapshots(),
@@ -45,37 +48,58 @@ class _BodyState extends State<Body> {
                 decoration: BoxDecoration(),
                 child: Column(
                   children: [
-                    Container(
-                      height: 50,
-                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      width: MediaQuery.of(context).size.width - 20,
-                      child: TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            pesquisa = value;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          focusedBorder: const OutlineInputBorder(),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          labelText: 'Pesquisar',
-                          suffixIcon: const Icon(Icons.search),
-                          hintText: 'Pesquise por tutoriais',
+                    Row(
+                      children: [
+                        Container(
+                          height: 50,
+                          margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          width: MediaQuery.of(context).size.width - 80,
+                          child: TextField(
+                            key: searchKey,
+                            onChanged: (value) {
+                              setState(() {
+                                pesquisa.searchController.text = value;
+                              });
+                            },
+                            decoration: InputDecoration(
+                              focusedBorder: const OutlineInputBorder(),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              labelText: 'Pesquisar',
+                              hintText: 'Pesquise por tutoriais',
+                            ),
+                          ),
                         ),
-                      ),
+                        GestureDetector(
+                          onTap: () {
+                            String searchValue = pesquisa.searchController.text;
+                            setState(() {
+                              pesquisa.searchController.text = searchValue;
+                            });
+                          },
+                          child: Container(
+                            child: Icon(Icons.search, color: Colors.white),
+                            height: 50,
+                            width: 50,
+                            margin: EdgeInsets.only(right: 10, top: 10),
+                            decoration: BoxDecoration(
+                                color: const Color.fromRGBO(0, 9, 89, 1),
+                                borderRadius: BorderRadius.circular(5)),
+                          ),
+                        )
+                      ],
                     ),
-                    pesquisa == ''
+                    pesquisa.searchController.text == ''
                         ? Container(
                             margin: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: const Text(
+                            child: Text(
                               "Todos os tutoriais",
                               style: TextStyle(fontSize: 20),
                             ))
                         : Container(
                             margin: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: const Text(
-                              "Tutoriais encontrados",
+                            child: Text(
+                              "Tutoriais encontrados para: ${pesquisa.searchController.text}",
                               style: TextStyle(fontSize: 20),
                             )),
                     SizedBox(
@@ -86,19 +110,22 @@ class _BodyState extends State<Body> {
                         itemBuilder: (context, index) {
                           var tutorial = snapshots.data!.docs[index];
 
-                          if (pesquisa.isNotEmpty &&
+                          if (pesquisa.searchController.text.isNotEmpty &&
                               !tutorial['titulo']
                                   .toString()
                                   .toLowerCase()
-                                  .contains(pesquisa.toLowerCase()) &&
+                                  .contains(pesquisa.searchController.text
+                                      .toLowerCase()) &&
                               !tutorial['categoria']
                                   .toString()
                                   .toLowerCase()
-                                  .contains(pesquisa.toLowerCase()) &&
+                                  .contains(pesquisa.searchController.text
+                                      .toLowerCase()) &&
                               !tutorial['texto']
                                   .toString()
                                   .toLowerCase()
-                                  .contains(pesquisa.toLowerCase())) {
+                                  .contains(pesquisa.searchController.text
+                                      .toLowerCase())) {
                             return const SizedBox.shrink();
                           }
 
