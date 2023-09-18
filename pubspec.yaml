@@ -37,6 +37,7 @@ dependencies:
   http:
   firebase_storage:
   speech_to_text: ^6.3.0
+  flutter_tts: ^3.8.3
 
 flutter_native_splash:
   image: images/how-to-branco.png

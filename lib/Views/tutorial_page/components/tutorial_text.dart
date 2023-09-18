@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/tutorial_page/components/text_to_speech.dart';
+import 'package:get/get.dart';
 
 class TutorialText extends StatefulWidget {
   final String id;
@@ -26,6 +28,39 @@ class _TutorialTextState extends State<TutorialText> {
     });
   }
 
+  void popupNarrador() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 10,
+            titlePadding: const EdgeInsets.all(5),
+            title: const Text('Narrador'),
+            backgroundColor: const Color.fromARGB(255, 250, 247, 247),
+            content: const Text(
+                'Com essa opção, você pode ouvir o conteúdo em texto contido no tutorial'),
+            actions: [
+              GestureDetector(
+                onTap: () => Get.back(),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: const Color.fromRGBO(0, 9, 89, 1),
+                      borderRadius: BorderRadius.circular(5)),
+                  padding: const EdgeInsets.only(top: 5),
+                  height: 30,
+                  width: 80,
+                  child: const Text(
+                    'Entendi!',
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return tutorial == null
@@ -49,6 +84,28 @@ class _TutorialTextState extends State<TutorialText> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextToSpeech(),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color.fromRGBO(0, 9, 89, 1)),
+                    child: GestureDetector(
+                      onTap: () {
+                        popupNarrador();
+                      },
+                      child: Icon(
+                        Icons.question_mark,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  )
+                ],
               ),
               Container(
                 margin: const EdgeInsets.all(10),
