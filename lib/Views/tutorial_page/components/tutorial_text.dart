@@ -88,7 +88,7 @@ class _TutorialTextState extends State<TutorialText> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextToSpeech(),
+                  TextToSpeech(tutorial!.id),
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
