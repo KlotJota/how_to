@@ -38,7 +38,7 @@ class _TutorialTextState extends State<TutorialText> {
             title: const Text('Narrador'),
             backgroundColor: const Color.fromARGB(255, 250, 247, 247),
             content: const Text(
-                'Com essa opção, você pode ouvir o conteúdo em texto contido no tutorial'),
+                'Com essa opção, você pode ouvir o conteúdo do tutorial'),
             actions: [
               GestureDetector(
                 onTap: () => Get.back(),
@@ -73,6 +73,7 @@ class _TutorialTextState extends State<TutorialText> {
                 margin: const EdgeInsets.only(top: 10),
                 height: 1,
                 width: MediaQuery.of(context).size.width - 20,
+                color: Colors.black,
               ),
               Container(
                 margin: const EdgeInsets.all(10),
@@ -90,7 +91,7 @@ class _TutorialTextState extends State<TutorialText> {
                 children: [
                   TextToSpeech(tutorial!.id),
                   Container(
-                    margin: EdgeInsets.only(bottom: 10),
+                    margin: EdgeInsets.only(bottom: 10, left: 5),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: const Color.fromRGBO(0, 9, 89, 1)),
@@ -101,19 +102,19 @@ class _TutorialTextState extends State<TutorialText> {
                       child: Icon(
                         Icons.question_mark,
                         color: Colors.white,
-                        size: 20,
+                        size: 15,
                       ),
                     ),
                   )
                 ],
               ),
               Container(
-                margin: const EdgeInsets.all(10),
+                margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                 child: Container(
                   child: Text(tutorial!['texto'],
                       textAlign: TextAlign.justify,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                       )),
                 ),
               ),

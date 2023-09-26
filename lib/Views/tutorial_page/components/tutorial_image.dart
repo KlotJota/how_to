@@ -32,18 +32,20 @@ class _TutorialImageState extends State<TutorialImage> {
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : Container(
-            margin: const EdgeInsets.all(10),
-            height: 200,
-            child: Column(
-              children: [
-                Expanded(
-                    child: Stack(
+        : OrientationBuilder(builder: (context, orientation) {
+            final isPortrait = orientation == Orientation.portrait;
+            final containerHeight = isPortrait
+                ? MediaQuery.of(context).size.height * 0.25
+                : MediaQuery.of(context).size.height * 0.5;
+            return Container(
+                margin: const EdgeInsets.all(10),
+                height: containerHeight,
+                child: Stack(
                   fit: StackFit.expand,
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Image.network(
                         tutorial!['imagem'],
                         fit: BoxFit.fill,
@@ -51,9 +53,7 @@ class _TutorialImageState extends State<TutorialImage> {
                       ),
                     ),
                   ],
-                )),
-              ],
-            ),
-          );
+                ));
+          });
   }
 }
