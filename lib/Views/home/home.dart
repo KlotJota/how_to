@@ -5,7 +5,7 @@ import 'package:how_to/Views/appBar/micButton.dart';
 import 'package:how_to/Views/home/components/body.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 
-import '../profile/components/drawerMenu_content.dart';
+import '../drawer_menu/drawer_menu.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

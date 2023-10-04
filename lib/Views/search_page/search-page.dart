@@ -4,7 +4,7 @@ import 'package:how_to/Views/search_page/components/body.dart';
 
 import '../appBar/appBar_profile.dart';
 import '../appBar/micButton.dart';
-import '../profile/components/drawerMenu_content.dart';
+import '../drawer_menu/drawer_menu.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

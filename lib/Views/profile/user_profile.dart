@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:how_to/Views/appBar/micButton.dart';
 
 import 'package:how_to/Views/profile/components/body.dart';
-import 'package:how_to/Views/profile/components/drawerMenu_content.dart';
 
 import '../appBar/appBar_profile.dart';
+import '../drawer_menu/drawer_menu.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
