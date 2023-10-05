@@ -43,8 +43,8 @@ class _TextToSpeechState extends State<TextToSpeech> {
     if (tutorialDoc.exists) {
       setState(() {
         tutorialText = tutorialDoc['texto'] as String;
-        // textToReadList.addAll(tutorialText!.split(" "));
-        // print(textToReadList);
+        textToReadList.addAll(tutorialText!.split(RegExp(r'[,.]')));
+        print(textToReadList);
       });
     } else {
       print('Documento não encontrado');
@@ -69,7 +69,10 @@ class _TextToSpeechState extends State<TextToSpeech> {
 
       // String remainingText = textToReadList.sublist(currentIndex).join(" ");
       // print(remainingText);
-      await flutterTts.speak(tutorialText!);
+      for (String frase in textToReadList) {
+        await flutterTts.speak(frase);
+        await Future.delayed(Duration(seconds: 10));
+      }
     }
   }
 

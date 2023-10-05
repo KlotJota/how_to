@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/changeProfile/components/body.dart';
 import 'package:how_to/Views/home/components/other_tutorials.dart';
 import 'package:how_to/Views/home/components/popular_tutorials.dart';
 import 'package:how_to/Views/home/components/profile_panel.dart';

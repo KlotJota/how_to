@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:how_to/Views/create_tutorial/createTutorial-page.dart';
 import 'package:how_to/Views/search_page/search-page.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:how_to/views/login/user_login.dart';
+import 'package:http/http.dart';
 import '../home/home.dart';
 import '../profile/user_profile.dart';
 
@@ -25,6 +27,65 @@ class _FirstPageState extends State<FirstPage> {
   late PageController pc;
   FirebaseAuth auth = FirebaseAuth.instance;
   final user = FirebaseAuth.instance.currentUser;
+
+  final FlutterTts flutterTts = FlutterTts();
+
+  Future<void> initializeTts() async {
+    await flutterTts.setLanguage("pt-BR");
+    await flutterTts.setPitch(1.0);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeTts();
+    pc = PageController(initialPage: paginaAtual, keepPage: true);
+    _desabilitarAnimacao();
+    if (user!.uid == "vapEyTsxGoWsOcUObGDywxz4WpC2" ||
+        user!.uid == "bP234QxmIsPth7PqwzosZyfNMvk2" ||
+        user!.uid == "YTzsr7KMKzezqsCbNxdsHHhSvGc2") {
+      isAdmin = true;
+    }
+
+    // Configurar o completionHandler para detectar quando a leitura é concluída
+    // flutterTts.setCompletionHandler(() {
+    //   setState(() {
+    //     isReadingSettings =
+    //         false; // Definir como false quando a leitura for concluída
+    //     isReadingTheme = false;
+    //     isReadingLogout = false;
+    //     isReadingChangeProfile = false;
+    //   });
+    // });
+  }
+
+  @override
+  void dispose() {
+    flutterTts.stop(); // Pare a leitura ao sair do widget
+    super.dispose();
+  }
+
+  void readOptions(int index) async {
+    List<String> titles = [
+      "Tela inicial",
+      "Tela de pesquisa",
+      "Tela de perfil",
+    ];
+
+    await flutterTts.speak(titles[index]);
+
+    // setState(() {
+    //   if (index == 0) {
+    //     isReadingSettings = true;
+    //   } else if (index == 1) {
+    //     isReadingTheme = true;
+    //   } else if (index == 2) {
+    //     isReadingChangeProfile = true;
+    //   } else if (index == 3) {
+    //     isReadingLogout = true;
+    //   }
+    // });
+  }
 
   void logOut(BuildContext context) async {
     try {
@@ -86,18 +147,6 @@ class _FirstPageState extends State<FirstPage> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    pc = PageController(initialPage: paginaAtual, keepPage: true);
-    _desabilitarAnimacao();
-    if (user!.uid == "vapEyTsxGoWsOcUObGDywxz4WpC2" ||
-        user!.uid == "bP234QxmIsPth7PqwzosZyfNMvk2" ||
-        user!.uid == "YTzsr7KMKzezqsCbNxdsHHhSvGc2") {
-      isAdmin = true;
-    }
-  }
-
   setPaginaAtual(pagina) {
     setState(() {
       paginaAtual = pagina;
@@ -147,12 +196,24 @@ class _FirstPageState extends State<FirstPage> {
         type: BottomNavigationBarType.shifting,
         currentIndex: paginaAtual,
         items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+          BottomNavigationBarItem(
+            icon: GestureDetector(
+              child: Icon(Icons.home),
+              onTap: () {
+                pc.jumpToPage(0);
+                readOptions(0);
+              },
+            ),
             label: 'Início',
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+          BottomNavigationBarItem(
+            icon: GestureDetector(
+              child: Icon(Icons.search),
+              onTap: () {
+                pc.jumpToPage(1);
+                readOptions(1);
+              },
+            ),
             label: 'Pesquisar',
           ),
           if (isAdmin) // Verifica a condição para mostrar o botão
@@ -161,8 +222,14 @@ class _FirstPageState extends State<FirstPage> {
               label: 'Novo tutorial',
             ),
           if (user!.displayName != null)
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
+            BottomNavigationBarItem(
+              icon: GestureDetector(
+                child: Icon(Icons.account_circle_outlined),
+                onTap: () {
+                  pc.jumpToPage(3);
+                  readOptions(2);
+                },
+              ),
               label: 'Perfil',
             ),
         ],
