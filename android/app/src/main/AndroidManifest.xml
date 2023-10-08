@@ -2,6 +2,7 @@
     package="com.example.how_to">
     <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- permissão de gravar audio -->
     <uses-permission android:name="android.permission.INTERNET"/> <!-- permissão de internet -->
+    <uses-permission android:name="android.permission.CAMERA" />
    <application
         android:label="How To"
         android:name="${applicationName}"

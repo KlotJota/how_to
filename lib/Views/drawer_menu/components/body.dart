@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -9,6 +7,7 @@ import 'package:how_to/Themes/themes_service.dart';
 import 'package:how_to/Views/changeProfile/changeProfile_page.dart';
 import 'package:how_to/Views/drawer_menu/components/profile_data.dart';
 
+import '../../face_detector/face_detector_page.dart';
 import '../../login/user_login.dart';
 
 class Body extends StatefulWidget {
@@ -147,7 +146,8 @@ class _BodyState extends State<Body> {
             ProfileData(),
             InkWell(
               onTap: () {
-                Get.toNamed('/settings');
+                //Get.toNamed('/settings');
+                Get.to(FaceDetectorPage());
               },
               child: Padding(
                 padding: EdgeInsets.all(10),

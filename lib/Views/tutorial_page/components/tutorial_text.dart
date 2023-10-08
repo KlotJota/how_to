@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/tutorial_page/components/text_to_speech.dart';
+import 'package:how_to/Views/face_detector/face_detector_page.dart';
 import 'package:get/get.dart';
 
 class TutorialText extends StatefulWidget {

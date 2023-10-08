@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import 'views/app.dart'; // toda classe que criarmos precisa sem importada aqui
 import 'package:get_storage/get_storage.dart';
 
@@ -13,7 +14,10 @@ const firebaseConfig = FirebaseOptions(
   measurementId: "G-7GM0XSZFEC",
 );
 
+List<CameraDescription> cameras = [];
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   await GetStorage.init();
   // garante que o app será carregado apenas quando a conexão estiver sido feita
   WidgetsFlutterBinding.ensureInitialized();

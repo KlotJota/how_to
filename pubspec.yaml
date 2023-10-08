@@ -38,7 +38,6 @@ dependencies:
   firebase_storage:
   speech_to_text: ^6.3.0
   flutter_tts: ^3.8.3
-  tts_just_audio: ^0.1.1
   google_nav_bar: ^5.0.6
   get:
   get_storage: # storage para salvar o modo de cor do usuario

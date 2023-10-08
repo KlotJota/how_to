@@ -34,7 +34,7 @@ packages:
     source: hosted
     version: "2.11.0"
   avatar_glow:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: avatar_glow
       sha256: "3627f6f97d1f10d3c1996ae108d3488eabaf68c0cf0c3eac7e7c746a3812881d"
@@ -50,7 +50,7 @@ packages:
     source: hosted
     version: "2.1.1"
   camera:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: camera
       sha256: "1f9010f0689774380fbcd7d6b7820a5157e8e97685fa66d619e1d1f58b3fdf93"
@@ -279,7 +279,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_launcher_icons:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_launcher_icons
       sha256: "526faf84284b86a4cb36d20a5e45147747b7563d921373d4ee0559c54fcdbcea"
@@ -329,7 +329,7 @@ packages:
     source: sdk
     version: "0.0.0"
   get:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: get
       sha256: "2ba20a47c8f1f233bed775ba2dd0d3ac97b4cf32fc17731b3dfc672b06b0e92a"
@@ -337,7 +337,7 @@ packages:
     source: hosted
     version: "4.6.5"
   get_storage:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: get_storage
       sha256: "39db1fffe779d0c22b3a744376e86febe4ade43bf65e06eab5af707dc84185a2"
@@ -353,7 +353,7 @@ packages:
     source: hosted
     version: "0.5.0"
   google_mlkit_face_detection:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_mlkit_face_detection
       sha256: "567339c67530b22b22917622df9bba40547a4719fa108819901f95ffb7cd3399"
@@ -361,7 +361,7 @@ packages:
     source: hosted
     version: "0.8.0"
   google_nav_bar:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: google_nav_bar
       sha256: "1c8e3882fa66ee7b74c24320668276ca23affbd58f0b14a24c1e5590f4d07ab0"
@@ -401,7 +401,7 @@ packages:
     source: hosted
     version: "4.0.15"
   image_picker:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: image_picker
       sha256: "9978d3510af4e6a902e545ce19229b926e6de6a1828d6134d3aab2e129a4d270"
@@ -505,7 +505,7 @@ packages:
     source: hosted
     version: "1.8.3"
   path_provider:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: "909b84830485dbcd0308edf6f7368bc8fd76afa26a270420f34cabea2a6467a0"
