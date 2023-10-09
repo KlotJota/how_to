@@ -106,6 +106,28 @@ class _TutorialTextState extends State<TutorialText> {
                         size: 15,
                       ),
                     ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10, left: 5),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color.fromRGBO(0, 9, 89, 1)),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FaceDetectorPage(tutorial!.id),
+                          ),
+                        );
+                      },
+                      child: Icon(
+                        Icons.face,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
                   )
                 ],
               ),

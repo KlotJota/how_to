@@ -145,9 +145,46 @@ class _BodyState extends State<Body> {
           children: [
             ProfileData(),
             InkWell(
+              onTap: () {},
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Icon(Icons.settings, size: 30),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        "Detector de rosto",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        if (!isReadingSettings) {
+                          readOptions(0);
+                        } else {
+                          flutterTts.stop();
+                        }
+                        setState(() {
+                          isReadingSettings = !isReadingSettings;
+                        });
+                      },
+                      child: Icon(
+                        isReadingSettings
+                            ? Icons.mic
+                            : Icons.mic_none, // Mude o ícone diretamente aqui
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const Divider(height: 10, thickness: 1),
+            InkWell(
               onTap: () {
-                //Get.toNamed('/settings');
-                Get.to(FaceDetectorPage());
+                Get.toNamed('/settings');
               },
               child: Padding(
                 padding: EdgeInsets.all(10),

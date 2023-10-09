@@ -43,7 +43,7 @@ dependencies:
   get_storage: # storage para salvar o modo de cor do usuario
   image_picker:
   flutter_launcher_icons: "^0.13.1"
-  avatar_glow:
+  #avatar_glow:
   google_mlkit_face_detection: ^0.8.0
   camera:
   path_provider:

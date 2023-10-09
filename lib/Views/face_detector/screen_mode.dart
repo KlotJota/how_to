@@ -1,1 +1,1 @@
-enum ScreenMode { live, gallery }
+enum ScreenMode { live }
