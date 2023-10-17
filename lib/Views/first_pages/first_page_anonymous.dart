@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/login/user_login.dart';
 import 'package:how_to/Views/search_page/search-page.dart';
 import 'package:get/get.dart';
@@ -144,6 +145,8 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
     });
   }
 
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,7 +168,9 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
               child: Icon(Icons.home),
               onTap: () {
                 pc.jumpToPage(0);
-                readOptions(0);
+                if (isAccessibilityEnabled) {
+                  readOptions(0);
+                }
               },
             ),
             label: 'Início',
@@ -175,7 +180,9 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
               child: Icon(Icons.search),
               onTap: () {
                 pc.jumpToPage(1);
-                readOptions(1);
+                if (isAccessibilityEnabled) {
+                  readOptions(1);
+                }
               },
             ),
             label: 'Pesquisar',

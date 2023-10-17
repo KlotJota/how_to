@@ -3,7 +3,6 @@ import 'package:how_to/Views/appBar/appBar_home.dart';
 import 'package:how_to/Views/appBar/appBar_profile.dart';
 import 'package:how_to/Views/appBar/micButton.dart';
 import 'package:how_to/Views/home/components/body.dart';
-import 'package:avatar_glow/avatar_glow.dart';
 
 import '../drawer_menu/drawer_menu.dart';
 
