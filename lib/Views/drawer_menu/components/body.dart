@@ -4,6 +4,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:how_to/Themes/themes_service.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/changeProfile/changeProfile_page.dart';
 import 'package:how_to/Views/drawer_menu/components/profile_data.dart';
 
@@ -20,37 +22,12 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  final FlutterTts flutterTts = FlutterTts();
-  bool isReadingSettings = false;
-  bool isReadingTheme = false;
-  bool isReadingLogout = false;
-  bool isReadingChangeProfile = false;
-
-  Future<void> initializeTts() async {
-    await flutterTts.setLanguage("pt-BR");
-    await flutterTts.setPitch(1.0);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initializeTts();
-
-    // Configurar o completionHandler para detectar quando a leitura é concluída
-    flutterTts.setCompletionHandler(() {
-      setState(() {
-        isReadingSettings =
-            false; // Definir como false quando a leitura for concluída
-        isReadingTheme = false;
-        isReadingLogout = false;
-        isReadingChangeProfile = false;
-      });
-    });
-  }
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   @override
   void dispose() {
-    flutterTts.stop(); // Pare a leitura ao sair do widget
+    ttsService.dispose(); // Pare a leitura ao sair do widget
     super.dispose();
   }
 
@@ -62,19 +39,7 @@ class _BodyState extends State<Body> {
       "Sair"
     ];
 
-    await flutterTts.speak(titles[index]);
-
-    setState(() {
-      if (index == 0) {
-        isReadingSettings = true;
-      } else if (index == 1) {
-        isReadingTheme = true;
-      } else if (index == 2) {
-        isReadingChangeProfile = true;
-      } else if (index == 3) {
-        isReadingLogout = true;
-      }
-    });
+    await ttsService.speak(titles[index]);
   }
 
   void logOut(BuildContext context) async {
@@ -145,46 +110,13 @@ class _BodyState extends State<Body> {
           children: [
             ProfileData(),
             InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Icon(Icons.settings, size: 30),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Detector de rosto",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        if (!isReadingSettings) {
-                          readOptions(0);
-                        } else {
-                          flutterTts.stop();
-                        }
-                        setState(() {
-                          isReadingSettings = !isReadingSettings;
-                        });
-                      },
-                      child: Icon(
-                        isReadingSettings
-                            ? Icons.mic
-                            : Icons.mic_none, // Mude o ícone diretamente aqui
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const Divider(height: 10, thickness: 1),
-            InkWell(
+              onDoubleTap: () {
+                isAccessibilityEnabled ? Get.toNamed('/settings') : null;
+              },
               onTap: () {
-                Get.toNamed('/settings');
+                isAccessibilityEnabled
+                    ? readOptions(0)
+                    : Get.toNamed('/settings');
               },
               child: Padding(
                 padding: EdgeInsets.all(10),
@@ -200,31 +132,21 @@ class _BodyState extends State<Body> {
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        if (!isReadingSettings) {
-                          readOptions(0);
-                        } else {
-                          flutterTts.stop();
-                        }
-                        setState(() {
-                          isReadingSettings = !isReadingSettings;
-                        });
-                      },
-                      child: Icon(
-                        isReadingSettings
-                            ? Icons.mic
-                            : Icons.mic_none, // Mude o ícone diretamente aqui
-                      ),
-                    ),
                   ],
                 ),
               ),
             ),
             const Divider(height: 10, thickness: 1),
             InkWell(
+              onDoubleTap: () {
+                isAccessibilityEnabled
+                    ? ThemeService().changeThemeMode()
+                    : null;
+              },
               onTap: () {
-                ThemeService().changeThemeMode();
+                isAccessibilityEnabled
+                    ? readOptions(1)
+                    : ThemeService().changeThemeMode();
               },
               child: Padding(
                 padding: EdgeInsets.all(10),
@@ -240,24 +162,6 @@ class _BodyState extends State<Body> {
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        if (!isReadingTheme) {
-                          readOptions(1);
-                        } else {
-                          flutterTts.stop();
-                        }
-                        setState(() {
-                          isReadingTheme = !isReadingTheme;
-                        });
-                      },
-                      child: Container(
-                        child: isReadingTheme
-                            ? Icon(Icons.mic)
-                            : Icon(Icons
-                                .mic_none), // Mude o ícone diretamente aqui
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -266,8 +170,15 @@ class _BodyState extends State<Body> {
             auth.currentUser!.isAnonymous
                 ? Container()
                 : InkWell(
+                    onDoubleTap: () {
+                      isAccessibilityEnabled
+                          ? Get.to(() => ChangeProfilePage())
+                          : null;
+                    },
                     onTap: () {
-                      Get.to(() => ChangeProfilePage());
+                      isAccessibilityEnabled
+                          ? readOptions(2)
+                          : Get.to(() => ChangeProfilePage());
                     },
                     child: Padding(
                       padding: EdgeInsets.all(10),
@@ -283,25 +194,6 @@ class _BodyState extends State<Body> {
                               style: TextStyle(fontSize: 16),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              if (!isReadingChangeProfile) {
-                                readOptions(2);
-                              } else {
-                                flutterTts.stop();
-                              }
-                              setState(() {
-                                isReadingChangeProfile =
-                                    !isReadingChangeProfile;
-                              });
-                            },
-                            child: Icon(
-                              isReadingChangeProfile
-                                  ? Icons.mic
-                                  : Icons
-                                      .mic_none, // Mude o ícone diretamente aqui
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -310,7 +202,12 @@ class _BodyState extends State<Body> {
                 ? Container()
                 : const Divider(height: 10, thickness: 1),
             InkWell(
-              onTap: () => _popUpLogout(context),
+              onDoubleTap: () {
+                isAccessibilityEnabled ? _popUpLogout(context) : null;
+              },
+              onTap: () {
+                isAccessibilityEnabled ? readOptions(3) : _popUpLogout(context);
+              },
               child: Padding(
                 padding: EdgeInsets.all(10),
                 child: Row(
@@ -323,23 +220,6 @@ class _BodyState extends State<Body> {
                       child: Text(
                         "Sair",
                         style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        if (!isReadingLogout) {
-                          readOptions(3);
-                        } else {
-                          flutterTts.stop();
-                        }
-                        setState(() {
-                          isReadingLogout = !isReadingLogout;
-                        });
-                      },
-                      child: Container(
-                        child: isReadingLogout
-                            ? Icon(Icons.mic)
-                            : Icon(Icons.mic_none),
                       ),
                     ),
                   ],

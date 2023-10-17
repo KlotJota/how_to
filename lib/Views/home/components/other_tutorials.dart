@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/loadingScreens/loading_other_tutorials.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 
@@ -13,6 +15,14 @@ class OtherTutorials extends StatefulWidget {
 
 class _OtherTutorialsState extends State<OtherTutorials> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
+
+  @override
+  void dispose() {
+    ttsService.dispose(); // Pare a leitura ao sair do widget
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +55,16 @@ class _OtherTutorialsState extends State<OtherTutorials> {
                     shrinkWrap: true,
                     children: tutoriais
                         .map((tutorial) => GestureDetector(
-                              onTap: () => Get.to(TutorialPage(tutorial
-                                  .id)), // colocar tutorial.id como parametro
+                              onDoubleTap: () {
+                                isAccessibilityEnabled
+                                    ? Get.to(() => TutorialPage(tutorial.id))
+                                    : null;
+                              },
+                              onTap: () {
+                                isAccessibilityEnabled
+                                    ? ttsService.speak(tutorial['titulo'])
+                                    : Get.to(() => TutorialPage(tutorial.id));
+                              }, // colocar tutorial.id como parametro
                               child: Card(
                                 color: const Color.fromARGB(255, 250, 247, 247),
                                 elevation: 3,
@@ -66,7 +84,8 @@ class _OtherTutorialsState extends State<OtherTutorials> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 200),
                                     child: Container(
-                                        color: const Color.fromRGBO(0, 9, 89, 0.815),
+                                        color: const Color.fromRGBO(
+                                            0, 9, 89, 0.815),
                                         child: Container(
                                           padding: const EdgeInsets.only(
                                               top: 4,

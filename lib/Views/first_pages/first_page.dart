@@ -1,13 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/create_tutorial/createTutorial-page.dart';
 import 'package:how_to/Views/search_page/search-page.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:how_to/views/login/user_login.dart';
-import 'package:http/http.dart';
 import '../home/home.dart';
 import '../profile/user_profile.dart';
 
@@ -29,17 +28,11 @@ class _FirstPageState extends State<FirstPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   final user = FirebaseAuth.instance.currentUser;
 
-  final FlutterTts flutterTts = FlutterTts();
-
-  Future<void> initializeTts() async {
-    await flutterTts.setLanguage("pt-BR");
-    await flutterTts.setPitch(1.0);
-  }
+  TtsService ttsService = TtsService();
 
   @override
   void initState() {
     super.initState();
-    initializeTts();
     pc = PageController(initialPage: paginaAtual, keepPage: true);
     _desabilitarAnimacao();
     if (user!.uid == "vapEyTsxGoWsOcUObGDywxz4WpC2" ||
@@ -47,22 +40,11 @@ class _FirstPageState extends State<FirstPage> {
         user!.uid == "YTzsr7KMKzezqsCbNxdsHHhSvGc2") {
       isAdmin = true;
     }
-
-    // Configurar o completionHandler para detectar quando a leitura é concluída
-    // flutterTts.setCompletionHandler(() {
-    //   setState(() {
-    //     isReadingSettings =
-    //         false; // Definir como false quando a leitura for concluída
-    //     isReadingTheme = false;
-    //     isReadingLogout = false;
-    //     isReadingChangeProfile = false;
-    //   });
-    // });
   }
 
   @override
   void dispose() {
-    flutterTts.stop(); // Pare a leitura ao sair do widget
+    ttsService.dispose(); // Pare a leitura ao sair do widget
     super.dispose();
   }
 
@@ -73,19 +55,7 @@ class _FirstPageState extends State<FirstPage> {
       "Tela de perfil",
     ];
 
-    await flutterTts.speak(titles[index]);
-
-    // setState(() {
-    //   if (index == 0) {
-    //     isReadingSettings = true;
-    //   } else if (index == 1) {
-    //     isReadingTheme = true;
-    //   } else if (index == 2) {
-    //     isReadingChangeProfile = true;
-    //   } else if (index == 3) {
-    //     isReadingLogout = true;
-    //   }
-    // });
+    await ttsService.speak(titles[index]);
   }
 
   void logOut(BuildContext context) async {

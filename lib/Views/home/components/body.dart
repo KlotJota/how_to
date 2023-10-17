@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:how_to/Views/changeProfile/components/body.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/home/components/other_tutorials.dart';
 import 'package:how_to/Views/home/components/popular_tutorials.dart';
 import 'package:how_to/Views/home/components/profile_panel.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key});
@@ -13,49 +13,19 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  final FlutterTts flutterTts = FlutterTts();
-  bool isReadingPopularTutorials = false;
-  bool isReadingOtherTutorials = false;
-
-  @override
-  void initState() {
-    super.initState();
-    initializeTts();
-
-    // Configurar o completionHandler para detectar quando a leitura é concluída
-    flutterTts.setCompletionHandler(() {
-      setState(() {
-        isReadingPopularTutorials =
-            false; // Definir como false quando a leitura for concluída
-        isReadingOtherTutorials =
-            false; // Definir como false quando a leitura for concluída
-      });
-    });
-  }
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   @override
   void dispose() {
-    flutterTts.stop(); // Pare a leitura ao sair do widget
+    ttsService.dispose(); // Pare a leitura ao sair do widget
     super.dispose();
-  }
-
-  Future<void> initializeTts() async {
-    await flutterTts.setLanguage("pt-BR");
-    await flutterTts.setPitch(1.0);
   }
 
   void readTitle(int index) async {
     List<String> titles = ["Tutoriais populares", "Outros tutoriais"];
 
-    await flutterTts.speak(titles[index]);
-
-    setState(() {
-      if (index == 0) {
-        isReadingPopularTutorials = true;
-      } else if (index == 1) {
-        isReadingOtherTutorials = true;
-      }
-    });
+    await ttsService.speak(titles[index]);
   }
 
   @override
@@ -82,63 +52,29 @@ class _BodyState extends State<Body> {
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Tutoriais populares',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              if (!isReadingPopularTutorials) {
-                                readTitle(0);
-                              } else {
-                                flutterTts.stop();
-                              }
-                              setState(() {
-                                isReadingPopularTutorials =
-                                    !isReadingPopularTutorials;
-                              });
-                            },
-                            child: Container(
-                              child: isReadingPopularTutorials
-                                  ? Icon(Icons.mic)
-                                  : Icon(Icons.mic_none),
-                            ),
-                          )
-                        ],
+                      child: GestureDetector(
+                        onTap: () {
+                          isAccessibilityEnabled ? readTitle(0) : null;
+                        },
+                        child: Text(
+                          'Tutoriais populares',
+                          style: TextStyle(
+                              fontSize: isAccessibilityEnabled ? 30 : 20),
+                        ),
                       ),
                     ),
                     const PopularTutorials(),
                     Container(
                       padding: const EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Outros tutoriais',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              if (!isReadingOtherTutorials) {
-                                readTitle(1);
-                              } else {
-                                flutterTts.stop();
-                              }
-                              setState(() {
-                                isReadingOtherTutorials =
-                                    !isReadingOtherTutorials;
-                              });
-                            },
-                            child: Container(
-                              child: isReadingOtherTutorials
-                                  ? Icon(Icons.mic)
-                                  : Icon(Icons.mic_none),
-                            ),
-                          )
-                        ],
+                      child: GestureDetector(
+                        onTap: () {
+                          isAccessibilityEnabled ? readTitle(1) : null;
+                        },
+                        child: Text(
+                          'Outros tutoriais',
+                          style: TextStyle(
+                              fontSize: isAccessibilityEnabled ? 30 : 20),
+                        ),
                       ),
                     ),
                     const OtherTutorials(),

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
 class MyAppBarProfile extends StatelessWidget implements PreferredSizeWidget {
-  const MyAppBarProfile({super.key});
+  MyAppBarProfile({super.key});
+
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   @override
   Size get preferredSize => const Size.fromHeight(50);
@@ -29,9 +34,11 @@ class MyAppBarProfile extends StatelessWidget implements PreferredSizeWidget {
             color: Color.fromRGBO(0, 9, 89, 1),
           ), // Altere a cor para a desejada
           child: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () => _openDrawer(context),
-          ),
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                ttsService.speak('Menu lateral aberto');
+                _openDrawer(context);
+              }),
         ),
       ],
     );

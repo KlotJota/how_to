@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
 import '../../register/user-register.dart';
 import 'package:get/get.dart';
@@ -15,6 +17,15 @@ class _ProfilePanelState extends State<ProfilePanel> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String user =
       'https://firebasestorage.googleapis.com/v0/b/howto-60459.appspot.com/o/perfis%2Fpadr%C3%A3o%2Fuser.png?alt=media&token=bb4a0f5c-8839-400d-8fb3-dbaaf07b3117';
+
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
+
+  @override
+  void dispose() {
+    ttsService.dispose(); // Pare a leitura ao sair do widget
+    super.dispose();
+  }
 
   void popUpRegister() {
     showDialog(
@@ -73,10 +84,18 @@ class _ProfilePanelState extends State<ProfilePanel> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (auth.currentUser!.displayName == null) {
+      onDoubleTap: () {
+        if (isAccessibilityEnabled && auth.currentUser!.displayName == null) {
           popUpRegister();
         }
+      },
+      onTap: () {
+        isAccessibilityEnabled
+            ? ttsService.speak(
+                'Seja bem vindo! Dê um duplo clique para criar uma conta')
+            : auth.currentUser!.displayName == null
+                ? popUpRegister()
+                : null;
       },
       child: Container(
         padding: const EdgeInsets.only(left: 10),

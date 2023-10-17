@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/login/user_login.dart';
 import 'package:how_to/Views/search_page/search-page.dart';
 import 'package:get/get.dart';
@@ -24,17 +25,11 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
   late PageController pc;
   FirebaseAuth auth = FirebaseAuth.instance;
   final user = FirebaseAuth.instance.currentUser;
-  final FlutterTts flutterTts = FlutterTts();
-
-  Future<void> initializeTts() async {
-    await flutterTts.setLanguage("pt-BR");
-    await flutterTts.setPitch(1.0);
-  }
+  TtsService ttsService = TtsService();
 
   @override
   void initState() {
     super.initState();
-    initializeTts();
     pc = PageController(initialPage: paginaAtual);
     _desabilitarAnimacao();
 
@@ -52,7 +47,7 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
 
   @override
   void dispose() {
-    flutterTts.stop(); // Pare a leitura ao sair do widget
+    ttsService.dispose(); // Pare a leitura ao sair do widget
     super.dispose();
   }
 
@@ -64,7 +59,7 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
       "Sair"
     ];
 
-    await flutterTts.speak(titles[index]);
+    await ttsService.speak(titles[index]);
 
     // setState(() {
     //   if (index == 0) {

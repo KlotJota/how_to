@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/loadingScreens/loading_popular_tutorials.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 import 'dart:async';
@@ -23,6 +25,9 @@ class _PopularTutorialsState extends State<PopularTutorials> {
   late ScrollController _scrollController;
 
   double _progress = 0;
+
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   @override
   void initState() {
@@ -55,6 +60,12 @@ class _PopularTutorialsState extends State<PopularTutorials> {
   }
 
   @override
+  void dispose() {
+    ttsService.dispose(); // Pare a leitura ao sair do widget
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: firestore
@@ -68,9 +79,6 @@ class _PopularTutorialsState extends State<PopularTutorials> {
               children: [
                 LoadingPopularTutorials(),
                 LoadingPopularTutorials(),
-                LoadingPopularTutorials(),
-                LoadingPopularTutorials(),
-                LoadingPopularTutorials()
               ],
             ); // circulo de carregando
           }
@@ -91,7 +99,16 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                   itemBuilder: (context, index) {
                     final tutorial = tutoriais[index];
                     return GestureDetector(
-                      onTap: () => Get.to(TutorialPage(tutorial.id)),
+                      onDoubleTap: () {
+                        isAccessibilityEnabled
+                            ? Get.to(() => TutorialPage(tutorial.id))
+                            : null;
+                      },
+                      onTap: () {
+                        isAccessibilityEnabled
+                            ? ttsService.speak(tutorial['titulo'])
+                            : Get.to(() => TutorialPage(tutorial.id));
+                      },
                       child: Card(
                         elevation: 3,
                         margin: const EdgeInsets.only(left: 5, right: 5),

@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:how_to/Views/face_detector/face_detector_page.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/first_pages/first_page_anonymous.dart';
 import 'package:how_to/Views/reset_password/reset-pass.dart';
 import '../../first_pages/first_page.dart';
@@ -21,6 +22,9 @@ class _LoginFormState extends State<LoginForm> {
   FirebaseAuth auth = FirebaseAuth.instance;
   var formKeyLogin = GlobalKey<FormState>();
   bool _passVisible = false;
+
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   void login(BuildContext context) async {
     if (formKeyLogin.currentState!.validate()) {
@@ -128,6 +132,11 @@ class _LoginFormState extends State<LoginForm> {
                 width: MediaQuery.of(context).size.width - 120,
                 child: TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onTap: () {
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Insira seu email')
+                        : null;
+                  },
                   onSaved: (value) => email = value!,
                   validator: (value) {
                     if (!RegExp(r'^.+@[a-zA-Z]+.{1}[a-zA-Z]+(.{0,1}[a-zA-Z]+)$')
@@ -153,6 +162,11 @@ class _LoginFormState extends State<LoginForm> {
                 child: TextFormField(
                   obscureText: !_passVisible,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onTap: () {
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Insira sua senha')
+                        : null;
+                  },
                   onSaved: (value) => password = value!,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -171,6 +185,11 @@ class _LoginFormState extends State<LoginForm> {
                         _passVisible ? Icons.visibility : Icons.visibility_off,
                       ),
                       onPressed: () {
+                        if (isAccessibilityEnabled) {
+                          _passVisible
+                              ? ttsService.speak('Senha invisível')
+                              : ttsService.speak('Senha visível');
+                        }
                         setState(() {
                           _passVisible = !_passVisible;
                         });
@@ -182,19 +201,33 @@ class _LoginFormState extends State<LoginForm> {
               Container(
                 margin: const EdgeInsets.only(bottom: 20, top: 15),
                 child: GestureDetector(
-                    child: const Text(
+                    child: Text(
                       "Esqueceu sua senha?",
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: isAccessibilityEnabled ? 20 : 13,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    onDoubleTap: () {
+                      isAccessibilityEnabled
+                          ? Get.to(() => resetPassPage())
+                          : null;
+                    },
                     onTap: () {
-                      Get.to(resetPassPage());
+                      isAccessibilityEnabled
+                          ? ttsService.speak('Esqueceu sua senha?')
+                          : Get.to(() => resetPassPage());
                     }),
               ),
               GestureDetector(
-                onTap: () => login(context),
+                onDoubleTap: () {
+                  isAccessibilityEnabled ? login(context) : null;
+                },
+                onTap: () {
+                  isAccessibilityEnabled
+                      ? ttsService.speak('Entrar com suas credenciais')
+                      : login(context);
+                },
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 20),
                   width: MediaQuery.of(context).size.width - 120,
@@ -219,14 +252,25 @@ class _LoginFormState extends State<LoginForm> {
                         width: MediaQuery.of(context).size.width - 120,
                         child: Container(
                             alignment: Alignment.center,
-                            child: const Text('  ou  ')),
+                            child: Text(
+                              '  ou  ',
+                              style: TextStyle(
+                                  fontSize: isAccessibilityEnabled ? 20 : 14),
+                            )),
                       ),
                     ],
                   ),
                 ],
               ),
               GestureDetector(
-                onTap: () => anonimous(context),
+                onDoubleTap: () {
+                  isAccessibilityEnabled ? anonimous(context) : null;
+                },
+                onTap: () {
+                  isAccessibilityEnabled
+                      ? ttsService.speak('Entrar como anônimo')
+                      : anonimous(context);
+                },
                 child: Container(
                   margin: const EdgeInsets.only(top: 20, bottom: 20),
                   width: MediaQuery.of(context).size.width - 120,
@@ -253,19 +297,49 @@ class _LoginFormState extends State<LoginForm> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Primeira vez no How To? ',
+                  GestureDetector(
+                    onDoubleTap: () {
+                      isAccessibilityEnabled
+                          ? Get.to(() => const UserRegisterPage(),
+                              transition: Transition.rightToLeftWithFade)
+                          : null;
+                    },
+                    onTap: () {
+                      isAccessibilityEnabled
+                          ? ttsService.speak(
+                              'Se desejar criar uma conta no RauTiu, dê um duplo clique')
+                          : null;
+                    },
+                    child: Text(
+                      'Primeira vez no How To? ',
+                      style:
+                          TextStyle(fontSize: isAccessibilityEnabled ? 20 : 14),
+                    ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Get.to(const UserRegisterPage(),
-                          transition: Transition.rightToLeftWithFade);
+                    onDoubleTap: () {
+                      isAccessibilityEnabled
+                          ? Get.to(() => const UserRegisterPage(),
+                              transition: Transition.rightToLeftWithFade)
+                          : null;
                     },
-                    child: const Text(
+                    onTap: () {
+                      isAccessibilityEnabled
+                          ? ttsService.speak(
+                              'Se desejar criar uma conta no RauTiu, dê um duplo clique')
+                          : Get.to(const UserRegisterPage(),
+                              transition: Transition.rightToLeftWithFade);
+                    },
+                    child: Text(
                       'Criar conta',
                       style: TextStyle(
-                          color: Color.fromRGBO(0, 9, 89, 1),
-                          decoration: TextDecoration.underline),
+                          fontSize: isAccessibilityEnabled ? 20 : 14,
+                          color: isAccessibilityEnabled
+                              ? null
+                              : Color.fromRGBO(0, 9, 89, 1),
+                          decoration: isAccessibilityEnabled
+                              ? null
+                              : TextDecoration.underline),
                     ),
                   ),
                 ],

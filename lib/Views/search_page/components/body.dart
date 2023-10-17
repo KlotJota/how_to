@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/loadingScreens/loading_searched_tutorials.dart';
 import 'package:how_to/Views/search_page/components/search.singleton.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
@@ -18,6 +20,27 @@ class _BodyState extends State<Body> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   var searchKey = GlobalKey<FormState>();
+
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  final FlutterTts flutterTts = FlutterTts();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initializeTts();
+  }
+
+  @override
+  void dispose() {
+    flutterTts.stop(); // Pare a leitura ao sair do widget
+    super.dispose();
+  }
+
+  Future<void> initializeTts() async {
+    await flutterTts.setLanguage("pt-BR");
+    await flutterTts.setPitch(1.0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +79,11 @@ class _BodyState extends State<Body> {
                           width: MediaQuery.of(context).size.width - 80,
                           child: TextField(
                             key: searchKey,
+                            onTap: () {
+                              isAccessibilityEnabled
+                                  ? flutterTts.speak('Barra de pesquisa')
+                                  : null;
+                            },
                             onChanged: (value) {
                               setState(() {
                                 pesquisa.searchController.text = value;
@@ -71,11 +99,16 @@ class _BodyState extends State<Body> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
+                          onDoubleTap: () {
                             String searchValue = pesquisa.searchController.text;
                             setState(() {
                               pesquisa.searchController.text = searchValue;
                             });
+                          },
+                          onTap: () {
+                            isAccessibilityEnabled
+                                ? flutterTts.speak('Botão de pesquisar')
+                                : null;
                           },
                           child: Container(
                             child: Icon(Icons.search, color: Colors.white),
@@ -91,16 +124,34 @@ class _BodyState extends State<Body> {
                     ),
                     pesquisa.searchController.text == ''
                         ? Container(
-                            margin: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: Text(
-                              "Todos os tutoriais",
-                              style: TextStyle(fontSize: 20),
+                            margin: const EdgeInsets.only(bottom: 10, top: 10),
+                            child: GestureDetector(
+                              onTap: () {
+                                isAccessibilityEnabled
+                                    ? flutterTts.speak('Todos os tutoriais')
+                                    : null;
+                              },
+                              child: Text(
+                                "Todos os tutoriais",
+                                style: TextStyle(
+                                    fontSize: isAccessibilityEnabled ? 30 : 20),
+                              ),
                             ))
                         : Container(
-                            margin: const EdgeInsets.only(bottom: 5, top: 5),
-                            child: Text(
-                              "Tutoriais encontrados para: ${pesquisa.searchController.text}",
-                              style: TextStyle(fontSize: 20),
+                            margin: const EdgeInsets.only(bottom: 10, top: 10),
+                            child: GestureDetector(
+                              onTap: () {
+                                isAccessibilityEnabled
+                                    ? flutterTts.speak(
+                                        "Tutoriais encontrados para: ${pesquisa.searchController.text}",
+                                      )
+                                    : null;
+                              },
+                              child: Text(
+                                "Tutoriais encontrados para: ${pesquisa.searchController.text}",
+                                style: TextStyle(
+                                    fontSize: isAccessibilityEnabled ? 30 : 20),
+                              ),
                             )),
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 180,
@@ -130,7 +181,16 @@ class _BodyState extends State<Body> {
                           }
 
                           return GestureDetector(
-                            onTap: () => Get.to(TutorialPage(tutorial.id)),
+                            onDoubleTap: () {
+                              isAccessibilityEnabled
+                                  ? Get.to(() => TutorialPage(tutorial.id))
+                                  : null;
+                            },
+                            onTap: () {
+                              isAccessibilityEnabled
+                                  ? flutterTts.speak(tutorial['titulo'])
+                                  : Get.to(() => TutorialPage(tutorial.id));
+                            },
                             child: Card(
                               elevation: 3,
                               margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),

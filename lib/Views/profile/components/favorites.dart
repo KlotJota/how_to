@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/profile/components/profile.menu.dart';
 import 'package:how_to/Views/profile/components/profile_info.dart';
 import 'package:get/get.dart';
@@ -19,11 +21,20 @@ class _FavoritesFunctionState extends State<Favorites> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<String> favoritos = [];
 
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     buscarFavorito();
+  }
+
+  @override
+  void dispose() {
+    ttsService.dispose(); // Pare a leitura ao sair do widget
+    super.dispose();
   }
 
   void removerFavorito(String tutorialId) async {
@@ -103,8 +114,19 @@ class _FavoritesFunctionState extends State<Favorites> {
                                   ),
                                   children: favoritos
                                       .map((favorito) => GestureDetector(
-                                            onTap: () => Get.to(
-                                                TutorialPage(favorito.id)),
+                                            onDoubleTap: () {
+                                              isAccessibilityEnabled
+                                                  ? Get.to(
+                                                      TutorialPage(favorito.id))
+                                                  : null;
+                                            },
+                                            onTap: () {
+                                              isAccessibilityEnabled
+                                                  ? ttsService
+                                                      .speak(favorito['titulo'])
+                                                  : Get.to(TutorialPage(
+                                                      favorito.id));
+                                            },
                                             child: Card(
                                               elevation: 3,
                                               clipBehavior:
@@ -127,112 +149,194 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                           .bottomCenter),
                                                 ),
                                                 child: GestureDetector(
-                                                  onTap: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return AlertDialog(
-                                                            elevation: 10,
-                                                            titlePadding:
-                                                                const EdgeInsets
-                                                                    .all(5),
-                                                            title: const Text(
-                                                                'Remover favorito'),
-                                                            backgroundColor:
-                                                                const Color
-                                                                        .fromARGB(
-                                                                    255,
-                                                                    250,
-                                                                    247,
-                                                                    247),
-                                                            content: const Text(
-                                                                'Deseja realmente remover o tutorial dos favoritos?'),
-                                                            actions: [
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceEvenly,
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    onTap: () =>
-                                                                        Get.back(),
-                                                                    child:
-                                                                        Container(
-                                                                      padding: const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              5),
-                                                                      height:
-                                                                          30,
-                                                                      width: 80,
+                                                  onDoubleTap: () {
+                                                    if (isAccessibilityEnabled) {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              elevation: 10,
+                                                              titlePadding:
+                                                                  const EdgeInsets
+                                                                      .all(5),
+                                                              title: const Text(
+                                                                  'Remover favorito'),
+                                                              backgroundColor:
+                                                                  const Color
+                                                                      .fromARGB(
+                                                                      255,
+                                                                      250,
+                                                                      247,
+                                                                      247),
+                                                              content: const Text(
+                                                                  'Deseja realmente remover o tutorial dos favoritos?'),
+                                                              actions: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  children: [
+                                                                    GestureDetector(
+                                                                      onTap: () =>
+                                                                          Get.back(),
                                                                       child:
-                                                                          const Text(
-                                                                        'Não',
-                                                                        style: TextStyle(
-                                                                            color: Color.fromRGBO(
+                                                                          Container(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            top:
+                                                                                5),
+                                                                        height:
+                                                                            30,
+                                                                        width:
+                                                                            80,
+                                                                        child:
+                                                                            const Text(
+                                                                          'Não',
+                                                                          style:
+                                                                              TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    GestureDetector(
+                                                                      onTap:
+                                                                          () async {
+                                                                        await Future.delayed(Duration.zero).then((_) =>
+                                                                            removerFavorito(favorito.id));
+
+                                                                        Get.back();
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        decoration: BoxDecoration(
+                                                                            color: const Color.fromRGBO(
                                                                                 0,
                                                                                 9,
                                                                                 89,
-                                                                                1)),
-                                                                        textAlign:
-                                                                            TextAlign.center,
+                                                                                1),
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(5)),
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            top:
+                                                                                5),
+                                                                        height:
+                                                                            30,
+                                                                        width:
+                                                                            80,
+                                                                        child:
+                                                                            const Text(
+                                                                          'Sim',
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                        ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap:
-                                                                        () async {
-                                                                      await Future.delayed(Duration
-                                                                              .zero)
-                                                                          .then((_) =>
-                                                                              removerFavorito(favorito.id));
-
-                                                                      FirebaseFirestore
-                                                                          .instance
-                                                                          .collection(
-                                                                              'tutoriais')
-                                                                          .doc(favorito
-                                                                              .id)
-                                                                          .update({
-                                                                        "qtdFavoritos":
-                                                                            FieldValue.increment(-1),
-                                                                      });
-
-                                                                      Get.back();
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      decoration: BoxDecoration(
-                                                                          color: const Color.fromRGBO(
-                                                                              0,
-                                                                              9,
-                                                                              89,
-                                                                              1),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(5)),
-                                                                      padding: const EdgeInsets
-                                                                              .only(
-                                                                          top:
-                                                                              5),
-                                                                      height:
-                                                                          30,
-                                                                      width: 80,
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            );
+                                                          });
+                                                    }
+                                                  },
+                                                  onTap: () {
+                                                    if (!isAccessibilityEnabled) {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              elevation: 10,
+                                                              titlePadding:
+                                                                  const EdgeInsets
+                                                                      .all(5),
+                                                              title: const Text(
+                                                                  'Remover favorito'),
+                                                              backgroundColor:
+                                                                  const Color
+                                                                      .fromARGB(
+                                                                      255,
+                                                                      250,
+                                                                      247,
+                                                                      247),
+                                                              content: const Text(
+                                                                  'Deseja realmente remover o tutorial dos favoritos?'),
+                                                              actions: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  children: [
+                                                                    GestureDetector(
+                                                                      onTap: () =>
+                                                                          Get.back(),
                                                                       child:
-                                                                          const Text(
-                                                                        'Sim',
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                        textAlign:
-                                                                            TextAlign.center,
+                                                                          Container(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            top:
+                                                                                5),
+                                                                        height:
+                                                                            30,
+                                                                        width:
+                                                                            80,
+                                                                        child:
+                                                                            const Text(
+                                                                          'Não',
+                                                                          style:
+                                                                              TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                        ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            ],
-                                                          );
-                                                        });
+                                                                    GestureDetector(
+                                                                      onTap:
+                                                                          () async {
+                                                                        await Future.delayed(Duration.zero).then((_) =>
+                                                                            removerFavorito(favorito.id));
+
+                                                                        Get.back();
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        decoration: BoxDecoration(
+                                                                            color: const Color.fromRGBO(
+                                                                                0,
+                                                                                9,
+                                                                                89,
+                                                                                1),
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(5)),
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            top:
+                                                                                5),
+                                                                        height:
+                                                                            30,
+                                                                        width:
+                                                                            80,
+                                                                        child:
+                                                                            const Text(
+                                                                          'Sim',
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            );
+                                                          });
+                                                    } else {
+                                                      ttsService.speak(
+                                                          'Remover tutorial');
+                                                    }
                                                   },
                                                   child: Container(
                                                       decoration: const BoxDecoration(
@@ -243,8 +347,14 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                   topLeft: Radius
                                                                       .circular(
                                                                           5))),
-                                                      height: 30,
-                                                      width: 30,
+                                                      height:
+                                                          isAccessibilityEnabled
+                                                              ? 40
+                                                              : 30,
+                                                      width:
+                                                          isAccessibilityEnabled
+                                                              ? 40
+                                                              : 30,
                                                       child: const Icon(
                                                         color: Color.fromARGB(
                                                             255, 250, 250, 250),

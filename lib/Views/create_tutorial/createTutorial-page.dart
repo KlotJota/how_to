@@ -13,6 +13,6 @@ class CreateTutorialPage extends StatefulWidget {
 class _CreateTutorialPage extends State<CreateTutorialPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(appBar: MyAppBarProfile(), body: Body());
+    return Scaffold(appBar: MyAppBarProfile(), body: Body());
   }
 }

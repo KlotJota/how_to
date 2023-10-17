@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
 class ProfileMenu extends StatefulWidget {
   const ProfileMenu({super.key});
@@ -15,11 +17,20 @@ class _ProfileMenuState extends State<ProfileMenu> {
 
   List<String> favoritos = [];
 
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     buscarFavorito();
+  }
+
+  @override
+  void dispose() {
+    ttsService.dispose(); // Pare a leitura ao sair do widget
+    super.dispose();
   }
 
   void buscarFavorito() async {
@@ -46,9 +57,17 @@ class _ProfileMenuState extends State<ProfileMenu> {
               child: Column(children: [
             Container(
                 margin: const EdgeInsets.only(bottom: 10),
-                child: const Text(
-                  'Tutoriais Salvos',
-                  style: TextStyle(fontSize: 20),
+                child: GestureDetector(
+                  onTap: () {
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Tutoriais Salvos')
+                        : null;
+                  },
+                  child: Text(
+                    'Tutoriais Salvos',
+                    style:
+                        TextStyle(fontSize: isAccessibilityEnabled ? 28 : 18),
+                  ),
                 )),
             Container(
                 margin: const EdgeInsets.only(bottom: 10),
