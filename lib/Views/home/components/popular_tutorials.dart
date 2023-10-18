@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
+import 'package:how_to/Views/face_detector/face_detector_page.dart';
 import 'package:how_to/Views/loadingScreens/loading_popular_tutorials.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
 import 'dart:async';
@@ -99,6 +100,17 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                   itemBuilder: (context, index) {
                     final tutorial = tutoriais[index];
                     return GestureDetector(
+                      onLongPress: () {
+                        isAccessibilityEnabled
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      FaceDetectorPage(tutorial!.id),
+                                ),
+                              )
+                            : null;
+                      },
                       onDoubleTap: () {
                         isAccessibilityEnabled
                             ? Get.to(() => TutorialPage(tutorial.id))

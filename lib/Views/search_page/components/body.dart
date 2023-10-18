@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/face_detector/face_detector_page.dart';
 import 'package:how_to/Views/loadingScreens/loading_searched_tutorials.dart';
 import 'package:how_to/Views/search_page/components/search.singleton.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
@@ -181,6 +182,17 @@ class _BodyState extends State<Body> {
                           }
 
                           return GestureDetector(
+                            onLongPress: () {
+                              isAccessibilityEnabled
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            FaceDetectorPage(tutorial!.id),
+                                      ),
+                                    )
+                                  : null;
+                            },
                             onDoubleTap: () {
                               isAccessibilityEnabled
                                   ? Get.to(() => TutorialPage(tutorial.id))
