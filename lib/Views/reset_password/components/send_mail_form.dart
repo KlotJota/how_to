@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/reset_password/components/singleton.dart';
 
 class SendMailForm extends StatelessWidget {
-  const SendMailForm({super.key});
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +35,34 @@ class SendMailForm extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(top: 12),
-          child: const Text(
-            "Esqueceu sua senha?",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          child: GestureDetector(
+            onTap: () {
+              isAccessibilityEnabled
+                  ? ttsService.speak('Esqueceu sua senha?')
+                  : null;
+            },
+            child: const Text(
+              "Esqueceu sua senha?",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
         Wrap(children: [
           Container(
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.all(15),
-            child: const Text(
-              "Se você esqueceu sua senha, não se preocupe! Podemos ajudá-lo a recuperar o acesso à sua conta.",
-              style: TextStyle(fontSize: 13),
-              textAlign: TextAlign.justify,
+            child: GestureDetector(
+              onTap: () {
+                isAccessibilityEnabled
+                    ? ttsService.speak(
+                        'Se você esqueceu sua senha, não se preocupe! Podemos ajudá-lo a recuperar o acesso à sua conta.')
+                    : null;
+              },
+              child: Text(
+                "Se você esqueceu sua senha, não se preocupe! Podemos ajudá-lo a recuperar o acesso à sua conta.",
+                style: TextStyle(fontSize: isAccessibilityEnabled ? 20 : 13),
+                textAlign: TextAlign.justify,
+              ),
             ),
           ),
         ]),
@@ -52,6 +70,11 @@ class SendMailForm extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 10),
           width: MediaQuery.of(context).size.width - 50,
           child: TextFormField(
+            onTap: () {
+              isAccessibilityEnabled
+                  ? ttsService.speak('Insira seu email cadastrado no app')
+                  : null;
+            },
             controller: SingletonResetPass.controller.emailController,
             decoration: const InputDecoration(
               labelText: 'E-mail',

@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 
@@ -38,6 +40,9 @@ class _BodyState extends State<Body> {
   final senhaController = TextEditingController();
 
   final formKeyConfirm = GlobalKey<FormState>();
+
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   void _popUpSucesso(context) {
     showDialog(
@@ -290,9 +295,15 @@ class _BodyState extends State<Body> {
           backgroundColor: const Color.fromARGB(255, 240, 240, 240),
           content: pickedFile == null
               ? GestureDetector(
+                  onDoubleTap: () {
+                    pegaImagem();
+                  },
                   onTap: () {
                     setState(() {
-                      pegaImagem();
+                      isAccessibilityEnabled
+                          ? ttsService.speak(
+                              'Dê um duplo clique para selecionar uma imagem')
+                          : pegaImagem();
                     });
                   },
                   child: Container(
@@ -327,7 +338,14 @@ class _BodyState extends State<Body> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                  onTap: () => Get.back(),
+                  onDoubleTap: () {
+                    isAccessibilityEnabled ? Get.back() : null;
+                  },
+                  onTap: () {
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Dê um duplo clique para fechar')
+                        : Get.back();
+                  },
                   child: Container(
                     padding: const EdgeInsets.only(top: 5),
                     height: 30,
@@ -340,12 +358,26 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () async {
-                    await Future.delayed(Duration.zero)
-                        .then((_) => adicionaImagem());
-                    Get.back();
+                  onDoubleTap: () async {
+                    if (isAccessibilityEnabled) {
+                      await Future.delayed(Duration.zero)
+                          .then((_) => adicionaImagem());
+                      Get.back();
 
-                    setState(() {});
+                      setState(() {});
+                    }
+                  },
+                  onTap: () async {
+                    if (!isAccessibilityEnabled) {
+                      await Future.delayed(Duration.zero)
+                          .then((_) => adicionaImagem());
+                      Get.back();
+
+                      setState(() {});
+                    } else {
+                      ttsService
+                          .speak('Dê um duplo clique para adicionar a imagem');
+                    }
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -380,16 +412,30 @@ class _BodyState extends State<Body> {
           child: Column(children: [
             Container(
                 margin: const EdgeInsets.only(top: 10),
-                child: Text(
-                  'Alterar Perfil',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                child: GestureDetector(
+                  onTap: () {
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Alterar perfil')
+                        : null;
+                  },
+                  child: Text(
+                    'Alterar Perfil',
+                    style: TextStyle(
+                        fontSize: isAccessibilityEnabled ? 24 : 18,
+                        fontWeight: FontWeight.bold),
+                  ),
                 )),
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: GestureDetector(
+                  onDoubleTap: () {
+                    isAccessibilityEnabled ? _popUpImagem(context) : null;
+                  },
                   onTap: () {
-                    _popUpImagem(context);
+                    isAccessibilityEnabled
+                        ? ttsService
+                            .speak('Dê um duplo clique para alterar sua imagem')
+                        : _popUpImagem(context);
                   },
                   child: CircleAvatar(
                     child: Container(
@@ -414,17 +460,34 @@ class _BodyState extends State<Body> {
                         'Usuário',
                         style: TextStyle(fontSize: 18),
                       )
-                    : Text(
-                        auth.currentUser!.displayName.toString(),
-                        style: const TextStyle(fontSize: 18),
+                    : GestureDetector(
+                        onTap: () {
+                          isAccessibilityEnabled
+                              ? ttsService.speak(
+                                  auth.currentUser!.displayName.toString())
+                              : null;
+                        },
+                        child: Text(
+                          auth.currentUser!.displayName.toString(),
+                          style: TextStyle(
+                              fontSize: isAccessibilityEnabled ? 24 : 18),
+                        ),
                       )),
             const Divider(height: 10, thickness: 1),
             Container(
                 margin: const EdgeInsets.only(top: 10),
-                child: Text(
-                  'Nome de usuário',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                child: GestureDetector(
+                  onTap: () {
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Nome de usuário')
+                        : null;
+                  },
+                  child: Text(
+                    'Nome de usuário',
+                    style: TextStyle(
+                        fontSize: isAccessibilityEnabled ? 24 : 18,
+                        fontWeight: FontWeight.bold),
+                  ),
                 )),
             Container(
               padding: EdgeInsets.only(top: 20),
@@ -446,6 +509,11 @@ class _BodyState extends State<Body> {
                   ),
                   textAlign: TextAlign.left,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onTap: () {
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Insira seu novo nome de usuário')
+                        : null;
+                  },
                   onChanged: (value) => novoNome = value,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -460,20 +528,44 @@ class _BodyState extends State<Body> {
             ),
             Container(
                 margin: const EdgeInsets.only(top: 10),
-                child: Text(
-                  'Endereço de e-mail da conta',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                child: GestureDetector(
+                  onTap: () {
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Endereço de email da conta')
+                        : null;
+                  },
+                  child: Text(
+                    'Endereço de e-mail da conta',
+                    style: TextStyle(
+                        fontSize: isAccessibilityEnabled ? 24 : 18,
+                        fontWeight: FontWeight.bold),
+                  ),
                 )),
             Container(
                 margin: const EdgeInsets.only(top: 10),
-                child: Text(
-                  auth.currentUser!.email.toString(),
-                  style: const TextStyle(fontSize: 16),
+                child: GestureDetector(
+                  onTap: () {
+                    isAccessibilityEnabled
+                        ? ttsService.speak(
+                            auth.currentUser!.email.toString(),
+                          )
+                        : null;
+                  },
+                  child: Text(
+                    auth.currentUser!.email.toString(),
+                    style:
+                        TextStyle(fontSize: isAccessibilityEnabled ? 24 : 16),
+                  ),
                 )),
             GestureDetector(
+              onDoubleTap: () {
+                isAccessibilityEnabled ? _popUpConfirmaSenha(context) : null;
+              },
               onTap: () => {
-                _popUpConfirmaSenha(context),
+                isAccessibilityEnabled
+                    ? ttsService.speak(
+                        'Dê um duplo clique para alterar o nome de usuário')
+                    : _popUpConfirmaSenha(context)
               },
               child: Container(
                 margin: const EdgeInsets.only(top: 50),

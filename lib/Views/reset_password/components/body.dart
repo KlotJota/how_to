@@ -18,7 +18,7 @@ class _BodyState extends State<Body> {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: const Column(
+            child: Column(
               children: [SendMailForm(), ResetPassButton()],
             ),
           ),

@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/reset_password/components/singleton.dart';
 
 class ResetPassButton extends StatelessWidget {
-  const ResetPassButton({super.key});
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   void redefinirSenha(BuildContext context) async {
     try {
@@ -41,7 +44,15 @@ class ResetPassButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => redefinirSenha(context),
+      onDoubleTap: () {
+        isAccessibilityEnabled ? redefinirSenha(context) : null;
+      },
+      onTap: () {
+        isAccessibilityEnabled
+            ? ttsService.speak(
+                'Dê um duplo clique para enviar instruções para seu email!')
+            : redefinirSenha(context);
+      },
       child: Container(
         margin: const EdgeInsets.only(top: 20),
         width: MediaQuery.of(context).size.width - 50,

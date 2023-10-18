@@ -307,7 +307,7 @@ class _LoginFormState extends State<LoginForm> {
                     onTap: () {
                       isAccessibilityEnabled
                           ? ttsService.speak(
-                              'Se desejar criar uma conta no RauTiu, dê um duplo clique')
+                              'Se deseja criar uma conta no RauTiu, dê um duplo clique')
                           : null;
                     },
                     child: Text(

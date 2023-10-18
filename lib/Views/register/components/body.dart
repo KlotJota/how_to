@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/register/components/register-form.dart';
 import 'package:get/get.dart';
 
 class Body extends StatelessWidget {
-  const Body({super.key});
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +29,14 @@ class Body extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.all(30),
-                child: const Text(
-                  "Cadastro",
-                  style: TextStyle(fontSize: 50),
+                child: GestureDetector(
+                  onTap: () {
+                    ttsService.speak('Cadastro');
+                  },
+                  child: const Text(
+                    "Cadastro",
+                    style: TextStyle(fontSize: 50),
+                  ),
                 ),
               ),
               const RegisterForm()
