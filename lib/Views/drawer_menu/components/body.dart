@@ -92,7 +92,8 @@ class _BodyState extends State<Body> {
                   onTap: () {
                     HapticFeedback.heavyImpact();
                     isAccessibilityEnabled
-                        ? ttsService.speak('Não')
+                        ? ttsService
+                            .speak('Dê um duplo clique para continuar no app')
                         : Get.back();
                   },
                   child: Container(
@@ -116,7 +117,7 @@ class _BodyState extends State<Body> {
                   onTap: () {
                     HapticFeedback.heavyImpact();
                     isAccessibilityEnabled
-                        ? ttsService.speak('Sim')
+                        ? ttsService.speak('Dê um duplo clique para sair')
                         : logOut(context);
                   },
                   child: Container(

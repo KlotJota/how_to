@@ -32,17 +32,6 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
     super.initState();
     pc = PageController(initialPage: paginaAtual);
     _desabilitarAnimacao();
-
-    // Configurar o completionHandler para detectar quando a leitura é concluída
-    // flutterTts.setCompletionHandler(() {
-    //   setState(() {
-    //     isReadingSettings =
-    //         false; // Definir como false quando a leitura for concluída
-    //     isReadingTheme = false;
-    //     isReadingLogout = false;
-    //     isReadingChangeProfile = false;
-    //   });
-    // });
   }
 
   @override
@@ -52,26 +41,9 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
   }
 
   void readOptions(int index) async {
-    List<String> titles = [
-      "Tela inicial",
-      "Tela de pesquisa",
-      "Tela de perfil",
-      "Sair"
-    ];
+    List<String> titles = ["Tela inicial", "Tela de pesquisa", "Botão de sair"];
 
     await ttsService.speak(titles[index]);
-
-    // setState(() {
-    //   if (index == 0) {
-    //     isReadingSettings = true;
-    //   } else if (index == 1) {
-    //     isReadingTheme = true;
-    //   } else if (index == 2) {
-    //     isReadingChangeProfile = true;
-    //   } else if (index == 3) {
-    //     isReadingLogout = true;
-    //   }
-    // });
   }
 
   void logOut(BuildContext context) async {
@@ -91,15 +63,42 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
           return AlertDialog(
             elevation: 10,
             titlePadding: const EdgeInsets.all(5),
-            title: const Text('Sair'),
+            title: GestureDetector(
+                onTap: () {
+                  if (isAccessibilityEnabled) {
+                    ttsService.speak('Sair');
+                    HapticFeedback.heavyImpact();
+                  }
+                },
+                child: const Text('Sair')),
             backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-            content: const Text('Você realmente deseja sair do aplicativo?'),
+            content: GestureDetector(
+                onTap: () {
+                  if (isAccessibilityEnabled) {
+                    ttsService
+                        .speak('Você realmente deseja sair do aplicativo?');
+                    HapticFeedback.heavyImpact();
+                  }
+                },
+                child: const Text('Você realmente deseja sair do aplicativo?')),
             actions: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () => Get.back(),
+                    onDoubleTap: () {
+                      if (isAccessibilityEnabled) {
+                        Get.back();
+                        HapticFeedback.heavyImpact();
+                      }
+                    },
+                    onTap: () {
+                      HapticFeedback.heavyImpact();
+                      isAccessibilityEnabled
+                          ? ttsService
+                              .speak('Dê um duplo clique para continuar no app')
+                          : Get.back();
+                    },
                     child: Container(
                       padding: const EdgeInsets.only(top: 5),
                       height: 30,
@@ -112,7 +111,18 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => logOut(context),
+                    onDoubleTap: () {
+                      if (isAccessibilityEnabled) {
+                        logOut(context);
+                        HapticFeedback.heavyImpact();
+                      }
+                    },
+                    onTap: () {
+                      HapticFeedback.heavyImpact();
+                      isAccessibilityEnabled
+                          ? ttsService.speak('Dê um duplo clique para sair')
+                          : logOut(context);
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                           color: const Color.fromRGBO(0, 9, 89, 1),
@@ -162,6 +172,7 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
             icon: GestureDetector(
               child: Icon(Icons.home),
               onTap: () {
+                HapticFeedback.heavyImpact();
                 pc.jumpToPage(0);
                 if (isAccessibilityEnabled) {
                   readOptions(0);
@@ -174,6 +185,7 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
             icon: GestureDetector(
               child: Icon(Icons.search),
               onTap: () {
+                HapticFeedback.heavyImpact();
                 pc.jumpToPage(1);
                 if (isAccessibilityEnabled) {
                   readOptions(1);
@@ -185,7 +197,13 @@ class _FirstPageAnonymousState extends State<FirstPageAnonymous> {
           BottomNavigationBarItem(
             icon: GestureDetector(
               child: const Icon(Icons.logout),
-              onTap: () => _popUp(context),
+              onTap: () {
+                _popUp(context);
+                HapticFeedback.heavyImpact();
+                if (isAccessibilityEnabled) {
+                  readOptions(2);
+                }
+              },
             ),
             label: 'Sair',
           )

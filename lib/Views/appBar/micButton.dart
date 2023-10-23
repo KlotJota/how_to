@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/search_page/search-page.dart';
 
 import 'package:speech_to_text/speech_to_text.dart';
@@ -19,23 +21,19 @@ class _MicButtonState extends State<MicButton> {
 
   SearchSingleton pesquisa = SearchSingleton.controller;
   bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
-  final FlutterTts flutterTts = FlutterTts();
+  TtsService ttsService = TtsService();
 
   @override
   void dispose() {
-    flutterTts.stop(); // Pare a leitura ao sair do widget
+    ttsService.dispose(); // Pare a leitura ao sair do widget
     super.dispose();
-  }
-
-  Future<void> initializeTts() async {
-    await flutterTts.setLanguage("pt-BR");
-    await flutterTts.setPitch(1.0);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () async {
+        HapticFeedback.heavyImpact();
         if (!_isPressed) {
           var disponivel = await speechToText.initialize();
           if (disponivel) {
@@ -70,7 +68,10 @@ class _MicButtonState extends State<MicButton> {
     return FloatingActionButton(
       enableFeedback: true,
       onPressed: () {
-        flutterTts.speak('Segure esse botão para pesquisar por voz');
+        if (isAccessibilityEnabled) {
+          ttsService.speak('Segure esse botão para pesquisar por voz');
+          HapticFeedback.heavyImpact();
+        }
       },
       child: Icon(
         Icons.mic_none,

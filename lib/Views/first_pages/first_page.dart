@@ -67,57 +67,6 @@ class _FirstPageState extends State<FirstPage> {
     }
   }
 
-  void _popUp(context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          elevation: 10,
-          titlePadding: const EdgeInsets.all(5),
-          title: const Text('Sair'),
-          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-          content: const Text('Você realmente deseja sair do aplicativo?'),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 5),
-                    height: 30,
-                    width: 80,
-                    child: const Text(
-                      'Não',
-                      style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => logOut(context),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: const Color.fromRGBO(0, 9, 89, 1),
-                        borderRadius: BorderRadius.circular(5)),
-                    padding: const EdgeInsets.only(top: 5),
-                    height: 30,
-                    width: 80,
-                    child: const Text(
-                      'Sim',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        );
-      },
-    );
-  }
-
   setPaginaAtual(pagina) {
     setState(() {
       paginaAtual = pagina;
@@ -173,6 +122,7 @@ class _FirstPageState extends State<FirstPage> {
             icon: GestureDetector(
               child: Icon(Icons.home),
               onTap: () {
+                HapticFeedback.heavyImpact();
                 pc.jumpToPage(0);
                 if (isAccessibilityEnabled) {
                   readOptions(0);
@@ -185,6 +135,7 @@ class _FirstPageState extends State<FirstPage> {
             icon: GestureDetector(
               child: Icon(Icons.search),
               onTap: () {
+                HapticFeedback.heavyImpact();
                 pc.jumpToPage(1);
                 if (isAccessibilityEnabled) {
                   readOptions(1);
@@ -203,6 +154,7 @@ class _FirstPageState extends State<FirstPage> {
               icon: GestureDetector(
                 child: Icon(Icons.account_circle_outlined),
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   pc.jumpToPage(3);
                   if (isAccessibilityEnabled) {
                     readOptions(2);
