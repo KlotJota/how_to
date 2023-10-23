@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/first_pages/first_page_anonymous.dart';
 import 'package:how_to/Views/reset_password/reset-pass.dart';
 import '../../first_pages/first_page.dart';
-
 import '../../register/user-register.dart';
 
 class LoginForm extends StatefulWidget {
@@ -43,15 +43,30 @@ class _LoginFormState extends State<LoginForm> {
                   return AlertDialog(
                     elevation: 10,
                     titlePadding: const EdgeInsets.all(5),
-                    title: const Text('Erro'),
+                    title: GestureDetector(
+                        onTap: () {
+                          ttsService.speak('Erro');
+                          HapticFeedback.heavyImpact();
+                        },
+                        child: const Text('Erro')),
                     backgroundColor: const Color.fromARGB(255, 248, 246, 246),
-                    content: const Text('Login ou senha inválidos'),
+                    content: GestureDetector(
+                        onTap: () {
+                          if (isAccessibilityEnabled) {
+                            ttsService.speak('E-mail ou senha inválidos');
+                            HapticFeedback.heavyImpact();
+                          }
+                        },
+                        child: const Text('E-mail ou senha inválidos')),
                     actions: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
-                            onTap: () => Get.back(),
+                            onTap: () {
+                              Get.back();
+                              HapticFeedback.heavyImpact();
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                   color: const Color.fromRGBO(0, 9, 89, 1),
@@ -90,7 +105,14 @@ class _LoginFormState extends State<LoginForm> {
               titlePadding: const EdgeInsets.all(5),
               title: const Text('Erro'),
               backgroundColor: const Color.fromARGB(255, 250, 247, 247),
-              content: Text(e.message.toString()),
+              content: GestureDetector(
+                  onTap: () {
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak(e.message.toString());
+                      HapticFeedback.heavyImpact();
+                    }
+                  },
+                  child: Text(e.message.toString())),
               actions: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -104,10 +126,15 @@ class _LoginFormState extends State<LoginForm> {
                         padding: const EdgeInsets.only(top: 5),
                         height: 30,
                         width: 80,
-                        child: const Text(
-                          'Ok',
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
+                        child: GestureDetector(
+                          onTap: () {
+                            HapticFeedback.heavyImpact();
+                          },
+                          child: const Text(
+                            'Ok',
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
@@ -136,6 +163,7 @@ class _LoginFormState extends State<LoginForm> {
                     isAccessibilityEnabled
                         ? ttsService.speak('Insira seu email')
                         : null;
+                    HapticFeedback.heavyImpact();
                   },
                   onSaved: (value) => email = value!,
                   validator: (value) {
@@ -166,6 +194,7 @@ class _LoginFormState extends State<LoginForm> {
                     isAccessibilityEnabled
                         ? ttsService.speak('Insira sua senha')
                         : null;
+                    HapticFeedback.heavyImpact();
                   },
                   onSaved: (value) => password = value!,
                   validator: (value) {
@@ -185,6 +214,7 @@ class _LoginFormState extends State<LoginForm> {
                         _passVisible ? Icons.visibility : Icons.visibility_off,
                       ),
                       onPressed: () {
+                        HapticFeedback.heavyImpact();
                         if (isAccessibilityEnabled) {
                           _passVisible
                               ? ttsService.speak('Senha invisível')
@@ -209,11 +239,13 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                     onDoubleTap: () {
-                      isAccessibilityEnabled
-                          ? Get.to(() => resetPassPage())
-                          : null;
+                      if (isAccessibilityEnabled) {
+                        Get.to(() => resetPassPage());
+                        HapticFeedback.heavyImpact();
+                      }
                     },
                     onTap: () {
+                      HapticFeedback.heavyImpact();
                       isAccessibilityEnabled
                           ? ttsService.speak('Esqueceu sua senha?')
                           : Get.to(() => resetPassPage());
@@ -221,9 +253,13 @@ class _LoginFormState extends State<LoginForm> {
               ),
               GestureDetector(
                 onDoubleTap: () {
-                  isAccessibilityEnabled ? login(context) : null;
+                  if (isAccessibilityEnabled) {
+                    login(context);
+                    HapticFeedback.heavyImpact();
+                  }
                 },
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   isAccessibilityEnabled
                       ? ttsService.speak('Entrar com suas credenciais')
                       : login(context);
@@ -264,9 +300,13 @@ class _LoginFormState extends State<LoginForm> {
               ),
               GestureDetector(
                 onDoubleTap: () {
-                  isAccessibilityEnabled ? anonimous(context) : null;
+                  if (isAccessibilityEnabled) {
+                    anonimous(context);
+                    HapticFeedback.heavyImpact();
+                  }
                 },
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   isAccessibilityEnabled
                       ? ttsService.speak('Entrar como anônimo')
                       : anonimous(context);
@@ -299,16 +339,18 @@ class _LoginFormState extends State<LoginForm> {
                 children: [
                   GestureDetector(
                     onDoubleTap: () {
-                      isAccessibilityEnabled
-                          ? Get.to(() => const UserRegisterPage(),
-                              transition: Transition.rightToLeftWithFade)
-                          : null;
+                      if (isAccessibilityEnabled) {
+                        Get.to(() => const UserRegisterPage(),
+                            transition: Transition.rightToLeftWithFade);
+                        HapticFeedback.heavyImpact();
+                      }
                     },
                     onTap: () {
-                      isAccessibilityEnabled
-                          ? ttsService.speak(
-                              'Se deseja criar uma conta no RauTiu, dê um duplo clique')
-                          : null;
+                      if (isAccessibilityEnabled) {
+                        ttsService.speak(
+                            'Se deseja criar uma conta no RauTiu, dê um duplo clique');
+                        HapticFeedback.heavyImpact();
+                      }
                     },
                     child: Text(
                       'Primeira vez no How To? ',
@@ -318,12 +360,14 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   GestureDetector(
                     onDoubleTap: () {
-                      isAccessibilityEnabled
-                          ? Get.to(() => const UserRegisterPage(),
-                              transition: Transition.rightToLeftWithFade)
-                          : null;
+                      if (isAccessibilityEnabled) {
+                        Get.to(() => const UserRegisterPage(),
+                            transition: Transition.rightToLeftWithFade);
+                        HapticFeedback.heavyImpact();
+                      }
                     },
                     onTap: () {
+                      HapticFeedback.heavyImpact();
                       isAccessibilityEnabled
                           ? ttsService.speak(
                               'Se desejar criar uma conta no RauTiu, dê um duplo clique')

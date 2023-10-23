@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/reset_password/components/singleton.dart';
@@ -15,11 +16,23 @@ class ResetPassButton extends StatelessWidget {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                content: Text(
-                    "Um e-mail de redefinição de senha foi enviado para ${SingletonResetPass.controller.emailController.text}."),
+                content: GestureDetector(
+                  onTap: () {
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak(
+                          "Um e-mail de redefinição de senha foi enviado para ${SingletonResetPass.controller.emailController.text}.");
+                      HapticFeedback.heavyImpact();
+                    }
+                  },
+                  child: Text(
+                      "Um e-mail de redefinição de senha foi enviado para ${SingletonResetPass.controller.emailController.text}."),
+                ),
                 actions: [
                   TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        HapticFeedback.heavyImpact();
+                      },
                       child: const Text("Ok"))
                 ],
               ));
@@ -27,12 +40,31 @@ class ResetPassButton extends StatelessWidget {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Redefinir Senha'),
-          content: const Text(
-              'Ocorreu um erro ao enviar o e-mail de redefinição de senha. Por favor, verifique o e-mail e tente novamente.'),
+          title: GestureDetector(
+              onTap: () {
+                if (isAccessibilityEnabled) {
+                  ttsService.speak('Erro ao redefinir senha');
+                  HapticFeedback.heavyImpact();
+                }
+              },
+              child: const Text('Erro ao edefinir Senha')),
+          content: GestureDetector(
+            onTap: () {
+              if (isAccessibilityEnabled) {
+                ttsService.speak(
+                    'Ocorreu um erro ao enviar o e-mail de redefinição de senha. Por favor, verifique o e-mail e tente novamente.');
+                HapticFeedback.heavyImpact();
+              }
+            },
+            child: const Text(
+                'Ocorreu um erro ao enviar o e-mail de redefinição de senha. Por favor, verifique o e-mail e tente novamente.'),
+          ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                Navigator.of(context).pop();
+                HapticFeedback.heavyImpact();
+              },
               child: const Text('OK'),
             ),
           ],
@@ -45,9 +77,13 @@ class ResetPassButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () {
-        isAccessibilityEnabled ? redefinirSenha(context) : null;
+        if (isAccessibilityEnabled) {
+          redefinirSenha(context);
+          HapticFeedback.heavyImpact();
+        }
       },
       onTap: () {
+        HapticFeedback.heavyImpact();
         isAccessibilityEnabled
             ? ttsService.speak(
                 'Dê um duplo clique para enviar instruções para seu email!')

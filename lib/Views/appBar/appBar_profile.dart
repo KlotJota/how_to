@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
@@ -36,7 +37,10 @@ class MyAppBarProfile extends StatelessWidget implements PreferredSizeWidget {
           child: IconButton(
               icon: const Icon(Icons.menu),
               onPressed: () {
-                ttsService.speak('Menu lateral aberto');
+                if (isAccessibilityEnabled) {
+                  ttsService.speak('Menu lateral aberto');
+                }
+                HapticFeedback.heavyImpact();
                 _openDrawer(context);
               }),
         ),

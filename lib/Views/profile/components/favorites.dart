@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
+import 'package:how_to/Views/face_detector/face_detector_page.dart';
 import 'package:how_to/Views/profile/components/profile.menu.dart';
 import 'package:how_to/Views/profile/components/profile_info.dart';
 import 'package:get/get.dart';
@@ -114,13 +116,28 @@ class _FavoritesFunctionState extends State<Favorites> {
                                   ),
                                   children: favoritos
                                       .map((favorito) => GestureDetector(
+                                            onLongPress: () {
+                                              if (isAccessibilityEnabled) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        FaceDetectorPage(
+                                                            favorito!.id),
+                                                  ),
+                                                );
+                                                HapticFeedback.heavyImpact();
+                                              }
+                                            },
                                             onDoubleTap: () {
-                                              isAccessibilityEnabled
-                                                  ? Get.to(
-                                                      TutorialPage(favorito.id))
-                                                  : null;
+                                              if (isAccessibilityEnabled) {
+                                                Get.to(
+                                                    TutorialPage(favorito.id));
+                                                HapticFeedback.heavyImpact();
+                                              }
                                             },
                                             onTap: () {
+                                              HapticFeedback.heavyImpact();
                                               isAccessibilityEnabled
                                                   ? ttsService
                                                       .speak(favorito['titulo'])
@@ -159,8 +176,17 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                               titlePadding:
                                                                   const EdgeInsets
                                                                       .all(5),
-                                                              title: const Text(
-                                                                  'Remover favorito'),
+                                                              title:
+                                                                  GestureDetector(
+                                                                onTap: () {
+                                                                  HapticFeedback
+                                                                      .heavyImpact();
+                                                                  ttsService.speak(
+                                                                      'Remover favorito');
+                                                                },
+                                                                child: const Text(
+                                                                    'Remover favorito'),
+                                                              ),
                                                               backgroundColor:
                                                                   const Color
                                                                       .fromARGB(
@@ -168,8 +194,17 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                       250,
                                                                       247,
                                                                       247),
-                                                              content: const Text(
-                                                                  'Deseja realmente remover o tutorial dos favoritos?'),
+                                                              content:
+                                                                  GestureDetector(
+                                                                onTap: () {
+                                                                  ttsService.speak(
+                                                                      'Deseja realmente remover esse tutorial dos favoritos?');
+                                                                  HapticFeedback
+                                                                      .heavyImpact();
+                                                                },
+                                                                child: const Text(
+                                                                    'Deseja realmente remover esse tutorial dos favoritos?'),
+                                                              ),
                                                               actions: [
                                                                 Row(
                                                                   mainAxisAlignment:
@@ -177,8 +212,20 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                           .spaceEvenly,
                                                                   children: [
                                                                     GestureDetector(
-                                                                      onTap: () =>
-                                                                          Get.back(),
+                                                                      onDoubleTap:
+                                                                          () {
+                                                                        isAccessibilityEnabled
+                                                                            ? Get.back()
+                                                                            : null;
+                                                                      },
+                                                                      onTap:
+                                                                          () {
+                                                                        HapticFeedback
+                                                                            .heavyImpact();
+                                                                        isAccessibilityEnabled
+                                                                            ? ttsService.speak('Não')
+                                                                            : Get.back();
+                                                                      },
                                                                       child:
                                                                           Container(
                                                                         padding: const EdgeInsets
@@ -200,12 +247,34 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                       ),
                                                                     ),
                                                                     GestureDetector(
+                                                                      onDoubleTap:
+                                                                          () async {
+                                                                        if (isAccessibilityEnabled) {
+                                                                          HapticFeedback
+                                                                              .heavyImpact();
+                                                                          HapticFeedback
+                                                                              .heavyImpact();
+                                                                          await Future.delayed(Duration.zero).then((_) =>
+                                                                              removerFavorito(favorito.id));
+
+                                                                          Get.back();
+                                                                        }
+                                                                      },
                                                                       onTap:
                                                                           () async {
-                                                                        await Future.delayed(Duration.zero).then((_) =>
-                                                                            removerFavorito(favorito.id));
+                                                                        HapticFeedback
+                                                                            .heavyImpact();
+                                                                        if (isAccessibilityEnabled) {
+                                                                          ttsService
+                                                                              .speak('Sim');
+                                                                        } else {
+                                                                          HapticFeedback
+                                                                              .heavyImpact();
+                                                                          await Future.delayed(Duration.zero).then((_) =>
+                                                                              removerFavorito(favorito.id));
 
-                                                                        Get.back();
+                                                                          Get.back();
+                                                                        }
                                                                       },
                                                                       child:
                                                                           Container(
@@ -240,9 +309,13 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                               ],
                                                             );
                                                           });
+                                                      HapticFeedback
+                                                          .heavyImpact();
                                                     }
                                                   },
                                                   onTap: () {
+                                                    HapticFeedback
+                                                        .heavyImpact();
                                                     if (!isAccessibilityEnabled) {
                                                       showDialog(
                                                           context: context,
@@ -270,8 +343,12 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                           .spaceEvenly,
                                                                   children: [
                                                                     GestureDetector(
-                                                                      onTap: () =>
-                                                                          Get.back(),
+                                                                      onTap:
+                                                                          () {
+                                                                        Get.back();
+                                                                        HapticFeedback
+                                                                            .heavyImpact();
+                                                                      },
                                                                       child:
                                                                           Container(
                                                                         padding: const EdgeInsets
@@ -295,6 +372,8 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                     GestureDetector(
                                                                       onTap:
                                                                           () async {
+                                                                        HapticFeedback
+                                                                            .heavyImpact();
                                                                         await Future.delayed(Duration.zero).then((_) =>
                                                                             removerFavorito(favorito.id));
 

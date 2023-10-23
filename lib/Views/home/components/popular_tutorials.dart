@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
@@ -101,22 +102,25 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                     final tutorial = tutoriais[index];
                     return GestureDetector(
                       onLongPress: () {
-                        isAccessibilityEnabled
-                            ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      FaceDetectorPage(tutorial!.id),
-                                ),
-                              )
-                            : null;
+                        if (isAccessibilityEnabled) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  FaceDetectorPage(tutorial!.id),
+                            ),
+                          );
+                          HapticFeedback.heavyImpact();
+                        }
                       },
                       onDoubleTap: () {
-                        isAccessibilityEnabled
-                            ? Get.to(() => TutorialPage(tutorial.id))
-                            : null;
+                        if (isAccessibilityEnabled) {
+                          Get.to(() => TutorialPage(tutorial.id));
+                          HapticFeedback.heavyImpact();
+                        }
                       },
                       onTap: () {
+                        HapticFeedback.heavyImpact();
                         isAccessibilityEnabled
                             ? ttsService.speak(tutorial['titulo'])
                             : Get.to(() => TutorialPage(tutorial.id));

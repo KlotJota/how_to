@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
@@ -51,16 +52,34 @@ class _RegisterFormState extends State<RegisterForm> {
                   return AlertDialog(
                     elevation: 10,
                     titlePadding: const EdgeInsets.all(5),
-                    title: const Text('Erro'),
+                    title: GestureDetector(
+                        onTap: () {
+                          if (isAccessibilityEnabled) {
+                            ttsService.speak('Erro');
+                            HapticFeedback.heavyImpact();
+                          }
+                        },
+                        child: const Text('Erro')),
                     backgroundColor: const Color.fromARGB(255, 250, 247, 247),
-                    content:
-                        const Text('O email informado para cadastro já existe'),
+                    content: GestureDetector(
+                        onTap: () {
+                          if (isAccessibilityEnabled) {
+                            ttsService.speak(
+                                'O email informado para cadastro já existe');
+                            HapticFeedback.heavyImpact();
+                          }
+                        },
+                        child: const Text(
+                            'O email informado para cadastro já existe')),
                     actions: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
-                            onTap: () => Get.back(),
+                            onTap: () {
+                              Get.back();
+                              HapticFeedback.heavyImpact();
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                   color: const Color.fromRGBO(0, 9, 89, 1),
@@ -153,6 +172,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onTap: () {
+                HapticFeedback.heavyImpact();
                 isAccessibilityEnabled
                     ? ttsService.speak('Insira seu nome completo')
                     : null;
@@ -179,6 +199,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onTap: () {
+                HapticFeedback.heavyImpact();
                 isAccessibilityEnabled
                     ? ttsService.speak('Insira seu email')
                     : null;
@@ -212,6 +233,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     _passVisible ? Icons.visibility : Icons.visibility_off,
                   ),
                   onPressed: () {
+                    HapticFeedback.heavyImpact();
                     if (isAccessibilityEnabled) {
                       _passVisible
                           ? ttsService.speak('Senha invisível')
@@ -225,6 +247,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onTap: () {
+                HapticFeedback.heavyImpact();
                 isAccessibilityEnabled
                     ? ttsService.speak('Insira sua senha')
                     : null;
@@ -258,6 +281,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     _checkPassVisible ? Icons.visibility : Icons.visibility_off,
                   ),
                   onPressed: () {
+                    HapticFeedback.heavyImpact();
                     if (isAccessibilityEnabled) {
                       _passVisible
                           ? ttsService.speak('Senha invisível')
@@ -271,6 +295,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               onTap: () {
+                HapticFeedback.heavyImpact();
                 isAccessibilityEnabled
                     ? ttsService.speak('Confirme sua senha')
                     : null;
@@ -298,6 +323,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       fillColor: MaterialStateProperty.resolveWith(getColor),
                       value: isChecked,
                       onChanged: (bool? value) {
+                        HapticFeedback.heavyImpact();
                         setState(() {
                           isChecked = value!;
                         });
@@ -305,15 +331,19 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 GestureDetector(
                   onDoubleTap: () {
-                    setState(() {
-                      isChecked = !isChecked;
-                    });
+                    if (isAccessibilityEnabled) {
+                      setState(() {
+                        isChecked = !isChecked;
+                      });
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   onTap: () {
-                    isAccessibilityEnabled
-                        ? ttsService.speak(
-                            'Dê um duplo clique para concordar com os termos de uso')
-                        : null;
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak(
+                          'Dê um duplo clique para concordar com os termos de uso');
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   child: Text(
                     'Concordo com os',
@@ -325,9 +355,13 @@ class _RegisterFormState extends State<RegisterForm> {
                   padding: const EdgeInsets.only(right: 15),
                   child: GestureDetector(
                     onDoubleTap: () {
-                      _popUp(context);
+                      if (isAccessibilityEnabled) {
+                        _popUp(context);
+                        HapticFeedback.heavyImpact();
+                      }
                     },
                     onTap: () {
+                      HapticFeedback.heavyImpact();
                       isAccessibilityEnabled
                           ? ttsService.speak(
                               'Dê um duplo clique para concordar com os termos de uso')
@@ -349,12 +383,17 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           GestureDetector(
             onDoubleTap: () {
-              isAccessibilityEnabled ? register(context) : null;
+              if (isAccessibilityEnabled) {
+                register(context);
+                HapticFeedback.heavyImpact();
+              }
             },
             onTap: () {
+              HapticFeedback.heavyImpact();
               if (!isChecked) {
                 isAccessibilityEnabled
-                    ? ttsService.speak('Botão de registrar')
+                    ? ttsService.speak(
+                        'Você precisa concordar com os termos de uso antes de continuar')
                     : null;
 
                 showDialog(

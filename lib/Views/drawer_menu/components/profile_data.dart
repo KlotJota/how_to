@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:flutter/services.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
 class ProfileData extends StatefulWidget {
   const ProfileData({super.key});
@@ -19,11 +20,10 @@ class _ProfileDataState extends State<ProfileData>
   late AnimationController _controller;
 
   bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
-  final FlutterTts flutterTts = FlutterTts();
+  TtsService ttsService = TtsService();
 
   @override
   void initState() {
-    initializeTts();
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -42,17 +42,12 @@ class _ProfileDataState extends State<ProfileData>
   @override
   void dispose() {
     _controller.dispose();
-    flutterTts.stop();
+    ttsService.dispose();
     super.dispose();
   }
 
   void _startAnimation() {
     _controller.forward();
-  }
-
-  Future<void> initializeTts() async {
-    await flutterTts.setLanguage("pt-BR");
-    await flutterTts.setPitch(1.0);
   }
 
   @override
@@ -62,7 +57,11 @@ class _ProfileDataState extends State<ProfileData>
         String userName = auth.currentUser!.displayName.toString();
 
         if (!auth.currentUser!.isAnonymous) {
-          isAccessibilityEnabled ? flutterTts.speak('Olá $userName') : null;
+          HapticFeedback.heavyImpact();
+          isAccessibilityEnabled ? ttsService.speak('Olá $userName') : null;
+        } else {
+          HapticFeedback.heavyImpact();
+          isAccessibilityEnabled ? ttsService.speak('Olá usuário') : null;
         }
       },
       child: Container(
@@ -98,7 +97,7 @@ class _ProfileDataState extends State<ProfileData>
                 style: TextStyle(
                     color: Color.fromARGB(255, 250, 250, 250),
                     overflow: TextOverflow.ellipsis,
-                    fontSize: isAccessibilityEnabled ? 15 : 10)),
+                    fontSize: isAccessibilityEnabled ? 20 : 10)),
             Container(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: auth.currentUser!.isAnonymous
@@ -119,10 +118,10 @@ class _ProfileDataState extends State<ProfileData>
                 ? Container()
                 : Text(
                     auth.currentUser!.email.toString(),
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 250, 250, 250),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 250, 250, 250),
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: isAccessibilityEnabled ? 20 : 10),
                   ),
           ],
         ),

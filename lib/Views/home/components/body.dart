@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/home/components/other_tutorials.dart';
@@ -54,7 +55,10 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.all(10),
                       child: GestureDetector(
                         onTap: () {
-                          isAccessibilityEnabled ? readTitle(0) : null;
+                          if (isAccessibilityEnabled) {
+                            readTitle(0);
+                            HapticFeedback.heavyImpact();
+                          }
                         },
                         child: Text(
                           'Tutoriais populares',
@@ -68,7 +72,10 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.all(10),
                       child: GestureDetector(
                         onTap: () {
-                          isAccessibilityEnabled ? readTitle(1) : null;
+                          if (isAccessibilityEnabled) {
+                            readTitle(1);
+                            HapticFeedback.heavyImpact();
+                          }
                         },
                         child: Text(
                           'Outros tutoriais',

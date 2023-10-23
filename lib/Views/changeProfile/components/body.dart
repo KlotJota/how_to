@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,17 +52,42 @@ class _BodyState extends State<Body> {
         return AlertDialog(
           elevation: 10,
           titlePadding: const EdgeInsets.all(5),
-          title: const Text('Sucesso'),
+          title: GestureDetector(
+              onTap: () {
+                if (isAccessibilityEnabled) {
+                  ttsService.speak('Sucesso');
+                  HapticFeedback.heavyImpact();
+                }
+              },
+              child: const Text('Sucesso')),
           backgroundColor: const Color.fromARGB(255, 248, 246, 246),
-          content: const Text(
-              'Você será redirecionado para a tela de login para que as mudanças sejam aplicadas.'),
+          content: GestureDetector(
+            onTap: () {
+              if (isAccessibilityEnabled) {
+                ttsService.speak(
+                    'Você será redirecionado para a tela de login para que as mudanças sejam aplicadas.');
+                HapticFeedback.heavyImpact();
+              }
+            },
+            child: const Text(
+                'Você será redirecionado para a tela de login para que as mudanças sejam aplicadas.'),
+          ),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
+                  onDoubleTap: () {
+                    if (isAccessibilityEnabled) {
+                      Get.offAll(const UserLoginPage());
+                      HapticFeedback.heavyImpact();
+                    }
+                  },
                   onTap: () async {
-                    Get.offAll(const UserLoginPage());
+                    HapticFeedback.heavyImpact();
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Dê um duplo clique para voltar')
+                        : Get.offAll(const UserLoginPage());
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -93,15 +119,40 @@ class _BodyState extends State<Body> {
           return AlertDialog(
             elevation: 10,
             titlePadding: const EdgeInsets.all(5),
-            title: const Text('Erro'),
+            title: GestureDetector(
+                onTap: () {
+                  if (isAccessibilityEnabled) {
+                    ttsService.speak('Erro');
+                    HapticFeedback.heavyImpact();
+                  }
+                },
+                child: const Text('Erro')),
             backgroundColor: const Color.fromARGB(255, 248, 246, 246),
-            content: const Text('A senha inserida está incorreta'),
+            content: GestureDetector(
+                onTap: () {
+                  if (isAccessibilityEnabled) {
+                    ttsService.speak('A senha inserida está incorreta');
+                    HapticFeedback.heavyImpact();
+                  }
+                },
+                child: const Text('A senha inserida está incorreta')),
             actions: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () => Get.back(),
+                    onDoubleTap: () {
+                      if (isAccessibilityEnabled) {
+                        Get.back();
+                        HapticFeedback.heavyImpact();
+                      }
+                    },
+                    onTap: () {
+                      HapticFeedback.heavyImpact();
+                      isAccessibilityEnabled
+                          ? ttsService.speak('Dê um duplo clique para voltar')
+                          : Get.back();
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                           color: const Color.fromRGBO(0, 9, 89, 1),
@@ -168,10 +219,26 @@ class _BodyState extends State<Body> {
             return AlertDialog(
               elevation: 10,
               titlePadding: const EdgeInsets.all(5),
-              title: const Text('Confirmar senha'),
+              title: GestureDetector(
+                  onTap: () {
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak('Confirmar senha');
+                      HapticFeedback.heavyImpact();
+                    }
+                  },
+                  child: const Text('Confirmar senha')),
               backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-              content: const Text(
-                  'Você precisa confirmar sua indentidade para realizar essa ação'),
+              content: GestureDetector(
+                onTap: () {
+                  if (isAccessibilityEnabled) {
+                    ttsService.speak(
+                        'Você precisa confirmar sua identidade para realizar essa ação');
+                    HapticFeedback.heavyImpact();
+                  }
+                },
+                child: const Text(
+                    'Você precisa confirmar sua indentidade para realizar essa ação'),
+              ),
               actions: [
                 Column(
                   children: [
@@ -181,6 +248,12 @@ class _BodyState extends State<Body> {
                       child: Form(
                         key: formKeyConfirm,
                         child: TextFormField(
+                          onTap: () {
+                            HapticFeedback.heavyImpact();
+                            isAccessibilityEnabled
+                                ? ttsService.speak('Insira sua senha')
+                                : null;
+                          },
                           controller: senhaController,
                           decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
@@ -209,7 +282,19 @@ class _BodyState extends State<Body> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GestureDetector(
-                          onTap: () => Get.back(),
+                          onDoubleTap: () {
+                            if (isAccessibilityEnabled) {
+                              Get.back();
+                              HapticFeedback.heavyImpact();
+                            }
+                          },
+                          onTap: () {
+                            HapticFeedback.heavyImpact();
+                            isAccessibilityEnabled
+                                ? ttsService
+                                    .speak('Dê um duplo clique para cancelar')
+                                : Get.back();
+                          },
                           child: Container(
                             padding: const EdgeInsets.only(top: 5),
                             margin: const EdgeInsets.only(top: 10),
@@ -224,8 +309,19 @@ class _BodyState extends State<Body> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () =>
-                              _reautenticarUsuario(senhaController.text),
+                          onDoubleTap: () {
+                            if (isAccessibilityEnabled) {
+                              _reautenticarUsuario(senhaController.text);
+                              HapticFeedback.heavyImpact();
+                            }
+                          },
+                          onTap: () {
+                            HapticFeedback.heavyImpact();
+                            isAccessibilityEnabled
+                                ? ttsService
+                                    .speak('Dê um duplo clique para confirmar')
+                                : _reautenticarUsuario(senhaController.text);
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                                 color: const Color.fromRGBO(0, 9, 89, 1),
@@ -291,14 +387,25 @@ class _BodyState extends State<Body> {
         return AlertDialog(
           elevation: 5,
           titlePadding: const EdgeInsets.all(5),
-          title: const Text('Escolher imagem'),
+          title: GestureDetector(
+              onTap: () {
+                if (isAccessibilityEnabled) {
+                  ttsService.speak('Escolher imagem');
+                  HapticFeedback.heavyImpact();
+                }
+              },
+              child: const Text('Escolher imagem')),
           backgroundColor: const Color.fromARGB(255, 240, 240, 240),
           content: pickedFile == null
               ? GestureDetector(
                   onDoubleTap: () {
-                    pegaImagem();
+                    if (isAccessibilityEnabled) {
+                      pegaImagem();
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   onTap: () {
+                    HapticFeedback.heavyImpact();
                     setState(() {
                       isAccessibilityEnabled
                           ? ttsService.speak(
@@ -339,9 +446,13 @@ class _BodyState extends State<Body> {
               children: [
                 GestureDetector(
                   onDoubleTap: () {
-                    isAccessibilityEnabled ? Get.back() : null;
+                    if (isAccessibilityEnabled) {
+                      Get.back();
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   onTap: () {
+                    HapticFeedback.heavyImpact();
                     isAccessibilityEnabled
                         ? ttsService.speak('Dê um duplo clique para fechar')
                         : Get.back();
@@ -360,6 +471,7 @@ class _BodyState extends State<Body> {
                 GestureDetector(
                   onDoubleTap: () async {
                     if (isAccessibilityEnabled) {
+                      HapticFeedback.heavyImpact();
                       await Future.delayed(Duration.zero)
                           .then((_) => adicionaImagem());
                       Get.back();
@@ -368,6 +480,7 @@ class _BodyState extends State<Body> {
                     }
                   },
                   onTap: () async {
+                    HapticFeedback.heavyImpact();
                     if (!isAccessibilityEnabled) {
                       await Future.delayed(Duration.zero)
                           .then((_) => adicionaImagem());
@@ -414,9 +527,10 @@ class _BodyState extends State<Body> {
                 margin: const EdgeInsets.only(top: 10),
                 child: GestureDetector(
                   onTap: () {
-                    isAccessibilityEnabled
-                        ? ttsService.speak('Alterar perfil')
-                        : null;
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak('Alterar perfil');
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   child: Text(
                     'Alterar Perfil',
@@ -429,9 +543,13 @@ class _BodyState extends State<Body> {
               margin: const EdgeInsets.only(top: 10),
               child: GestureDetector(
                   onDoubleTap: () {
-                    isAccessibilityEnabled ? _popUpImagem(context) : null;
+                    if (isAccessibilityEnabled) {
+                      _popUpImagem(context);
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   onTap: () {
+                    HapticFeedback.heavyImpact();
                     isAccessibilityEnabled
                         ? ttsService
                             .speak('Dê um duplo clique para alterar sua imagem')
@@ -462,10 +580,11 @@ class _BodyState extends State<Body> {
                       )
                     : GestureDetector(
                         onTap: () {
-                          isAccessibilityEnabled
-                              ? ttsService.speak(
-                                  auth.currentUser!.displayName.toString())
-                              : null;
+                          if (isAccessibilityEnabled) {
+                            ttsService.speak(
+                                auth.currentUser!.displayName.toString());
+                            HapticFeedback.heavyImpact();
+                          }
                         },
                         child: Text(
                           auth.currentUser!.displayName.toString(),
@@ -478,9 +597,10 @@ class _BodyState extends State<Body> {
                 margin: const EdgeInsets.only(top: 10),
                 child: GestureDetector(
                   onTap: () {
-                    isAccessibilityEnabled
-                        ? ttsService.speak('Nome de usuário')
-                        : null;
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak('Nome de usuário');
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   child: Text(
                     'Nome de usuário',
@@ -510,6 +630,7 @@ class _BodyState extends State<Body> {
                   textAlign: TextAlign.left,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   onTap: () {
+                    HapticFeedback.heavyImpact();
                     isAccessibilityEnabled
                         ? ttsService.speak('Insira seu novo nome de usuário')
                         : null;
@@ -530,9 +651,10 @@ class _BodyState extends State<Body> {
                 margin: const EdgeInsets.only(top: 10),
                 child: GestureDetector(
                   onTap: () {
-                    isAccessibilityEnabled
-                        ? ttsService.speak('Endereço de email da conta')
-                        : null;
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak('Endereço de email da conta');
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   child: Text(
                     'Endereço de e-mail da conta',
@@ -545,11 +667,12 @@ class _BodyState extends State<Body> {
                 margin: const EdgeInsets.only(top: 10),
                 child: GestureDetector(
                   onTap: () {
-                    isAccessibilityEnabled
-                        ? ttsService.speak(
-                            auth.currentUser!.email.toString(),
-                          )
-                        : null;
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak(
+                        auth.currentUser!.email.toString(),
+                      );
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   child: Text(
                     auth.currentUser!.email.toString(),
@@ -559,9 +682,13 @@ class _BodyState extends State<Body> {
                 )),
             GestureDetector(
               onDoubleTap: () {
-                isAccessibilityEnabled ? _popUpConfirmaSenha(context) : null;
+                if (isAccessibilityEnabled) {
+                  _popUpConfirmaSenha(context);
+                  HapticFeedback.heavyImpact();
+                }
               },
               onTap: () => {
+                HapticFeedback.heavyImpact(),
                 isAccessibilityEnabled
                     ? ttsService.speak(
                         'Dê um duplo clique para alterar o nome de usuário')

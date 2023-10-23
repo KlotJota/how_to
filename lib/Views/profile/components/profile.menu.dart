@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
@@ -59,9 +60,10 @@ class _ProfileMenuState extends State<ProfileMenu> {
                 margin: const EdgeInsets.only(bottom: 10),
                 child: GestureDetector(
                   onTap: () {
-                    isAccessibilityEnabled
-                        ? ttsService.speak('Tutoriais Salvos')
-                        : null;
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak('Tutoriais Salvos');
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   child: Text(
                     'Tutoriais Salvos',

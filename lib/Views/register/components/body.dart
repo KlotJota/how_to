@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/register/components/register-form.dart';
@@ -31,7 +32,10 @@ class Body extends StatelessWidget {
                 padding: const EdgeInsets.all(30),
                 child: GestureDetector(
                   onTap: () {
-                    ttsService.speak('Cadastro');
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak('Cadastro');
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   child: const Text(
                     "Cadastro",

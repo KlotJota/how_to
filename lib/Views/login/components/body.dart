@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/login/components/login_form.dart';
+import 'package:flutter/services.dart';
 
 class Body extends StatelessWidget {
   bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
@@ -20,7 +21,10 @@ class Body extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(30, 64, 30, 30),
                 child: GestureDetector(
                   onTap: () {
-                    isAccessibilityEnabled ? ttsService.speak('Login') : null;
+                    if (isAccessibilityEnabled) {
+                      ttsService.speak('Login');
+                      HapticFeedback.heavyImpact();
+                    }
                   },
                   child: const Text(
                     "Login",

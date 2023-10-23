@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
@@ -58,15 +61,40 @@ class _BodyState extends State<Body> {
         return AlertDialog(
           elevation: 10,
           titlePadding: const EdgeInsets.all(5),
-          title: const Text('Sair'),
+          title: GestureDetector(
+              onTap: () {
+                if (isAccessibilityEnabled) {
+                  ttsService.speak('Sair');
+                  HapticFeedback.heavyImpact();
+                }
+              },
+              child: const Text('Sair')),
           backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-          content: const Text('Você realmente deseja sair do aplicativo?'),
+          content: GestureDetector(
+              onTap: () {
+                if (isAccessibilityEnabled) {
+                  ttsService.speak('Você realmente deseja sair do aplicativo?');
+                  HapticFeedback.heavyImpact();
+                }
+              },
+              child: const Text('Você realmente deseja sair do aplicativo?')),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                  onTap: () => Get.back(),
+                  onDoubleTap: () {
+                    if (isAccessibilityEnabled) {
+                      Get.back();
+                      HapticFeedback.heavyImpact();
+                    }
+                  },
+                  onTap: () {
+                    HapticFeedback.heavyImpact();
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Não')
+                        : Get.back();
+                  },
                   child: Container(
                     padding: const EdgeInsets.only(top: 5),
                     height: 30,
@@ -79,7 +107,18 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => logOut(context),
+                  onDoubleTap: () {
+                    if (isAccessibilityEnabled) {
+                      logOut(context);
+                      HapticFeedback.heavyImpact();
+                    }
+                  },
+                  onTap: () {
+                    HapticFeedback.heavyImpact();
+                    isAccessibilityEnabled
+                        ? ttsService.speak('Sim')
+                        : logOut(context);
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                         color: const Color.fromRGBO(0, 9, 89, 1),
@@ -111,9 +150,13 @@ class _BodyState extends State<Body> {
             ProfileData(),
             InkWell(
               onDoubleTap: () {
-                isAccessibilityEnabled ? Get.toNamed('/settings') : null;
+                if (isAccessibilityEnabled) {
+                  Get.toNamed('/settings');
+                  HapticFeedback.heavyImpact();
+                }
               },
               onTap: () {
+                HapticFeedback.heavyImpact();
                 isAccessibilityEnabled
                     ? readOptions(0)
                     : Get.toNamed('/settings');
@@ -139,11 +182,13 @@ class _BodyState extends State<Body> {
             const Divider(height: 10, thickness: 1),
             InkWell(
               onDoubleTap: () {
-                isAccessibilityEnabled
-                    ? ThemeService().changeThemeMode()
-                    : null;
+                if (isAccessibilityEnabled) {
+                  ThemeService().changeThemeMode();
+                  HapticFeedback.heavyImpact();
+                }
               },
               onTap: () {
+                HapticFeedback.heavyImpact();
                 isAccessibilityEnabled
                     ? readOptions(1)
                     : ThemeService().changeThemeMode();
@@ -171,11 +216,13 @@ class _BodyState extends State<Body> {
                 ? Container()
                 : InkWell(
                     onDoubleTap: () {
-                      isAccessibilityEnabled
-                          ? Get.to(() => ChangeProfilePage())
-                          : null;
+                      if (isAccessibilityEnabled) {
+                        Get.to(() => ChangeProfilePage());
+                        HapticFeedback.heavyImpact();
+                      }
                     },
                     onTap: () {
+                      HapticFeedback.heavyImpact();
                       isAccessibilityEnabled
                           ? readOptions(2)
                           : Get.to(() => ChangeProfilePage());
@@ -203,9 +250,13 @@ class _BodyState extends State<Body> {
                 : const Divider(height: 10, thickness: 1),
             InkWell(
               onDoubleTap: () {
-                isAccessibilityEnabled ? _popUpLogout(context) : null;
+                if (isAccessibilityEnabled) {
+                  _popUpLogout(context);
+                  HapticFeedback.heavyImpact();
+                }
               },
               onTap: () {
+                HapticFeedback.heavyImpact();
                 isAccessibilityEnabled ? readOptions(3) : _popUpLogout(context);
               },
               child: Padding(

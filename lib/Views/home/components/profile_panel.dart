@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
@@ -36,15 +37,35 @@ class _ProfilePanelState extends State<ProfilePanel> {
             titlePadding: const EdgeInsets.all(5),
             title: const Text('Criar conta'),
             backgroundColor: const Color.fromARGB(255, 250, 247, 247),
-            content: const Text(
-              'Você pode criar uma conta para ter acesso a sua página de perfil',
+            content: GestureDetector(
+              onTap: () {
+                if (isAccessibilityEnabled) {
+                  ttsService.speak(
+                      'Você pode criar uma conta para ter acesso a sua página de perfil');
+                  HapticFeedback.heavyImpact();
+                }
+              },
+              child: const Text(
+                'Você pode criar uma conta para ter acesso a sua página de perfil',
+              ),
             ),
             actions: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () => Get.back(),
+                    onDoubleTap: () {
+                      if (isAccessibilityEnabled) {
+                        Get.back();
+                        HapticFeedback.heavyImpact();
+                      }
+                    },
+                    onTap: () {
+                      HapticFeedback.heavyImpact();
+                      isAccessibilityEnabled
+                          ? ttsService.speak('Fechar')
+                          : Get.back();
+                    },
                     child: Container(
                       padding: const EdgeInsets.only(top: 5),
                       height: 30,
@@ -57,8 +78,17 @@ class _ProfilePanelState extends State<ProfilePanel> {
                     ),
                   ),
                   GestureDetector(
+                    onDoubleTap: () {
+                      if (isAccessibilityEnabled) {
+                        Get.to(() => const UserRegisterPage());
+                        HapticFeedback.heavyImpact();
+                      }
+                    },
                     onTap: () {
-                      Get.to(const UserRegisterPage());
+                      HapticFeedback.heavyImpact();
+                      isAccessibilityEnabled
+                          ? ttsService.speak('Criar conta')
+                          : Get.to(() => const UserRegisterPage());
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -90,12 +120,19 @@ class _ProfilePanelState extends State<ProfilePanel> {
         }
       },
       onTap: () {
-        isAccessibilityEnabled
-            ? ttsService.speak(
-                'Seja bem vindo! Dê um duplo clique para criar uma conta')
-            : auth.currentUser!.displayName == null
-                ? popUpRegister()
-                : null;
+        if (auth.currentUser!.isAnonymous) {
+          HapticFeedback.heavyImpact();
+          isAccessibilityEnabled
+              ? ttsService.speak(
+                  'Seja bem vindo! Dê um duplo clique para criar uma conta')
+              : popUpRegister();
+        } else {
+          if (isAccessibilityEnabled) {
+            ttsService.speak(
+                'Seja bem vindo' + auth.currentUser!.displayName.toString());
+            HapticFeedback.heavyImpact();
+          }
+        }
       },
       child: Container(
         padding: const EdgeInsets.only(left: 10),

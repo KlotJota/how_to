@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
@@ -45,7 +46,10 @@ class ProfileInfoState extends State<ProfileInfo> {
               child: auth.currentUser!.displayName == null
                   ? GestureDetector(
                       onTap: () {
-                        ttsService.speak('Usuario anonimo');
+                        if (isAccessibilityEnabled) {
+                          ttsService.speak('Usuario anonimo');
+                          HapticFeedback.heavyImpact();
+                        }
                       },
                       child: const Text(
                         'Usuário',
@@ -54,9 +58,12 @@ class ProfileInfoState extends State<ProfileInfo> {
                     )
                   : GestureDetector(
                       onTap: () {
-                        ttsService.speak(
-                          auth.currentUser!.displayName.toString(),
-                        );
+                        if (isAccessibilityEnabled) {
+                          ttsService.speak(
+                            auth.currentUser!.displayName.toString(),
+                          );
+                          HapticFeedback.heavyImpact();
+                        }
                       },
                       child: Text(
                         auth.currentUser!.displayName.toString(),
@@ -66,11 +73,16 @@ class ProfileInfoState extends State<ProfileInfo> {
                     )),
           GestureDetector(
             onDoubleTap: () {
-              isAccessibilityEnabled ? Get.to(() => ChangeProfilePage()) : null;
+              if (isAccessibilityEnabled) {
+                Get.to(() => ChangeProfilePage());
+                HapticFeedback.heavyImpact();
+              }
             },
             onTap: () {
+              HapticFeedback.heavyImpact();
               isAccessibilityEnabled
-                  ? ttsService.speak('Alterar Perfil')
+                  ? ttsService
+                      .speak('Dê um duplo clique para alterar seu Perfil')
                   : Get.to(() => ChangeProfilePage());
             },
             child: Container(

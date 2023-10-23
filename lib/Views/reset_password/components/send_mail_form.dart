@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
@@ -37,9 +38,10 @@ class SendMailForm extends StatelessWidget {
           padding: const EdgeInsets.only(top: 12),
           child: GestureDetector(
             onTap: () {
-              isAccessibilityEnabled
-                  ? ttsService.speak('Esqueceu sua senha?')
-                  : null;
+              if (isAccessibilityEnabled) {
+                ttsService.speak('Esqueceu sua senha?');
+                HapticFeedback.heavyImpact();
+              }
             },
             child: const Text(
               "Esqueceu sua senha?",
@@ -53,10 +55,11 @@ class SendMailForm extends StatelessWidget {
             padding: const EdgeInsets.all(15),
             child: GestureDetector(
               onTap: () {
-                isAccessibilityEnabled
-                    ? ttsService.speak(
-                        'Se você esqueceu sua senha, não se preocupe! Podemos ajudá-lo a recuperar o acesso à sua conta.')
-                    : null;
+                if (isAccessibilityEnabled) {
+                  ttsService.speak(
+                      'Se você esqueceu sua senha, não se preocupe! Podemos ajudá-lo a recuperar o acesso à sua conta.');
+                  HapticFeedback.heavyImpact();
+                }
               },
               child: Text(
                 "Se você esqueceu sua senha, não se preocupe! Podemos ajudá-lo a recuperar o acesso à sua conta.",
@@ -71,6 +74,7 @@ class SendMailForm extends StatelessWidget {
           width: MediaQuery.of(context).size.width - 50,
           child: TextFormField(
             onTap: () {
+              HapticFeedback.heavyImpact();
               isAccessibilityEnabled
                   ? ttsService.speak('Insira seu email cadastrado no app')
                   : null;
