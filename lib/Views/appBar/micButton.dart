@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/search_page/search-page.dart';
@@ -55,10 +54,8 @@ class _MicButtonState extends State<MicButton> {
         setState(() {
           _isPressed = false;
         });
+        Get.to(SearchPage());
         speechToText.stop();
-        if (pesquisa.searchController.text.isNotEmpty) {
-          Get.to(SearchPage());
-        }
       },
       child: _isPressed ? _buildContainer() : _buildFAB(),
     );

@@ -27,7 +27,14 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
+
 dependencies:
+  speech_to_text: ^6.3.0
+  flutter_tts: ^3.8.3
+  google_mlkit_face_detection: ^0.8.0
+  camera:
+
+  provider: 
   flutter_native_splash: ^2.2.19
   flutter:
     sdk: flutter
@@ -36,18 +43,13 @@ dependencies:
   firebase_auth:
   http:
   firebase_storage:
-  speech_to_text: ^6.3.0
-  flutter_tts: ^3.8.3
   google_nav_bar: ^5.0.6
   get:
   get_storage: # storage para salvar o modo de cor do usuario
   image_picker:
   flutter_launcher_icons: "^0.13.1"
   #avatar_glow:
-  google_mlkit_face_detection: ^0.8.0
-  camera:
   path_provider:
-  vibration: ^1.8.3
 
 flutter_native_splash:
   image: images/how-to-branco.png

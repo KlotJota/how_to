@@ -32,7 +32,7 @@ class _LoginFormState extends State<LoginForm> {
       try {
         await auth.signInWithEmailAndPassword(email: email, password: password);
 
-        Get.offAll(const FirstPage());
+        Get.offAll(() => const FirstPage());
       } catch (e) {
         if (e is FirebaseAuthException) {
           if (e.message ==
@@ -95,7 +95,7 @@ class _LoginFormState extends State<LoginForm> {
   void anonimous(BuildContext context) async {
     try {
       await auth.signInAnonymously();
-      Get.offAll(const FirstPageAnonymous());
+      Get.offAll(() => const FirstPageAnonymous());
     } on FirebaseAuthException catch (e) {
       showDialog(
           context: context,
@@ -247,7 +247,8 @@ class _LoginFormState extends State<LoginForm> {
                     onTap: () {
                       HapticFeedback.heavyImpact();
                       isAccessibilityEnabled
-                          ? ttsService.speak('Esqueceu sua senha?')
+                          ? ttsService.speak(
+                              'Dê um duplo clique caso tenha esquecido sua senha')
                           : Get.to(() => resetPassPage());
                     }),
               ),
@@ -261,7 +262,8 @@ class _LoginFormState extends State<LoginForm> {
                 onTap: () {
                   HapticFeedback.heavyImpact();
                   isAccessibilityEnabled
-                      ? ttsService.speak('Entrar com suas credenciais')
+                      ? ttsService.speak(
+                          'Dê um duplo clique para entrar com suas credenciais')
                       : login(context);
                 },
                 child: Container(
@@ -308,7 +310,8 @@ class _LoginFormState extends State<LoginForm> {
                 onTap: () {
                   HapticFeedback.heavyImpact();
                   isAccessibilityEnabled
-                      ? ttsService.speak('Entrar como anônimo')
+                      ? ttsService
+                          .speak('Dê um duplo clique para entrar como anônimo')
                       : anonimous(context);
                 },
                 child: Container(

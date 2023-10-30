@@ -21,22 +21,21 @@ class _BodyState extends State<Body> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  var searchKey = GlobalKey<FormState>();
-
   bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
 
   TtsService ttsService = TtsService();
+
+  SearchSingleton pesquisa = SearchSingleton.controller;
 
   @override
   void dispose() {
     ttsService.dispose(); // Pare a leitura ao sair do widget
     super.dispose();
+    pesquisa.searchController.text = '';
   }
 
   @override
   Widget build(BuildContext context) {
-    SearchSingleton pesquisa = SearchSingleton.controller;
-
     return Scaffold(
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: firestore.collection('tutoriais').snapshots(),
@@ -69,7 +68,7 @@ class _BodyState extends State<Body> {
                           margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                           width: MediaQuery.of(context).size.width - 80,
                           child: TextField(
-                            key: searchKey,
+                            controller: pesquisa.searchController,
                             onTap: () {
                               HapticFeedback.heavyImpact();
                               isAccessibilityEnabled
