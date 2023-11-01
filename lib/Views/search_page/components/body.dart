@@ -9,6 +9,7 @@ import 'package:how_to/Views/face_detector/face_detector_page.dart';
 import 'package:how_to/Views/loadingScreens/loading_searched_tutorials.dart';
 import 'package:how_to/Views/search_page/components/search.singleton.dart';
 import 'package:how_to/Views/tutorial_page/tutorial-page.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -27,11 +28,20 @@ class _BodyState extends State<Body> {
 
   SearchSingleton pesquisa = SearchSingleton.controller;
 
+  bool _isPressed = false;
+  SpeechToText speechToText = SpeechToText();
+
   @override
   void dispose() {
     ttsService.dispose(); // Pare a leitura ao sair do widget
     super.dispose();
     pesquisa.searchController.text = '';
+  }
+
+  void clearText() {
+    setState(() {
+      pesquisa.searchController.clear();
+    });
   }
 
   @override
@@ -64,9 +74,9 @@ class _BodyState extends State<Body> {
                     Row(
                       children: [
                         Container(
-                          height: 50,
-                          margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          width: MediaQuery.of(context).size.width - 80,
+                          height: 45,
+                          margin: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                          width: MediaQuery.of(context).size.width - 75,
                           child: TextField(
                             controller: pesquisa.searchController,
                             onTap: () {
@@ -81,12 +91,64 @@ class _BodyState extends State<Body> {
                               });
                             },
                             decoration: InputDecoration(
-                              focusedBorder: const OutlineInputBorder(),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              labelText: 'Pesquisar',
-                              hintText: 'Pesquise por tutoriais',
-                            ),
+                                focusedBorder: const OutlineInputBorder(),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                labelText: 'Pesquisar',
+                                hintText: 'Pesquise por tutoriais',
+                                suffixIcon: Container(
+                                  width: 80,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      GestureDetector(
+                                        onLongPress: () async {
+                                          {
+                                            HapticFeedback.heavyImpact();
+                                            if (!_isPressed) {
+                                              var disponivel =
+                                                  await speechToText
+                                                      .initialize();
+                                              if (disponivel) {
+                                                setState(() {
+                                                  _isPressed = true;
+                                                  speechToText.listen(
+                                                    onResult: (result) {
+                                                      setState(() {
+                                                        pesquisa
+                                                            .searchController
+                                                            .text = '';
+                                                        pesquisa.searchController
+                                                                .text =
+                                                            result
+                                                                .recognizedWords;
+                                                      });
+                                                    },
+                                                  );
+                                                });
+                                              }
+                                            }
+                                          }
+                                        },
+                                        onLongPressEnd: (_) {
+                                          setState(() {
+                                            _isPressed = false;
+                                          });
+
+                                          speechToText.stop();
+                                        },
+                                        child: Container(
+                                            margin: EdgeInsets.only(right: 5),
+                                            child: Icon(Icons.mic)),
+                                      ),
+                                      pesquisa.searchController.text != ''
+                                          ? IconButton(
+                                              onPressed: clearText,
+                                              icon: Icon(Icons.close))
+                                          : Container()
+                                    ],
+                                  ),
+                                )),
                           ),
                         ),
                         GestureDetector(
@@ -115,19 +177,19 @@ class _BodyState extends State<Body> {
                           },
                           child: Container(
                             child: Icon(Icons.search, color: Colors.white),
-                            height: 50,
-                            width: 50,
-                            margin: EdgeInsets.only(right: 10, top: 10),
+                            height: isAccessibilityEnabled ? 55 : 45,
+                            width: isAccessibilityEnabled ? 55 : 45,
+                            margin: EdgeInsets.only(left: 5, right: 5, top: 10),
                             decoration: BoxDecoration(
                                 color: const Color.fromRGBO(0, 9, 89, 1),
                                 borderRadius: BorderRadius.circular(5)),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     pesquisa.searchController.text == ''
                         ? Container(
-                            margin: const EdgeInsets.only(bottom: 10, top: 10),
+                            margin: const EdgeInsets.all(10),
                             child: GestureDetector(
                               onTap: () {
                                 if (isAccessibilityEnabled) {
@@ -143,7 +205,7 @@ class _BodyState extends State<Body> {
                               ),
                             ))
                         : Container(
-                            margin: const EdgeInsets.only(bottom: 10, top: 10),
+                            margin: const EdgeInsets.all(10),
                             child: GestureDetector(
                               onTap: () {
                                 if (isAccessibilityEnabled) {

@@ -18,8 +18,8 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: MyAppBarProfile(),
-        floatingActionButton: MicButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        // floatingActionButton: MicButton(),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         endDrawer: Drawer(
           child: DrawerMenuContent(),
         ),
