@@ -9,7 +9,7 @@ class AccessibilitySettings {
   static final AccessibilitySettings _instance =
       AccessibilitySettings._internal();
 
-  bool _isAccessibilityEnabled = true;
+  bool _isAccessibilityEnabled = false;
 
   bool get isAccessibilityEnabled => _isAccessibilityEnabled;
 

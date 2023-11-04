@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -33,12 +35,13 @@ class _TutorialTitleState extends State<TutorialTitle> {
             child: CircularProgressIndicator(),
           )
         : Container(
-            margin: const EdgeInsets.all(10),
-            alignment: Alignment.topCenter,
+            alignment: Alignment.center,
+            height: 45,
+            color: const Color.fromARGB(255, 230, 230, 230),
             child: Text(
               tutorial!['titulo'],
               style: const TextStyle(
-                fontSize: 25,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),

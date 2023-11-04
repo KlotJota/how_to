@@ -71,13 +71,7 @@ class _TutorialTextState extends State<TutorialText> {
         : Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 10),
-                height: 1,
-                width: MediaQuery.of(context).size.width - 20,
-                color: Colors.black,
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 30, bottom: 20),
                 alignment: Alignment.topCenter,
                 child: const Text(
                   'How To?',
@@ -87,50 +81,27 @@ class _TutorialTextState extends State<TutorialText> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextToSpeech(tutorial!.id),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10, left: 5),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color.fromRGBO(0, 9, 89, 1)),
-                    child: GestureDetector(
-                      onTap: () {
-                        popupNarrador();
-                      },
-                      child: Icon(
-                        Icons.question_mark,
-                        color: Colors.white,
-                        size: 15,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10, left: 5),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color.fromRGBO(0, 9, 89, 1)),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                FaceDetectorPage(tutorial!.id),
-                          ),
-                        );
-                      },
-                      child: Icon(
-                        Icons.face,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
-                  )
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       margin: EdgeInsets.only(bottom: 10, left: 5),
+              //       decoration: BoxDecoration(
+              //           shape: BoxShape.circle,
+              //           color: const Color.fromRGBO(0, 9, 89, 1)),
+              //       child: GestureDetector(
+              //         onTap: () {
+              //           popupNarrador();
+              //         },
+              //         child: Icon(
+              //           Icons.question_mark,
+              //           color: Colors.white,
+              //           size: 15,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ), popup que da instruções sobre o text_to_speech
               Container(
                 margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                 child: Container(

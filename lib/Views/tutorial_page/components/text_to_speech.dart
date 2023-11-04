@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
 class TextToSpeech extends StatefulWidget {
   final String id;
@@ -11,7 +12,7 @@ class TextToSpeech extends StatefulWidget {
 }
 
 class _TextToSpeechState extends State<TextToSpeech> {
-  final FlutterTts flutterTts = FlutterTts();
+  TtsService ttsService = TtsService();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   DocumentSnapshot<Object?>? tutorial;
   String? tutorialText;
@@ -24,14 +25,14 @@ class _TextToSpeechState extends State<TextToSpeech> {
   @override
   void initState() {
     super.initState();
-    initializeTts();
     buscarTutorial(widget.id);
     // currentIndex = 0;
   }
 
   @override
   void dispose() {
-    flutterTts.stop(); // Pare a leitura ao sair do widget
+    ttsService.dispose();
+    // Pare a leitura ao sair do widget
     super.dispose();
     textToReadList = [];
   }
@@ -51,35 +52,26 @@ class _TextToSpeechState extends State<TextToSpeech> {
     }
   }
 
-  Future<void> initializeTts() async {
-    await flutterTts.setLanguage("pt-BR");
-    await flutterTts.setPitch(1.0);
-    await buscarTutorial(widget.id);
-  }
-
   Future<void> speakCurrentPart() async {
     if (!isReading) {
-      // if (currentIndex >= textToReadList.length) {
-      //   currentIndex = 0;
-      // }
-
       setState(() {
         isReading = true;
       });
 
       // String remainingText = textToReadList.sublist(currentIndex).join(" ");
       // print(remainingText);
-      for (String frase in textToReadList) {
-        await flutterTts.speak(frase);
-        await Future.delayed(Duration(seconds: 10));
-      }
+      // for (String frase in textToReadList) {
+      //   await ttsService.speak(frase);
+      //   await Future.delayed(Duration(seconds: 10));
+      // }
+      ttsService.speak(tutorialText!);
     }
   }
 
   Future<void> pauseResumeReading() async {
     if (isReading) {
       // Pausar a leitura
-      await flutterTts.stop();
+      ttsService.dispose();
       setState(() {
         isReading = false;
         // pauseIndex = currentIndex; // Salvar o índice de pausa
@@ -93,30 +85,21 @@ class _TextToSpeechState extends State<TextToSpeech> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height / 13,
-      width: MediaQuery.of(context).size.width / 7,
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      alignment: Alignment.topCenter,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-      ),
-      child: GestureDetector(
-        child: Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isReading
-                  ? Color.fromARGB(255, 0, 9, 89)
-                  : const Color.fromARGB(0, 255, 255, 255)),
-          child: const Image(
-            image: AssetImage('images/headset.png'),
-          ),
+    return GestureDetector(
+      child: Container(
+        margin: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+            shape: BoxShape.circle, color: Color.fromRGBO(0, 9, 89, 1)),
+        child: Icon(
+          Icons.headset_mic_outlined,
+          color: Colors.white,
+          size: isReading ? 40 : 30,
         ),
-        onTap: () {
-          pauseResumeReading();
-        },
       ),
+      onTap: () {
+        pauseResumeReading();
+      },
     );
   }
 }

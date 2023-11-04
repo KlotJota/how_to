@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:how_to/Views/appBar/appBar_profile.dart';
 import 'package:how_to/Views/edit_tutorial/tutorialEdit-page.dart';
+import 'package:how_to/Views/face_detector/face_detector_page.dart';
+import 'package:how_to/Views/tutorial_page/components/text_to_speech.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_image.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_text.dart';
 import 'package:how_to/Views/tutorial_page/components/tutorial_title.dart';
@@ -278,13 +280,14 @@ class _TutorialPageState extends State<TutorialPage> {
                   child: ListView(
                       physics: const BouncingScrollPhysics(),
                       children: [
-                        TutorialTitle(widget.id),
-                        TutorialImage(widget.id),
                         Column(
                           children: [
+                            TutorialImage(widget.id),
+                            TutorialTitle(widget.id),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                TextToSpeech(tutorial!.id),
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -315,13 +318,64 @@ class _TutorialPageState extends State<TutorialPage> {
                                       }
                                     });
                                   },
-                                  child: Icon(
-                                    Icons.star,
-                                    size: 35,
-                                    color: favoritos.contains(tutorial!.id)
-                                        ? Color.fromARGB(255, 226, 173, 0)
-                                        : const Color.fromARGB(
-                                            255, 179, 179, 179),
+                                  child: Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        10, 10, 10, 0),
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          offset: Offset(2, 2),
+                                          blurRadius: 5,
+                                          spreadRadius: 0,
+                                        ),
+                                      ],
+                                      shape: BoxShape.circle,
+                                      color: favoritos.contains(tutorial!.id)
+                                          ? const Color.fromARGB(
+                                              255, 226, 173, 0)
+                                          : Colors.white,
+                                    ),
+                                    child: Icon(
+                                      Icons.star,
+                                      size: 35,
+                                      color: favoritos.contains(tutorial!.id)
+                                          ? Colors.white
+                                          : const Color.fromARGB(
+                                              255, 230, 230, 230),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            FaceDetectorPage(tutorial!.id),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 10),
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: const BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            offset: Offset(2, 2),
+                                            blurRadius: 5,
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
+                                        shape: BoxShape.circle,
+                                        color: Color.fromRGBO(0, 9, 89, 1)),
+                                    child: Icon(
+                                      Icons.face,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
                                   ),
                                 ),
                                 isLogado()

@@ -36,9 +36,8 @@ class _TutorialImageState extends State<TutorialImage> {
             final isPortrait = orientation == Orientation.portrait;
             final containerHeight = isPortrait
                 ? MediaQuery.of(context).size.height * 0.25
-                : MediaQuery.of(context).size.height * 0.5;
+                : MediaQuery.of(context).size.height * 0.6;
             return Container(
-                margin: const EdgeInsets.all(10),
                 height: containerHeight,
                 child: Stack(
                   fit: StackFit.expand,

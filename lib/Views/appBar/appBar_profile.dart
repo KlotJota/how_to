@@ -20,6 +20,7 @@ class MyAppBarProfile extends StatelessWidget implements PreferredSizeWidget {
     }
 
     return AppBar(
+      backgroundColor: Colors.transparent,
       elevation: 0.0,
       title: const Text('HowTo',
           style: TextStyle(
