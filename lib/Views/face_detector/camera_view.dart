@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
+import 'package:how_to/Views/face_detector/face_detector_page.dart';
 
 class CameraView extends StatefulWidget {
   CameraView(
@@ -84,7 +85,7 @@ class _CameraViewState extends State<CameraView> {
           Center(
             child: _changingCameraLens
                 ? Center(
-                    child: const Text('Changing camera lens'),
+                    child: const Text('Mudando lentes da câmera'),
                   )
                 : CameraPreview(
                     _controller!,

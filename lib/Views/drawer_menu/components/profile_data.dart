@@ -97,7 +97,7 @@ class _ProfileDataState extends State<ProfileData>
                 style: TextStyle(
                     color: Color.fromARGB(255, 250, 250, 250),
                     overflow: TextOverflow.ellipsis,
-                    fontSize: isAccessibilityEnabled ? 20 : 10)),
+                    fontSize: isAccessibilityEnabled ? 20 : 15)),
             Container(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: auth.currentUser!.isAnonymous
@@ -121,7 +121,7 @@ class _ProfileDataState extends State<ProfileData>
                     style: TextStyle(
                         color: Color.fromARGB(255, 250, 250, 250),
                         overflow: TextOverflow.ellipsis,
-                        fontSize: isAccessibilityEnabled ? 20 : 10),
+                        fontSize: isAccessibilityEnabled ? 20 : 15),
                   ),
           ],
         ),

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
 import 'package:how_to/Views/face_detector/camera_page.dart';
 import 'package:how_to/Views/face_detector/face_detector_painter.dart';
@@ -25,7 +26,6 @@ class _FaceDetectorPageState extends State<FaceDetectorPage> {
   bool _canProcess = true;
   bool _isBusy = false;
   CustomPaint? _customPaint;
-  String? _text;
 
   String? tutorialText;
 
@@ -82,7 +82,6 @@ class _FaceDetectorPageState extends State<FaceDetectorPage> {
     return DetectorView(
       title: 'Face Detector',
       customPaint: _customPaint,
-      text: _text,
       onImage: _processImage,
       initialCameraLensDirection: _cameraLensDirection,
       onCameraLensDirectionChanged: (value) => _cameraLensDirection = value,
@@ -93,9 +92,7 @@ class _FaceDetectorPageState extends State<FaceDetectorPage> {
     if (!_canProcess) return;
     if (_isBusy) return;
     _isBusy = true;
-    setState(() {
-      _text = '';
-    });
+
     final faces = await _faceDetector.processImage(inputImage);
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {
@@ -107,21 +104,14 @@ class _FaceDetectorPageState extends State<FaceDetectorPage> {
       );
       _customPaint = CustomPaint(painter: painter);
     } else {
-      String text = 'Rostos encontrados: ${faces.length}\n\n';
-      for (final face in faces) {
-        text += 'rosto: ${face.boundingBox}\n\n';
-      }
-      _text = text;
       _customPaint = null;
     }
 
     if (faces.isNotEmpty) {
-      // Se um rosto for detectado, ative o narrador
       speakCurrentPart();
-      // Delay pro narrador começar a falar (impede o loop)
+      // delay para nao bugar a fala do narrador
       await Future.delayed(Duration(seconds: 2));
     } else {
-      // Se nenhum rosto for detectado, pare o narrador (opcional)
       await flutterTts.stop();
     }
 
