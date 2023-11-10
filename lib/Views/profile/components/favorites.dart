@@ -187,13 +187,6 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                 child: const Text(
                                                                     'Remover favorito'),
                                                               ),
-                                                              backgroundColor:
-                                                                  const Color
-                                                                      .fromARGB(
-                                                                      255,
-                                                                      250,
-                                                                      247,
-                                                                      247),
                                                               content:
                                                                   GestureDetector(
                                                                 onTap: () {
@@ -327,13 +320,6 @@ class _FavoritesFunctionState extends State<Favorites> {
                                                                       .all(5),
                                                               title: const Text(
                                                                   'Remover favorito'),
-                                                              backgroundColor:
-                                                                  const Color
-                                                                      .fromARGB(
-                                                                      255,
-                                                                      250,
-                                                                      247,
-                                                                      247),
                                                               content: const Text(
                                                                   'Deseja realmente remover o tutorial dos favoritos?'),
                                                               actions: [

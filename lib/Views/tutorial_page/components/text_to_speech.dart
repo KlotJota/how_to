@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 
 class TextToSpeech extends StatefulWidget {
@@ -16,6 +18,8 @@ class _TextToSpeechState extends State<TextToSpeech> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   DocumentSnapshot<Object?>? tutorial;
   String? tutorialText;
+
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
 
   bool isReading = false;
   List<String> textToReadList = [];
@@ -89,16 +93,32 @@ class _TextToSpeechState extends State<TextToSpeech> {
       child: Container(
         margin: const EdgeInsets.only(top: 10),
         padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle, color: Color.fromRGBO(0, 9, 89, 1)),
+        decoration: BoxDecoration(boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(2, 2),
+            blurRadius: 5,
+            spreadRadius: 0,
+          ),
+        ], shape: BoxShape.circle, color: Color.fromRGBO(0, 9, 89, 1)),
         child: Icon(
           Icons.headset_mic_outlined,
-          color: Colors.white,
-          size: isReading ? 40 : 30,
+          color:
+              isReading ? const Color.fromARGB(255, 226, 173, 0) : Colors.white,
+          size: isAccessibilityEnabled ? 40 : 30,
         ),
       ),
+      onDoubleTap: () {
+        if (isAccessibilityEnabled) {
+          pauseResumeReading();
+          HapticFeedback.heavyImpact();
+        }
+      },
       onTap: () {
-        pauseResumeReading();
+        HapticFeedback.heavyImpact();
+        isAccessibilityEnabled
+            ? ttsService.speak('Dê um duplo clique para ouvir o tutorial')
+            : pauseResumeReading();
       },
     );
   }

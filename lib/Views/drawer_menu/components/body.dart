@@ -69,7 +69,6 @@ class _BodyState extends State<Body> {
                 }
               },
               child: const Text('Sair')),
-          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
           content: GestureDetector(
               onTap: () {
                 if (isAccessibilityEnabled) {
@@ -159,7 +158,8 @@ class _BodyState extends State<Body> {
               onTap: () {
                 HapticFeedback.heavyImpact();
                 isAccessibilityEnabled
-                    ? readOptions(0)
+                    ? ttsService.speak(
+                        'Dê um duplo clique para acessar as configurações')
                     : Get.toNamed('/settings');
               },
               child: Padding(
@@ -191,7 +191,8 @@ class _BodyState extends State<Body> {
               onTap: () {
                 HapticFeedback.heavyImpact();
                 isAccessibilityEnabled
-                    ? readOptions(1)
+                    ? ttsService.speak(
+                        'Dê um duplo clique para alterar entre tema claro e escuro')
                     : ThemeService().changeThemeMode();
               },
               child: Padding(
@@ -225,7 +226,8 @@ class _BodyState extends State<Body> {
                     onTap: () {
                       HapticFeedback.heavyImpact();
                       isAccessibilityEnabled
-                          ? readOptions(2)
+                          ? ttsService.speak(
+                              'Dê um duplo clique para acessar as configurações de perfil')
                           : Get.to(() => ChangeProfilePage());
                     },
                     child: Padding(
@@ -258,7 +260,10 @@ class _BodyState extends State<Body> {
               },
               onTap: () {
                 HapticFeedback.heavyImpact();
-                isAccessibilityEnabled ? readOptions(3) : _popUpLogout(context);
+                isAccessibilityEnabled
+                    ? ttsService
+                        .speak('Dê um duplo clique para sair do aplicativo')
+                    : _popUpLogout(context);
               },
               child: Padding(
                 padding: EdgeInsets.all(10),

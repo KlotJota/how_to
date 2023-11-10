@@ -33,6 +33,16 @@ class _RegisterFormState extends State<RegisterForm> {
   bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
   TtsService ttsService = TtsService();
 
+  String termos =
+      'Termos de Uso do Aplicativo How To \n\nBem-vindo ao aplicativo How To. Ao usar nosso aplicativo, você concorda com os seguintes termos e condições de uso. Se você não concorda com estes termos, não use o aplicativo.\n\nPropriedade Intelectual\n\nO aplicativo How To é propriedade exclusiva da empresa desenvolvedora e detentora dos direitos autorais e de propriedade intelectual relacionados ao aplicativo. Você concorda em não copiar, modificar, distribuir ou criar obras derivadas do aplicativo sem autorização prévia por escrito da empresa.\n\nUso Permitido\n\nO aplicativo How To é fornecido apenas para uso pessoal e não comercial. Você pode baixar o aplicativo e usá-lo em um único dispositivo móvel. Você concorda em não usar o aplicativo para fins ilegais, incluindo, mas não se limitando a, fraudes, spam ou invasão de privacidade de outros usuários.\n\nConteúdo do Usuário\n\nO aplicativo How To permite que você compartilhe conteúdo com outros usuários, incluindo comentários, avaliações e sugestões. Você é o único responsável pelo conteúdo que compartilha e garante que esse conteúdo não infringe nenhum direito de propriedade intelectual ou privacidade de terceiros. A empresa reserva-se o direito de remover qualquer conteúdo que viole esses termos ou a legislação aplicável.\n\nResponsabilidade Limitada\n\nO aplicativo How To é fornecido "como está" e a empresa não oferece nenhuma garantia sobre sua funcionalidade ou desempenho. Em nenhuma circunstância a empresa será responsável por danos diretos, indiretos, incidentais, especiais ou consequenciais decorrentes do uso ou incapacidade de uso do aplicativo.\n\nAlterações nos Termos de Uso\n\nA empresa reserva-se o direito de modificar estes termos de uso a qualquer momento e sem aviso prévio. O uso continuado do aplicativo após a publicação de novos termos de uso constitui aceitação desses termos.\n\nLei Aplicável\n\nEstes termos de uso são regidos e interpretados de acordo com as leis do Brasil. Qualquer disputa decorrente do uso do aplicativo How To será resolvida por meio de arbitragem de acordo com as regras da Câmara de Arbitragem do Brasil.\n\nAo usar o aplicativo How To, você reconhece que leu e concorda com estes termos de uso. Se você tiver alguma dúvida ou preocupação sobre esses termos, entre em contato com a empresa desenvolvedora do aplicativo.';
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    ttsService.dispose();
+  }
+
   void register(BuildContext context) async {
     if (formKeyRegister.currentState!.validate()) {
       formKeyRegister.currentState!.save();
@@ -60,7 +70,6 @@ class _RegisterFormState extends State<RegisterForm> {
                           }
                         },
                         child: const Text('Erro')),
-                    backgroundColor: const Color.fromARGB(255, 250, 247, 247),
                     content: GestureDetector(
                         onTap: () {
                           if (isAccessibilityEnabled) {
@@ -76,9 +85,18 @@ class _RegisterFormState extends State<RegisterForm> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
+                            onDoubleTap: () {
+                              if (isAccessibilityEnabled) {
+                                Get.back();
+                                HapticFeedback.heavyImpact();
+                              }
+                            },
                             onTap: () {
-                              Get.back();
                               HapticFeedback.heavyImpact();
+                              isAccessibilityEnabled
+                                  ? ttsService
+                                      .speak('Dê um duplo clique para fechar')
+                                  : Get.back();
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -122,14 +140,31 @@ class _RegisterFormState extends State<RegisterForm> {
         context: context,
         builder: (context) {
           return Dialog(
-            backgroundColor: const Color.fromARGB(255, 250, 247, 247),
             child: ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                const Text(
-                    'Termos de Uso do Aplicativo How To \n\nBem-vindo ao aplicativo How To. Ao usar nosso aplicativo, você concorda com os seguintes termos e condições de uso. Se você não concorda com estes termos, não use o aplicativo.\n\nPropriedade Intelectual\n\nO aplicativo How To é propriedade exclusiva da empresa desenvolvedora e detentora dos direitos autorais e de propriedade intelectual relacionados ao aplicativo. Você concorda em não copiar, modificar, distribuir ou criar obras derivadas do aplicativo sem autorização prévia por escrito da empresa.\n\nUso Permitido\n\nO aplicativo How To é fornecido apenas para uso pessoal e não comercial. Você pode baixar o aplicativo e usá-lo em um único dispositivo móvel. Você concorda em não usar o aplicativo para fins ilegais, incluindo, mas não se limitando a, fraudes, spam ou invasão de privacidade de outros usuários.\n\nConteúdo do Usuário\n\nO aplicativo How To permite que você compartilhe conteúdo com outros usuários, incluindo comentários, avaliações e sugestões. Você é o único responsável pelo conteúdo que compartilha e garante que esse conteúdo não infringe nenhum direito de propriedade intelectual ou privacidade de terceiros. A empresa reserva-se o direito de remover qualquer conteúdo que viole esses termos ou a legislação aplicável.\n\nResponsabilidade Limitada\n\nO aplicativo How To é fornecido "como está" e a empresa não oferece nenhuma garantia sobre sua funcionalidade ou desempenho. Em nenhuma circunstância a empresa será responsável por danos diretos, indiretos, incidentais, especiais ou consequenciais decorrentes do uso ou incapacidade de uso do aplicativo.\n\nAlterações nos Termos de Uso\n\nA empresa reserva-se o direito de modificar estes termos de uso a qualquer momento e sem aviso prévio. O uso continuado do aplicativo após a publicação de novos termos de uso constitui aceitação desses termos.\n\nLei Aplicável\n\nEstes termos de uso são regidos e interpretados de acordo com as leis do Brasil. Qualquer disputa decorrente do uso do aplicativo How To será resolvida por meio de arbitragem de acordo com as regras da Câmara de Arbitragem do Brasil.\n\nAo usar o aplicativo How To, você reconhece que leu e concorda com estes termos de uso. Se você tiver alguma dúvida ou preocupação sobre esses termos, entre em contato com a empresa desenvolvedora do aplicativo.'),
                 GestureDetector(
-                  onTap: () => Get.back(),
+                    onTap: () {
+                      isAccessibilityEnabled ? ttsService.speak(termos) : null;
+                    },
+                    child: Text(termos)),
+                GestureDetector(
+                  onDoubleTap: () {
+                    if (isAccessibilityEnabled) {
+                      HapticFeedback.heavyImpact();
+                      Get.back();
+                      ttsService.dispose();
+                    }
+                  },
+                  onTap: () {
+                    HapticFeedback.heavyImpact();
+                    if (!isAccessibilityEnabled) {
+                      Get.back();
+                      ttsService.dispose();
+                    } else {
+                      ttsService.speak('Dê um duplo clique para echar');
+                    }
+                  },
                   child: Container(
                     margin: const EdgeInsets.only(top: 20),
                     decoration: BoxDecoration(

@@ -60,7 +60,6 @@ class _BodyState extends State<Body> {
                 }
               },
               child: const Text('Sucesso')),
-          backgroundColor: const Color.fromARGB(255, 248, 246, 246),
           content: GestureDetector(
             onTap: () {
               if (isAccessibilityEnabled) {
@@ -127,7 +126,6 @@ class _BodyState extends State<Body> {
                   }
                 },
                 child: const Text('Erro')),
-            backgroundColor: const Color.fromARGB(255, 248, 246, 246),
             content: GestureDetector(
                 onTap: () {
                   if (isAccessibilityEnabled) {
@@ -227,7 +225,6 @@ class _BodyState extends State<Body> {
                     }
                   },
                   child: const Text('Confirmar senha')),
-              backgroundColor: const Color.fromARGB(255, 240, 240, 240),
               content: GestureDetector(
                 onTap: () {
                   if (isAccessibilityEnabled) {
@@ -395,7 +392,6 @@ class _BodyState extends State<Body> {
                 }
               },
               child: const Text('Escolher imagem')),
-          backgroundColor: const Color.fromARGB(255, 240, 240, 240),
           content: pickedFile == null
               ? GestureDetector(
                   onDoubleTap: () {
@@ -417,7 +413,6 @@ class _BodyState extends State<Body> {
                       height: 50,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 243, 243, 243),
                           border: Border.all(
                               width: 1,
                               color: const Color.fromARGB(255, 112, 112, 112)),

@@ -26,6 +26,13 @@ class _LoginFormState extends State<LoginForm> {
   bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
   TtsService ttsService = TtsService();
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    ttsService.dispose();
+  }
+
   void login(BuildContext context) async {
     if (formKeyLogin.currentState!.validate()) {
       formKeyLogin.currentState!.save();
@@ -49,7 +56,6 @@ class _LoginFormState extends State<LoginForm> {
                           HapticFeedback.heavyImpact();
                         },
                         child: const Text('Erro')),
-                    backgroundColor: const Color.fromARGB(255, 248, 246, 246),
                     content: GestureDetector(
                         onTap: () {
                           if (isAccessibilityEnabled) {
@@ -63,9 +69,18 @@ class _LoginFormState extends State<LoginForm> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
+                            onDoubleTap: () {
+                              if (isAccessibilityEnabled) {
+                                Get.back();
+                                HapticFeedback.heavyImpact();
+                              }
+                            },
                             onTap: () {
-                              Get.back();
                               HapticFeedback.heavyImpact();
+                              isAccessibilityEnabled
+                                  ? ttsService
+                                      .speak('Dê um duplo clique para fechar')
+                                  : Get.back();
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -104,7 +119,6 @@ class _LoginFormState extends State<LoginForm> {
               elevation: 10,
               titlePadding: const EdgeInsets.all(5),
               title: const Text('Erro'),
-              backgroundColor: const Color.fromARGB(255, 250, 247, 247),
               content: GestureDetector(
                   onTap: () {
                     if (isAccessibilityEnabled) {
@@ -118,7 +132,18 @@ class _LoginFormState extends State<LoginForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      onTap: () => Get.back(),
+                      onDoubleTap: () {
+                        if (isAccessibilityEnabled) {
+                          Get.back();
+                          HapticFeedback.heavyImpact();
+                        }
+                      },
+                      onTap: () {
+                        HapticFeedback.heavyImpact();
+                        isAccessibilityEnabled
+                            ? ttsService.speak('Dê um duplo clique para fechar')
+                            : Get.back();
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                             color: const Color.fromRGBO(0, 9, 89, 1),
@@ -126,15 +151,10 @@ class _LoginFormState extends State<LoginForm> {
                         padding: const EdgeInsets.only(top: 5),
                         height: 30,
                         width: 80,
-                        child: GestureDetector(
-                          onTap: () {
-                            HapticFeedback.heavyImpact();
-                          },
-                          child: const Text(
-                            'Ok',
-                            style: TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
+                        child: const Text(
+                          'Ok',
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),

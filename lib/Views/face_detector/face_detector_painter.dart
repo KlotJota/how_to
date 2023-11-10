@@ -23,7 +23,7 @@ class FaceDetectorPainter extends CustomPainter {
     final Paint paint1 = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0
-      ..color = Colors.red;
+      ..color = const Color.fromRGBO(0, 9, 89, 1);
     final Paint paint2 = Paint()
       ..style = PaintingStyle.fill
       ..strokeWidth = 1.0

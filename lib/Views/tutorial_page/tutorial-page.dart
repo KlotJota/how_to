@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/appBar/appBar_profile.dart';
+import 'package:how_to/Views/drawer_menu/drawer_menu.dart';
 import 'package:how_to/Views/edit_tutorial/tutorialEdit-page.dart';
 import 'package:how_to/Views/face_detector/face_detector_page.dart';
 import 'package:how_to/Views/tutorial_page/components/text_to_speech.dart';
@@ -27,6 +31,9 @@ class _TutorialPageState extends State<TutorialPage> {
   DocumentSnapshot<Object?>? tutorial;
 
   List<String> favoritos = [];
+
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
+  TtsService ttsService = TtsService();
 
   @override
   void initState() {
@@ -146,74 +153,6 @@ class _TutorialPageState extends State<TutorialPage> {
     });
   }
 
-  void popupFavorite() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          elevation: 10,
-          titlePadding: const EdgeInsets.all(5),
-          title: const Text('Remover favorito'),
-          backgroundColor: const Color.fromARGB(255, 250, 247, 247),
-          content:
-              const Text('Deseja realmente remover o tutorial dos favoritos?'),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 5),
-                    height: 30,
-                    width: 80,
-                    child: const Text(
-                      'Não',
-                      style: TextStyle(color: Color.fromRGBO(0, 9, 89, 1)),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    await Future.delayed(Duration.zero)
-                        .then((_) => removerFavorito(tutorial!.id));
-
-                    FirebaseFirestore.instance
-                        .collection('tutoriais')
-                        .doc(tutorial!.id)
-                        .update({
-                      "qtdFavoritos": FieldValue.increment(-1),
-                    });
-
-                    favoritos.remove(
-                        tutorial!.id); // Remove o tutorial dos favoritos
-
-                    Get.back();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(0, 9, 89, 1),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    padding: const EdgeInsets.only(top: 5),
-                    height: 30,
-                    width: 80,
-                    child: const Text(
-                      'Sim',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void popupDelete() {
     showDialog(
         context: context,
@@ -271,6 +210,9 @@ class _TutorialPageState extends State<TutorialPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          endDrawer: Drawer(
+            child: DrawerMenuContent(),
+          ),
           appBar: MyAppBarProfile(),
           body: tutorial == null
               ? const CircularProgressIndicator()
@@ -290,6 +232,16 @@ class _TutorialPageState extends State<TutorialPage> {
                                 TextToSpeech(tutorial!.id),
                                 GestureDetector(
                                   onTap: () {
+                                    HapticFeedback.heavyImpact();
+                                    if (isAccessibilityEnabled) {
+                                      if (!favoritos.contains(tutorial!.id)) {
+                                        ttsService.speak(
+                                            'Tutorial adicionado aos favoritos');
+                                      } else {
+                                        ttsService.speak(
+                                            'Tutorial removido dos favoritos');
+                                      }
+                                    }
                                     setState(() {
                                       if (auth.currentUser!.displayName !=
                                           null) {
@@ -311,7 +263,20 @@ class _TutorialPageState extends State<TutorialPage> {
                                           favoritos.add(tutorial!
                                               .id); // Adiciona o tutorial aos favoritos
                                         } else {
-                                          popupFavorite();
+                                          Future.delayed(Duration.zero).then(
+                                              (_) => removerFavorito(
+                                                  tutorial!.id));
+
+                                          FirebaseFirestore.instance
+                                              .collection('tutoriais')
+                                              .doc(tutorial!.id)
+                                              .update({
+                                            "qtdFavoritos":
+                                                FieldValue.increment(-1),
+                                          });
+
+                                          favoritos.remove(tutorial!
+                                              .id); // Remove o tutorial dos favoritos
                                         }
                                       } else {
                                         popUpRegister();
@@ -339,7 +304,7 @@ class _TutorialPageState extends State<TutorialPage> {
                                     ),
                                     child: Icon(
                                       Icons.star,
-                                      size: 35,
+                                      size: isAccessibilityEnabled ? 45 : 35,
                                       color: favoritos.contains(tutorial!.id)
                                           ? Colors.white
                                           : const Color.fromARGB(
@@ -348,14 +313,31 @@ class _TutorialPageState extends State<TutorialPage> {
                                   ),
                                 ),
                                 GestureDetector(
+                                  onDoubleTap: () {
+                                    if (isAccessibilityEnabled) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              FaceDetectorPage(tutorial!.id),
+                                        ),
+                                      );
+                                      HapticFeedback.heavyImpact();
+                                    }
+                                  },
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            FaceDetectorPage(tutorial!.id),
-                                      ),
-                                    );
+                                    HapticFeedback.heavyImpact();
+                                    isAccessibilityEnabled
+                                        ? ttsService.speak(
+                                            'Dê um duplo clique para ativar o detector facial')
+                                        : Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FaceDetectorPage(
+                                                      tutorial!.id),
+                                            ),
+                                          );
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(top: 10),
@@ -374,7 +356,7 @@ class _TutorialPageState extends State<TutorialPage> {
                                     child: Icon(
                                       Icons.face,
                                       color: Colors.white,
-                                      size: 30,
+                                      size: isAccessibilityEnabled ? 40 : 30,
                                     ),
                                   ),
                                 ),

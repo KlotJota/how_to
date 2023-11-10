@@ -37,7 +37,7 @@ class _TutorialTitleState extends State<TutorialTitle> {
         : Container(
             alignment: Alignment.center,
             height: 45,
-            color: const Color.fromARGB(255, 230, 230, 230),
+            color: Color.fromARGB(157, 230, 230, 230),
             child: Text(
               tutorial!['titulo'],
               style: const TextStyle(

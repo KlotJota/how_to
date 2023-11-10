@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:how_to/Views/acessibility/acessibility_singleton.dart';
 import 'package:how_to/Views/tutorial_page/components/text_to_speech.dart';
 import 'package:how_to/Views/face_detector/face_detector_page.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,8 @@ class TutorialText extends StatefulWidget {
 
 class _TutorialTextState extends State<TutorialText> {
   DocumentSnapshot<Object?>? tutorial;
+
+  bool isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
 
   @override
   void initState() {
@@ -107,8 +110,8 @@ class _TutorialTextState extends State<TutorialText> {
                 child: Container(
                   child: Text(tutorial!['texto'],
                       textAlign: TextAlign.justify,
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: isAccessibilityEnabled ? 20 : 16,
                       )),
                 ),
               ),
