@@ -102,44 +102,42 @@ class _BodyState extends State<Body> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       GestureDetector(
-                                        onLongPress: () async {
-                                          {
-                                            HapticFeedback.heavyImpact();
-                                            if (!_isPressed) {
-                                              var disponivel =
-                                                  await speechToText
-                                                      .initialize();
-                                              if (disponivel) {
-                                                setState(() {
-                                                  _isPressed = true;
-                                                  speechToText.listen(
-                                                    onResult: (result) {
-                                                      setState(() {
-                                                        pesquisa
-                                                            .searchController
-                                                            .text = '';
-                                                        pesquisa.searchController
-                                                                .text =
-                                                            result
-                                                                .recognizedWords;
-                                                      });
-                                                    },
-                                                  );
-                                                });
-                                              }
-                                            }
-                                          }
-                                        },
-                                        onLongPressEnd: (_) {
-                                          setState(() {
-                                            _isPressed = false;
-                                          });
+                                        onTap: () async {
+                                          HapticFeedback.heavyImpact();
+                                          var disponivel =
+                                              await speechToText.initialize();
 
-                                          speechToText.stop();
+                                          if (disponivel) {
+                                            setState(() {
+                                              if (!_isPressed) {
+                                                _isPressed = true;
+                                                speechToText.listen(
+                                                  onResult: (result) {
+                                                    setState(() {
+                                                      pesquisa.searchController
+                                                          .text = '';
+                                                      pesquisa.searchController
+                                                              .text =
+                                                          result
+                                                              .recognizedWords;
+                                                    });
+                                                  },
+                                                );
+                                              } else {
+                                                _isPressed = false;
+                                                speechToText.stop();
+                                              }
+                                            });
+                                          }
                                         },
                                         child: Container(
                                             margin: EdgeInsets.only(right: 5),
-                                            child: Icon(Icons.mic)),
+                                            child: Icon(
+                                              Icons.mic,
+                                              color: _isPressed
+                                                  ? Color.fromRGBO(0, 9, 89, 1)
+                                                  : null,
+                                            )),
                                       ),
                                       pesquisa.searchController.text != ''
                                           ? IconButton(

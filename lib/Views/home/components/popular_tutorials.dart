@@ -94,7 +94,7 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                 width: MediaQuery.of(context).size.width - 10,
                 height: 240,
                 child: ListView.builder(
-                  controller: _scrollController,
+                  controller: isAccessibilityEnabled ? null : _scrollController,
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: tutoriais.length,
@@ -169,12 +169,15 @@ class _PopularTutorialsState extends State<PopularTutorials> {
                   margin: const EdgeInsets.only(top: 5),
                   height: 5,
                   width: MediaQuery.of(context).size.width - 20,
-                  child: LinearProgressIndicator(
-                    value: _progress,
-                    backgroundColor: const Color.fromARGB(0, 202, 202, 202),
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                        Color.fromRGBO(0, 9, 89, 1)),
-                  ))
+                  child: isAccessibilityEnabled
+                      ? null
+                      : LinearProgressIndicator(
+                          value: _progress,
+                          backgroundColor:
+                              const Color.fromARGB(0, 202, 202, 202),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                              Color.fromRGBO(0, 9, 89, 1)),
+                        ))
             ],
           );
         });
