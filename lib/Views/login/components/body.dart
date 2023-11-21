@@ -16,12 +16,79 @@ class _BodyState extends State<Body> {
 
   TtsService ttsService = TtsService();
 
+  String popUp =
+      'Você acaba de ativar as ferramentas de acessibilidade, com isso, todos os botões e objetos clicáveis poderão ser acessados com dois cliques rápidos, enquanto um clique faz com que o narrador diga em voz alta o conteúdo do botão ou card de tutorial. Um clique em qualquer texto fara com que o narrador tabém leia em voz alta, e por fim, um clique segurado nos cards de tutorial abrirão a tela de detecção facial, onde você poderá ouvir o tutorial apenas mantendo seu rosto em frente a câmera.';
+
   void toggleAccessibility() {
     AccessibilitySettings().toggleAccessibility();
     setState(() {
       isAccessibilityEnabled = AccessibilitySettings().isAccessibilityEnabled;
     });
     Get.offAll(UserLoginPage());
+  }
+
+  void popUpAcessibility() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 10,
+            titlePadding: const EdgeInsets.all(5),
+            title: GestureDetector(
+                onTap: () {
+                  HapticFeedback.heavyImpact();
+                  ttsService.speak('Acessibilidade ativada');
+                },
+                child: const Text('Acessibilidade ativada')),
+            content: GestureDetector(
+              onTap: () {
+                if (isAccessibilityEnabled) {
+                  HapticFeedback.heavyImpact();
+                  ttsService.speak(popUp);
+                }
+              },
+              child: Text(
+                popUp,
+                textAlign: TextAlign.justify,
+              ),
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onDoubleTap: () {
+                      if (isAccessibilityEnabled) {
+                        Get.back();
+                        ttsService.dispose();
+                        HapticFeedback.heavyImpact();
+                      }
+                    },
+                    onTap: () {
+                      HapticFeedback.heavyImpact();
+                      isAccessibilityEnabled
+                          ? ttsService.speak('Dê um duplo clique para fechar')
+                          : Get.back();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: const Color.fromRGBO(0, 9, 89, 1),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: const EdgeInsets.only(top: 5),
+                      height: 30,
+                      width: 80,
+                      child: const Text(
+                        'Ok',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -55,11 +122,14 @@ class _BodyState extends State<Body> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         toggleAccessibility();
-                        isAccessibilityEnabled
-                            ? ttsService.speak('Modo de acessibilidade ativado')
-                            : null;
+
+                        if (isAccessibilityEnabled) {
+                          popUpAcessibility();
+                          await Future.delayed(Duration(seconds: 1));
+                          ttsService.speak('Acessibilidade ativada.$popUp');
+                        }
                       },
                       child: Container(
                         height: 20,
