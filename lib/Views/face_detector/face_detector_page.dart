@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
-import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
-
 import 'package:how_to/Views/face_detector/camera_page.dart';
 import 'package:how_to/Views/face_detector/face_detector_painter.dart';
 
@@ -93,7 +91,7 @@ class _FaceDetectorPageState extends State<FaceDetectorPage> {
     if (_isBusy) return;
     _isBusy = true;
 
-    final faces = await _faceDetector.processImage(inputImage);
+    var faces = await _faceDetector.processImage(inputImage);
     if (inputImage.metadata?.size != null &&
         inputImage.metadata?.rotation != null) {
       final painter = FaceDetectorPainter(
@@ -109,8 +107,6 @@ class _FaceDetectorPageState extends State<FaceDetectorPage> {
 
     if (faces.isNotEmpty) {
       speakCurrentPart();
-      // delay para nao bugar a fala do narrador
-      await Future.delayed(Duration(seconds: 2));
     } else {
       await flutterTts.stop();
     }

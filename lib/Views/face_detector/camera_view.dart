@@ -4,7 +4,9 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
+import 'package:how_to/Views/acessibility/flutterTts_singleton.dart';
 import 'package:how_to/Views/face_detector/face_detector_page.dart';
+import 'package:get/get.dart';
 
 class CameraView extends StatefulWidget {
   CameraView(
@@ -40,10 +42,11 @@ class _CameraViewState extends State<CameraView> {
   double _currentExposureOffset = 0.0;
   bool _changingCameraLens = false;
 
+  TtsService ttsService = TtsService();
+
   @override
   void initState() {
     super.initState();
-
     _initialize();
   }
 
@@ -65,6 +68,7 @@ class _CameraViewState extends State<CameraView> {
   @override
   void dispose() {
     _stopLiveFeed();
+    ttsService.dispose();
     super.dispose();
   }
 
@@ -110,7 +114,7 @@ class _CameraViewState extends State<CameraView> {
           width: 50.0,
           child: FloatingActionButton(
             heroTag: Object(),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Get.back(),
             backgroundColor: Colors.black54,
             child: Icon(
               Icons.arrow_back_ios_outlined,

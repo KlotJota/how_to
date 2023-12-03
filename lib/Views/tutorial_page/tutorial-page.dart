@@ -40,6 +40,7 @@ class _TutorialPageState extends State<TutorialPage> {
     super.initState();
     buscarTutorial(widget.id);
     buscarFavorito();
+    ttsService.dispose();
   }
 
   void popUpRegister() {
